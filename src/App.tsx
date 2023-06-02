@@ -17,6 +17,7 @@ function App() {
             <Link to="/signup">회원가입</Link>
             <Link to="/agreement">약관 동의</Link>
         </BrowserRouter>
+        <ProtoTest />
     </div>
     );
 }
