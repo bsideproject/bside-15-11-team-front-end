@@ -1,0 +1,14 @@
+@use '../abstracts/mixin' as *;
+
+.Login {
+    @include center;
+    height : 300px;
+    background-color: antiquewhite;
+}
+
+.Login > div {
+    @include center;
+    width : 50%;
+    height : 200px;
+    background-color: aquamarine;
+}
