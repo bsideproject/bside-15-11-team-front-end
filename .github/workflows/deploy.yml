@@ -1,0 +1,41 @@
+name: deploy
+
+# action trigger
+on: 
+  push:
+    branches: [master]
+
+# action
+jobs: 
+  build: 
+    # OS Environment
+    runs-on: ubuntu-20.04
+    env:
+      # Ignore Warning
+      CI: false
+    strategy: 
+      matrix: 
+        # Nodejs Compile Version
+        node-version: [20.x]
+    
+    steps:
+      - uses: actions/checkout@3
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+          cache: "npm"
+      - name: Install modules
+        run: npm install
+      - name: Build Project
+        run: npm run build
+      - name: Deploy build outputs
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{secrets.NCP_HOST}}
+          username: ${{secrets.NCP_USERNAME}}
+          password: ${{secrets.NCP_PASSWORD}}
+          port: ${{secrets.NCP_PORT}}
+          source: "build/*"
+          strip_components: 1
+          target: "~/bside-15-11-team-front-end"
