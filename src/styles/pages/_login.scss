@@ -5,31 +5,14 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    height: 100vh;
-
+    height: 30vh;
+    margin-top: 70vh;
 
     .button-container {
         margin-bottom: 20px;
     }
 
-    .greeting {
-        text-align: center;
-        margin-top: 30%;
-        
-        * {
-            font-family : 'Inter-Black';
-        }
-
-        h2 {
-            font-size: 4.5vw;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 4.0vw;
-            color: #8B8B8B;
-        }
-    }
+    
 }
   
   

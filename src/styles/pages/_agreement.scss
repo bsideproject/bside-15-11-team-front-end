@@ -14,6 +14,8 @@
     opacity: 0.8;
     height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .agreement {
         @include popup;
@@ -36,21 +38,6 @@
         input[type="checkbox"] {
             display : none;
         }
-
-        // .custom-checkbox {
-        //     position: absolute;
-        //     top: 0;
-        //     left: 0;
-        //     width: 16px;
-        //     height: 16px;
-        //     background-image: url('../../assets/images/check.png');
-        //     background-size: cover;
-        //     filter: grayscale(100%); 
-        // }
-
-        // input[type="checkbox"]:checked + .custom-checkbox {
-        //     filter: none;
-        // }
 
         #agreement-submit {
             display: block;
