@@ -53,6 +53,6 @@ jobs:
           username: ${{secrets.NCP_USERNAME}}
           host: ${{secrets.NCP_HOST}}
           password: ${{secrets.NCP_PASSWORD}}
-          port: ${{srcrets.NCP_PORT}}
+          port: ${{secrets.NCP_PORT}}
           script_stop: true
           script: chmod -R +x ~/static && ~/static/deploy.sh
