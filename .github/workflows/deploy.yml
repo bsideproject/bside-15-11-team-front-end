@@ -1,52 +1,45 @@
-name: Deploy to Naver Cloud Platform
+name: deploy
 
-# Trigger the workflow on push to the master branch
-on:
+# action trigger
+on: 
   push:
-    branches:
-      - master
+    branches: 
+      - protocal-buffer-dev
 
-jobs:
-  build:
+# action
+jobs: 
+  # build process
+  build: 
+    # OS Environment
     runs-on: ubuntu-20.04
-
+    env:
+      # Ignore Warning
+      CI: false
+    strategy: 
+      matrix: 
+        # Nodejs Compile Version
+        node-version: [20.x]
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
+      - name: checkout source code
+        uses: actions/checkout@master
+      - name: Install modules
+        run: npm install
+      - name: Build Project
         run: npm run build
-
+          
+  # deploy process
   deploy:
     needs: build
     runs-on: ubuntu-20.04
-
+    
     steps:
-      - name: Copy build files to NCP server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.NCP_HOST }}
-          username: ${{ secrets.NCP_USERNAME }}
-          password: ${{ secrets.NCP_PASSWORD }}
-          port: ${{ secrets.NCP_PORT }}
-          source: build/
-          target: ~/static/
-
-      - name: SSH into NCP server and execute deployment commands
+      - name: Execute deploy.sh
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.NCP_HOST }}
-          username: ${{ secrets.NCP_USERNAME }}
-          password: ${{ secrets.NCP_PASSWORD }}
-          port: ${{ secrets.NCP_PORT }}
-          script: |
-            cd ~/static
-            ./deploy.sh
+          username: ${{secrets.NCP_USERNAME}}
+          host: ${{secrets.NCP_HOST}}
+          password: ${{secrets.NCP_PASSWORD}}
+          port: ${{secrets.NCP_PORT}}
+          script_stop: true
+          script: chmod -R +x ~/static && ~/static/deploy.sh
