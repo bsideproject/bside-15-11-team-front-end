@@ -1,5 +1,6 @@
 import { RightOutlined, CheckOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import terms from '../../assets/terms.json';
 
 class Agree {
     label : string | undefined;
@@ -85,10 +86,14 @@ function Agreement() {
             )}
             {
                 currentPopupIndex !== null && (
-                    <div className='popup'>
-                        <p>Description of Agreement {currentPopupIndex + 1}</p>
-                        <button onClick={() => closePopup(currentPopupIndex)}>Close</button>
-                    </div>
+                    <>
+                        <div className="popup" style={{overflow : "scroll"}}>
+                            <div dangerouslySetInnerHTML={{__html : terms.ServiceUseTerm}}></div>
+                        </div>
+                        <div>
+                            <button onClick={() => {closePopup(currentPopupIndex)}}>닫기</button>
+                        </div>
+                    </>
                 )
             }
         </div>
