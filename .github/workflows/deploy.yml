@@ -7,6 +7,7 @@ on:
 
 # action
 jobs: 
+  # build process
   build: 
     # OS Environment
     runs-on: ubuntu-20.04
@@ -39,3 +40,19 @@ jobs:
           source: "build/*"
           strip_components: 1
           target: "~/bside-15-11-team-front-end"
+          
+  # deploy process
+  deploy:
+    needs: build
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - name: Execute deploy.sh
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{secrets.NCP_USERNAME}}
+          host: ${{secrets.NCP_HOST}}
+          password: ${{secrets.NCP_PASSWORD}}
+          port: ${{srcrets.NCP_PORT}}
+          script_stop: true
+          script: chmod -R +x ~/static && ~/static/deploy.sh
