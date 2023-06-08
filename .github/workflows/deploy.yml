@@ -40,4 +40,21 @@ jobs:
           port: ${{secrets.NCP_PORT}}
           source: "build/*"
           strip_components: 1
-          target: "root/static"
+          target: "/static"
+          
+  
+  # deploy process
+  deploy:
+    needs: build
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - name: Execute deploy.sh
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{secrets.NCP_USERNAME}}
+          host: ${{secrets.NCP_HOST}}
+          password: ${{secrets.NCP_PASSWORD}}
+          port: ${{secrets.NCP_PORT}}
+          script_stop: true
+          script: pm2 serve ~/static/build 3000 --spa
