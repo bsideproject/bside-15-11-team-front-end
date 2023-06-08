@@ -26,7 +26,7 @@ function Login(){
 
     return(
         <div className="Login">
-            github action test
+            github action test2
             <div className="button-container">
                 <button onClick={handleLogin}>
                     <img src={`${process.env.PUBLIC_URL}/buttons/KaKao Button.png`} alt='카카오 로그인'/>
