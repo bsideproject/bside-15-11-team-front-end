@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 function Login(){
     const restApiKey = 'ffefc95e6555a1eee5499d4cf824f9ec';
-    const redirectUrl = 'http://localhost:3000/auth';
+    const redirectUrl = 'http://localhost:8080/auth';
     const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUrl}&response_type=code`;
 
     const { Kakao } = window;
