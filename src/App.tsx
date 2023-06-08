@@ -14,7 +14,6 @@ function App() {
                 <Route path="/agreement" element={<Agreement />}></Route>
             </Routes>
         </BrowserRouter>
-        <ProtoTest />
     </div>
     );
 }
