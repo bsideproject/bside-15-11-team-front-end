@@ -3,7 +3,8 @@ name: deploy
 # action trigger
 on: 
   push:
-    branches: [master]
+    branches: 
+      - master
 
 # action
 jobs: 
