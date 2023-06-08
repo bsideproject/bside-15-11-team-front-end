@@ -9,13 +9,10 @@ function App() {
     <div className="App">
         <BrowserRouter>
             <Routes>
-                <Route path="/login" element={<Login />}></Route>
+                <Route path="/" element={<Login />}></Route>
                 <Route path="/signup" element={<Signup />}></Route>
                 <Route path="/agreement" element={<Agreement />}></Route>
             </Routes>
-            <Link to="/login">로그인</Link>
-            <Link to="/signup">회원가입</Link>
-            <Link to="/agreement">약관 동의</Link>
         </BrowserRouter>
         <ProtoTest />
     </div>
