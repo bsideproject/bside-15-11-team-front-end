@@ -2,58 +2,199 @@
 @use '../abstracts/font' as *;
 @use '../abstracts/variable' as *;
 
-#main-page {
-  padding : 20px 20px;
-
-  .setting-bar {
-    text-align: right;
-    padding-top: 3.0vh;
-    padding-bottom : 3.0vh;
+.Main{
+  .setting-btn{
+    width: 5vw;
+    display: block;
+    margin: 0 0 0 auto;
   }
-
-  .guide-text-div {
-    p {
-      font-family: 'SpoqaHanSansNeo-Bold';
-      font-weight: 700;
-      font-size: 20px;
+  // main text
+  .MainText{
+    .main-text{
+      margin: 24px 0 16px;
+      font-weight: bold;
+      font-size: 6vw;
+      line-height: 8vw;
+      text-align: left;
     }
   }
-
-  .mind-count {
-    box-sizing: border-box;
-
-    /* Auto layout */
-
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 4px 6px;
-    gap: 6px;
-
-    width:fit-content;
-    height: 28px;
-
-    /* Grayscale/200 */
-
-    border: 1px solid #ECECEC;
-    border-radius: 8px;
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    float: left;
-
+  // exchanged count
+  .MainExchangedCount{
+    @include center();
+    justify-content: flex-start;
+    .exchanged-count{
+      color: #818181;
+      font-size: 3.7vw;
+      border: 1px solid #EEEEEE;
+      border-radius: 8px;
+      padding: 6px 8px;
+      em{
+        margin-left: 6px;
+        font-weight: bold;
+      }
+      &:last-child{
+        margin-left: 12px;
+      }
+    }
+  }
+  // search bar
+  .MainSearch{
     background: #ECECEC;
-    margin-right : 10px;
-
-    span {
-      color: $alarm-font-color;
+    border-radius: 8px;
+    padding: 6px 0;
+    margin: 24px 0;
+    .search-text{
+      display: block;
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 3.7vw;
+    }
+  }
+  // filter btn
+  .FilterBtn{
+    @include center;
+    justify-content: flex-end;
+    padding: 5px 0;
+    .filter-icon{
+      width: 5vw;
+      display: block;
+      margin-right: 4px;
+    }
+    .filter-text{
+      font-weight: 500;
+      font-size: 3.7vw;
     }
   }
 
-  #mind-info {
-    margin-top : 20px;
+  // freind list
+  .MainFriendList{
+    // empty text
+    .empty-message{
+      margin-top: 160px;
+      text-align: center;
+      font-weight: 500;
+      line-height: 6vw;
+      font-size: 4.5vw;
+    }
+
+    // list
+    .friend-list-wrap{
+      margin-top: 25px;
+      display: flex;
+      align-content: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .friend-cont{
+        background: #ECECEC;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 4%;
+        width: 48%;
+        span{
+          display: block;
+        }
+        // 친구 이름
+        .friend-name{
+          font-weight: 500;
+          font-size: 4.5vw;
+        }
+        // 관계
+        .friend-relation {
+          font-weight: 400;
+          font-size: 3.7vw;
+          color: #8B8B8B;
+          margin-top: 5px;
+        }
+        // 레벨
+        .friend-level{
+          margin: 0 0 0 auto;
+          padding: 15px 10px;
+          background: #C0C0C0;
+          width: 50px;
+        }
+      }
+    }
+  }
+  // add btn
+  .add-btn{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #242424;
+    position: fixed;
+    right: 20px; bottom: 6%;
+    cursor: pointer;
+    filter: drop-shadow(1px 2px 10px rgba(0, 0, 0, 0.2));
+    span{
+      color: #fff;
+      font-size: 45px;
+      @include positionCenter;
+    }
+  }
+
+  // regist modal
+  .MainRegister{
+    width: 100vw; height: 100vh;
+    background: rgba(51, 51, 51, 0.8);
+    position: fixed;
+    left: 0; top: 0;
+    z-index: 10;
+    animation: fade .3s forwards ease;
+    .register-btn-wrap{
+      position: fixed;
+      right: 20px; bottom: 6%;
+      width: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      .resgister-btn{
+        background-color: #fff;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        position: relative;
+        cursor: pointer;
+        transition: .3s;
+        //animation: fade .3s forwards ease;
+        &:nth-of-type(2){margin-top: 16px;}
+        img{
+          width: 32px; height: 32px;
+          @include positionCenter;
+        }
+        .sm-text{
+          font-weight: 400;
+          font-size: 16px;
+          color: #fff;
+          position: absolute;
+          left: -220%; top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+      .cls-btn{
+        transform: rotate(45deg);
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-color: #242424;
+        margin-top: 26px;
+        cursor: pointer;
+        filter: drop-shadow(1px 2px 10px rgba(0, 0, 0, 0.2));
+        transition: .3s;
+        span{
+          color: #fff;
+          font-size: 45px;
+          @include positionCenter;
+        }
+      }
+    }
   }
 }
+
+//animation
+@keyframes fade{
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+

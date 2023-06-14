@@ -6,21 +6,29 @@
 }
 
 @font-face {
-    font-family: 'SpoqaHanSansNeo-Bold';
-    src: url("../../assets/fonts/spoqa/SpoqaHanSansNeo-Bold.ttf");
-}
-
-@font-face {
-    font-family: 'SpoqaHanSansNeo-Light';
+    font-family: 'SpoqaHanSansNeo';
+    font-style: normal;
+    font-weight: 100;
     src: url("../../assets/fonts/spoqa/SpoqaHanSansNeo-Light.ttf");
 }
 
 @font-face {
-    font-family: 'SpoqaHanSansNeo-Regular';
+    font-family: 'SpoqaHanSansNeo';
+    font-style: normal;
+    font-weight: normal;
     src: url("../../assets/fonts/spoqa/SpoqaHanSansNeo-Regular.ttf");
 }
 
 @font-face {
-    font-family: 'SpoqaHanSansNeo-Medium';
+    font-family: 'SpoqaHanSansNeo';
+    font-style: normal;
+    font-weight: 500;
     src: url("../../assets/fonts/spoqa/SpoqaHanSansNeo-Medium.ttf");
+}
+
+@font-face {
+    font-family: 'SpoqaHanSansNeo';
+    font-style: normal;
+    font-weight: bold;
+    src: url("../../assets/fonts/spoqa/SpoqaHanSansNeo-Bold.ttf");
 }

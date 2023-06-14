@@ -48,5 +48,11 @@ button:focus{outline:none;}
 input:focus{outline:none;}
 div:focus{outline:none;}
 select:focus{outline:none;}
+em{font-style: normal;}
 a{text-decoration: none; color: inherit; outline: none;}
-*{line-height: 1; box-sizing: border-box;}
+*{
+    line-height: 1;
+    box-sizing: border-box;
+    font-family: 'SpoqaHanSansNeo', "sans-serif";
+    color: #242424;
+}
