@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 const Auth = () => {
 
@@ -18,8 +18,8 @@ const Auth = () => {
     console.log("code : " + JSON.stringify(query.code));
 
     const grantType : string = "authorization_code";
-    const appKey : string = "ffefc95e6555a1eee5499d4cf824f9ec";
-    const redirectUri: string  = "http://localhost:3000/auth";
+    const appKey : string = process.env.REACT_APP_KAKAO_REST_API_KEY as string;
+    const redirectUri: string  = process.env.REACT_APP_KAKAO_REDIRECT_URI as string;
     const code : string = query.code as string;
 
     const requestBody = new URLSearchParams();

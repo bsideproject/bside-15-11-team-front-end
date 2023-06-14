@@ -4,14 +4,13 @@ import AppleBtn from '../../assets/images/buttons/Apple Button.png';
 
 
 function Login(){
-    const restApiKey = 'ffefc95e6555a1eee5499d4cf824f9ec'; // REST API KEY
-    const redirectUrl = 'http://localhost:3000/auth';
+    const redirectUrl = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 
     const { Kakao } = window;
 
     const initKakao = () => {
         if (Kakao && !Kakao.isInitialized()) {
-            Kakao.init("bd94eba67cf1b53443162a52cd86de50");
+            Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
         }
     }
 
