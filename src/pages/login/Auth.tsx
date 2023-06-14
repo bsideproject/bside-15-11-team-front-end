@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import axios, { AxiosResponse } from 'axios';
-import { post } from '../../apis/RestApis';
 
 const Auth = () => {
 
@@ -30,7 +29,7 @@ const Auth = () => {
     requestBody.append("code", code);
 
     try {
-      const response : AxiosResponse = await post('https://kauth.kakao.com/oauth/token', requestBody, {
+      const response  = await axios.post('https://kauth.kakao.com/oauth/token', requestBody, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
