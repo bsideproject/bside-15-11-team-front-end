@@ -1,6 +1,7 @@
 import { RightOutlined, CheckOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import terms from '../../assets/terms.json';
+import { useNavigate } from 'react-router-dom';
 
 class Agree {
     label : string | undefined;
@@ -23,6 +24,8 @@ function Agreement() {
     const [showPopup, setShowPopup] = useState<boolean[]>([false, false, false]);
     const [currentPopupIndex, setCurrentPopupIndex] = useState<number | null>(null);
     const [isContentVisible, setIsContentVisible] = useState<boolean>(true);
+
+    const navigate = useNavigate();
 
     const handleAgreement = (index: number) => {
         const updatedAgreements = [...agreements];
@@ -56,6 +59,10 @@ function Agreement() {
         setIsContentVisible(false);
     }
 
+    const go2MainPage = () => {
+        navigate("/main");
+    }
+
     return (
         <div className='agreement-page'>
             {isContentVisible && (
@@ -78,7 +85,8 @@ function Agreement() {
                         </p>
                     ))}
                     <button id="agreement-submit"
-                        disabled={checkAgreements()}>
+                        disabled={checkAgreements()}
+                        onClick={() => go2MainPage()}>
                         동의 후 시작하기
                     </button>
                 </form>

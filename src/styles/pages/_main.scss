@@ -1,0 +1,59 @@
+@use '../abstracts/mixin' as *;
+@use '../abstracts/font' as *;
+@use '../abstracts/variable' as *;
+
+#main-page {
+  padding : 20px 20px;
+
+  .setting-bar {
+    text-align: right;
+    padding-top: 3.0vh;
+    padding-bottom : 3.0vh;
+  }
+
+  .guide-text-div {
+    p {
+      font-family: 'SpoqaHanSansNeo-Bold';
+      font-weight: 700;
+      font-size: 20px;
+    }
+  }
+
+  .mind-count {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 4px 6px;
+    gap: 6px;
+
+    width:fit-content;
+    height: 28px;
+
+    /* Grayscale/200 */
+
+    border: 1px solid #ECECEC;
+    border-radius: 8px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    float: left;
+
+    background: #ECECEC;
+    margin-right : 10px;
+
+    span {
+      color: $alarm-font-color;
+    }
+  }
+
+  #mind-info {
+    margin-top : 20px;
+  }
+}
