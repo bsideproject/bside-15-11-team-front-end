@@ -20,7 +20,7 @@ const Auth = () => {
 
     const grantType : string = "authorization_code";
     const appKey : string = "ffefc95e6555a1eee5499d4cf824f9ec";
-    const redirectUri: string  = "http://localhost:3000/auth";
+    const redirectUri: string  = "http://223.130.136.211/auth";
     const code : string = query.code as string;
 
     const requestBody = new URLSearchParams();
