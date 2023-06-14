@@ -1,30 +1,40 @@
-import React from 'react';
-import { ReactComponent as SettingBtn } from '../../assets/svg/setting.svg';
+import React, {useState} from 'react';
+import IcSettingBtn from "../../assets/images/icon/ic_setting_btn.png";
 import RootStore from '../../store/RootStore';
 import { inject, observer } from 'mobx-react';
+import MainText from "../../components/main/MainText";
+import MainExchangedCount from "../../components/main/MainExchangedCount";
+import MainSearch from "../../components/main/MainSearch";
+import FilterBtn from "../../components/main/MainFilterBtn";
+import MainFriendList from "../../components/main/MainFriendList";
+import MainRegister from "../../components/main/MainRegister";
 
 const Main = () => {
+
+    const [isEmptyList, setIsEmptyList] = useState<boolean>(false);
+    const [registerBtn, setRegisterBtn] = useState<boolean>(false);
+
+    const handleRegisterBtn = () => {
+        if(registerBtn){
+            setRegisterBtn(false);
+        } else {
+            setRegisterBtn(true);
+        }
+    }
+
     return (
-        <div id="main-page">
-            <div className="setting-bar">
-                <SettingBtn />
-            </div>
-            <div className="guide-text-div">
-                <p>
-                    친구를 등록하고
-                </p>
-                <p>
-                    주고 받은 마음을 기록해보세요.
-                </p>
-            </div>
-            <div id="mind-info">
-                <div className='mind-count'>
-                    준마음 <span>{RootStore.mindStore.getGiveCount}회</span>
-                </div>
-                <div className='mind-count'>
-                    받은 마음 <span>{RootStore.mindStore.getTakeCount}회</span>
-                </div>
-            </div>
+        <div className="Main inner">
+            <span className="setting-btn"><img src={IcSettingBtn} alt="setting-btn" /></span>
+            <MainText isEmptyList={isEmptyList} />
+            <MainExchangedCount />
+            <MainSearch />
+            <FilterBtn />
+            <MainFriendList isEmptyList={isEmptyList} />
+            {registerBtn ? <MainRegister handleRegisterBtn={handleRegisterBtn} /> :
+                <button type="button" className="add-btn" onClick={handleRegisterBtn}>
+                    <span className="material-symbols-rounded">add</span>
+                </button>
+            }
         </div>
     );
 };

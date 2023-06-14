@@ -1,3 +1,13 @@
 @forward './pages/login';
 @forward './pages/agreement';
 @forward './pages/main';
+
+.inner{padding: 20px;}
+em.color{color: #E4684D;}
+
+// --- font px -> vw ---
+// 14px -> 3.7vw
+// 16px -> 4.5vw
+// 18px -> 5.3vw
+// 20px -> 6vw
+// 28px > 7.5vw
