@@ -5,10 +5,12 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
     height: 30vh;
     margin-top: 70vh;
 
     .button-container {
+        width: 30vw;
         margin-bottom: 20px;
     }
 

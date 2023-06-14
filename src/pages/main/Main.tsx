@@ -1,7 +1,7 @@
 import React from 'react';
-import { ReactComponent as SettingBtn } from '../../assets/svg/setting.svg';
 import RootStore from '../../store/RootStore';
 import { inject, observer } from 'mobx-react';
+import {ReactComponent as SettingBtn} from '../../assets/svg/setting.svg';
 
 const Main = () => {
     return (
