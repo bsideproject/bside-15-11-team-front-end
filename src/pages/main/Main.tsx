@@ -29,4 +29,5 @@ const Main = () => {
     );
 };
 
+
 export default inject('RootStore')(observer(Main));
