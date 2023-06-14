@@ -27,6 +27,13 @@ jobs:
         with: 
           node-version: ${{matrix.node-version}}
           cache: "npm"
+      - name: Generate Env Variables for Secret
+        run: |
+          echo "REACT_APP_KAKAO_JAVASCRIPT_KEY=$REACT_APP_KAKAO_JAVASCRIPT_KEY" >> .env
+          echo "REACT_APP_KAKAO_REST_API_KEY=$REACT_APP_KAKAO_REST_API_KEY" >> .env
+        env:
+          REACT_APP_KAKAO_JAVASCRIPT_KEY: ${{secrets.REACT_APP_KAKAO_JAVASCRIPT_KEY}}
+          REACT_APP_KAKAO_REST_API_KEY: ${{secrets.REACT_APP_KAKAO_REST_API_KEY}}
       - name: Install modules
         run: npm install
       - name: Build Project
