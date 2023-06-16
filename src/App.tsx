@@ -18,7 +18,7 @@ function App() {
                     <Route path="/signup" element={<Signup />}></Route>
                     <Route path="/agreement" element={<Agreement />}></Route>
                     <Route path="/main" element={<Main/>}></Route>
-                    <Route path="/oauth" element={<Auth/>}></Route>
+                    <Route path="/auth" element={<Auth/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
