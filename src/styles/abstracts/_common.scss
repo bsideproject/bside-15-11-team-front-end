@@ -1,0 +1,37 @@
+@use '../abstracts/mixin' as *;
+
+// 페이지 상단 타이틀
+.title-wrap{
+  @include center;
+  justify-content: flex-start;
+  .back-btn{
+    width: 24px;
+    display: block;
+  }
+  .title{
+    font-size: 6vw;
+    margin-left: 6px;
+  }
+}
+
+// input text box
+.InputTextBox{
+  .input-title{
+    font-weight: 500;
+    font-size: 4.5vw;
+    display: block;
+  }
+  .input-text-box{
+    background: #F7F7F7;
+    border-radius: 8px;
+    border: none;
+    margin-top: 3vw;
+    display: block;
+    width: 100%;
+    font-size: 4.5vw;
+    padding: 15px;
+    &::placeholder{
+      color: #C0C0C0;
+    }
+  }
+}
