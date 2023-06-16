@@ -1,6 +1,8 @@
+@forward './abstracts/common';
 @forward './pages/login';
 @forward './pages/agreement';
 @forward './pages/main';
+@forward './pages/friend';
 
 .inner{padding: 20px;}
 em.color{color: #E4684D;}

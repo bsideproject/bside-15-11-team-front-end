@@ -1,0 +1,67 @@
+@use '../abstracts/mixin' as *;
+@use '../abstracts/font' as *;
+@use '../abstracts/variable' as *;
+
+.Friend{
+  .friend-register-wrap{
+    margin-top: 30px;
+    .InputTextBox{
+      margin-bottom: 7vw;
+      &:last-child{margin: 0;}
+      .friend-name-add{
+        cursor: pointer;
+        margin-top: 3.5vw;
+        @include center;
+        justify-content: flex-start;
+        img{width: 20px;}
+        span{
+          font-weight: 500;
+          font-size: 3.5vw;
+          margin-left: 1vw;
+        }
+      }
+    }
+    .RelationWrap{
+      margin-bottom: 7vw;
+      .input-title{
+        font-weight: 500;
+        font-size: 4.5vw;
+        display: block;
+      }
+      .relation-wrap{
+        margin-top: 3vw;
+        input[type="radio"]{display: none;}
+        label{
+          font-weight: 500;
+          font-size: 3.7vw;
+          color: #C0C0C0;
+          padding: 3.5vw;
+          border: 1px solid #C0C0C0;
+          border-radius: 8px;
+          margin-right: 2vw;
+          display: inline-block;
+          &:last-child{margin: 0;}
+        }
+        input[type="radio"]:checked + label{
+          background: #818181;
+          color: #fff;
+        }
+      }
+    }
+    .register-btn-wrap{
+      @include center;
+      justify-content: space-between;
+      margin-top: 35vw;
+      .register-btn{
+        display: block;
+        width: 48%;
+        font-weight: 500;
+        font-size: 3.7vw;
+        color: #fff;
+        background: #2C2C2C;
+        border-radius: 8px;
+        padding: 4.3vw 0;
+      }
+    }
+  }
+}

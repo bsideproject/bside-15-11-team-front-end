@@ -7,6 +7,8 @@ import Main from './pages/main/Main';
 import { Provider } from 'mobx-react';
 import RootStore from './store/RootStore';
 import Auth from './pages/login/Auth';
+import Friend from "./pages/friend/Friend";
+import Design from "./pages/design";
 
 function App() {
     return (
@@ -17,8 +19,12 @@ function App() {
                     <Route path="/" element={<Login />}></Route>
                     <Route path="/signup" element={<Signup />}></Route>
                     <Route path="/agreement" element={<Agreement />}></Route>
-                    <Route path="/main" element={<Main/>}></Route>
+                    <Route path="/main" element={<Main />}></Route>
+                    <Route path="/friend" element={<Friend />}></Route>
                     <Route path="/auth" element={<Auth/>}></Route>
+
+
+                    <Route path="/design" element={<Design />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
