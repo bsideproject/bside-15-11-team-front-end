@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from "./pages/login/Login";
 import Signup from "./pages/signup/Signp";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Agreement from './pages/login/Agreement';
 import Main from './pages/main/Main';
 import { Provider } from 'mobx-react';

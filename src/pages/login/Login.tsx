@@ -1,28 +1,17 @@
 import React, { useEffect } from "react";
 import KakaoBtn from '../../assets/images/buttons/KaKao Button.png';
 import AppleBtn from '../../assets/images/buttons/Apple Button.png';
+import RootStore from "../../store/RootStore";
 
 
 function Login(){
-    const redirectUrl = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-
-    const { Kakao } = window;
-
-    const initKakao = () => {
-        if (Kakao && !Kakao.isInitialized()) {
-            Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
-        }
-    }
 
     useEffect(() => {
-        initKakao();
+        RootStore.kakaoStore.initKakao();
     }, []);
 
-    const handleLogin = () => {
-        Kakao.Auth.authorize({
-            redirectUri : redirectUrl,
-            scope : "profile_nickname, profile_image, birthday"
-        });
+    const handleLogin = async() => {
+        await RootStore.kakaoStore.requestAuthCode();
     }
 
     return(
