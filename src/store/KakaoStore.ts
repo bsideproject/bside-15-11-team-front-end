@@ -77,7 +77,7 @@ class KakaoStore {
         this.setToken(response.data['access_token']);
       }
 
-      await this.getKakaoUserData();
+      return await this.getKakaoUserData();
     } catch(error) {
       console.error(error);
     }
@@ -92,7 +92,7 @@ class KakaoStore {
       }
     });
 
-    console.log("user data : " + JSON.stringify(response.data));
+    return response.data;
   }
 }
 
