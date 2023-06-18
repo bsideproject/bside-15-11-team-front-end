@@ -1,7 +1,7 @@
 import React from 'react';
 import TitleWrap from "../../components/common/TitleWrap";
 import InputTextBox from "../../components/common/InputTextBox";
-import RelationWrap from "../../components/friend/RelationWrap";
+import RadioWrap from "../../components/common/RadioWrap";
 
 const Friend = () => {
     return(
@@ -15,7 +15,39 @@ const Friend = () => {
                     value=""
                     onChange=""
                 />
-                <RelationWrap />
+                <RadioWrap 
+                    inputTitle='관계 (필수)'
+                    options={
+                        [
+                            {
+                                name : 'relation',
+                                id : 'family',
+                                htmlFor : 'family',
+                                content : '가족'
+                            },{
+                                name : 'relation',
+                                id : 'friend',
+                                htmlFor : 'friend',
+                                content : '친구'
+                            },{
+                                name : 'relation',
+                                id : 'colleague',
+                                htmlFor : 'colleague',
+                                content : '동료'
+                            }, {
+                                name : 'relation',
+                                id : 'jiin',
+                                htmlFor : 'jiin',
+                                content : '지인'
+                            }, {
+                                name : 'relation',
+                                id : 'directInput',
+                                htmlFor : 'directInput',
+                                content : '직접 입력'
+                            }
+                        ]
+                    }
+                />
                 <InputTextBox
                     inputTitle="메모"
                     placeholder="입력하세요. (최대 50자)"

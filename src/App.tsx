@@ -9,6 +9,7 @@ import RootStore from './store/RootStore';
 import Auth from './pages/login/Auth';
 import Friend from "./pages/friend/Friend";
 import Design from "./pages/design";
+import Mind from './pages/mind/Mind';
 
 function App() {
     return (
@@ -22,7 +23,7 @@ function App() {
                     <Route path="/main" element={<Main />}></Route>
                     <Route path="/friend" element={<Friend />}></Route>
                     <Route path="/auth" element={<Auth/>}></Route>
-
+                    <Route path="/mind" element={<Mind />}></Route>
 
                     <Route path="/design" element={<Design />}></Route>
                 </Routes>

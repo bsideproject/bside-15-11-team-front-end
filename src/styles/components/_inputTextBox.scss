@@ -1,0 +1,16 @@
+@use '../abstracts/font' as *;
+@use '../abstracts/mixin' as *;
+@use '../abstracts/variable' as *;
+
+.InputTextBoxWithArrow {
+
+  position: relative;
+
+  .front-btn {
+    @include arrowBtn(10px);
+    position : absolute;
+    top : 55%;
+    right : 3%;
+  }
+
+}

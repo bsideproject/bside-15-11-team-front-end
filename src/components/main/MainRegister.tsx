@@ -15,7 +15,7 @@ const MainRegister = ({handleRegisterBtn}:PropsType) => {
     return(
         <div className="MainRegister">
             <div className="register-btn-wrap">
-                <button type="button" className="resgister-btn">
+                <button type="button" className="resgister-btn" onClick={() => navigate("/mind")}>
                     <img src={IcMindRegister} alt="mind-icon" />
                     <span className="sm-text">마음 기록하기</span>
                 </button>
