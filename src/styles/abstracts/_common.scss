@@ -12,6 +12,14 @@
     font-size: 6vw;
     margin-left: 6px;
   }
+
+  .save-button {
+    margin-left: auto;
+    border : none;
+    background-color: white;
+    font-size: 4vw;
+    font-weight: 500;
+  }
 }
 
 // input text box
@@ -33,5 +41,18 @@
     &::placeholder{
       color: #C0C0C0;
     }
+  }
+}
+
+.react-modal-sheet-content {
+  padding : 5vw;
+}
+
+@keyframes slideAnimation {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
   }
 }

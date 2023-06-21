@@ -3,6 +3,9 @@
 @forward './pages/agreement';
 @forward './pages/main';
 @forward './pages/friend';
+@forward './pages/mind';
+
+@forward './components/inputTextBox';
 
 .inner{padding: 20px;}
 em.color{color: #E4684D;}

@@ -1,0 +1,95 @@
+@use '../abstracts/mixin' as *;
+@use '../abstracts/variable' as *;
+
+.FriendList {
+
+    .react-modal-sheet-content {
+
+        .count-div {
+            margin : 5vw 0;
+
+            p {
+                text-align: right;
+                font-weight: 500;
+                font-size: 4vw;
+                color : $inactive-gray-color;
+            }
+        }
+
+        .select-friend {
+
+            margin-bottom: 4vw;
+            padding-bottom: 4vw;
+            border-bottom: 1px solid rgba(129, 129, 129, 0.2);
+
+            .friend-info {
+                margin-left: 5vw;
+
+                p {
+                    padding-left: 5vw;
+                    font-weight: 400;
+                    font-size: 4vw;
+                    color : $inactive-gray-color;
+                    margin-bottom: 2vw;
+
+                    &:first-child {
+                        font-size : 5vw;
+                        font-weight: 500;
+                        color : black;
+                    }
+                }
+
+            }
+        }
+
+        .close-button {
+            @include arrowBtn(5vw);
+            position : absolute;
+            top: 8.5%;
+            right: 8%;
+        }
+    }
+}
+
+.calendar {
+    .slider-container {
+        width : 30vw;
+        text-align: center;
+        touch-action: pan-y;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        display: flex;
+        flex-direction: column;
+        float: left;
+
+        p {
+            margin-top: 2vw;
+            margin-bottom: 2vw;
+            font-size: 5vw;
+            font-weight: 400;
+            color : $inactive-gray-color-font;
+            padding-top : 5vw;
+            padding-bottom: 5vw;
+            width: 100%;
+            
+            &:first-child {
+                margin : 4vw;
+            }
+
+            &:nth-child(2) {
+                border-top: 1px solid #F8F8F8;
+                border-bottom: 1px solid #F8F8F8;
+            }
+        }
+
+        .selected {
+            font-weight: 500;
+            color : black;
+        }
+
+        .none {
+            color : white;
+        }
+    }
+}
