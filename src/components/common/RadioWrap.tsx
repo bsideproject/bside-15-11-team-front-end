@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import NullChecker from "../../utils/NullChecker";
 
 interface Option {
@@ -24,10 +24,10 @@ const RadioWrap = (props : PropsType) => {
             <div className="relation-wrap">
                 {
                     props.options.map((option) => (
-                        <>
-                            <input type="radio" name={option.name} id={option.id} />
+                        <Fragment key={option.id}>
+                            <input type="radio" name={option.name} id={option.id}/>
                             <label htmlFor={option.htmlFor}>{option.content}</label>
-                        </>
+                        </Fragment>
                     ))
                 }
             </div>

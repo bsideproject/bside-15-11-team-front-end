@@ -1,7 +1,9 @@
-import { RightOutlined, CheckOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import terms from '../../assets/terms.json';
 import { useNavigate } from 'react-router-dom';
+import IcFrontBtn from '../../assets/images/icon/ic_front_btn.png';
+import IcCheckOn from '../../assets/images/icon/ic_check_on.png';
+import IcCheckOff from '../../assets/images/icon/ic_check_off.png';
 
 class Agree {
     label : string | undefined;
@@ -72,15 +74,23 @@ function Agreement() {
                     {agreements.map((agreement, index) => (
                         <p key={index}>
                             <label>
-                                <CheckOutlined
-                                    onClick={() => handleAgreement(index)}
-                                    style={{ color: agreement.checked ? 'blue' : 'gray' }}
-                                />
-                                {agreement.label}
-                                <RightOutlined 
-                                    style={{color : 'gray'}}
-                                    onClick={() => openPopup(index)}
-                                />
+                                <div style={{width : '5vw', display : 'block', float : 'left'}}>
+                                    <img 
+                                        onClick={() => handleAgreement(index)}
+                                        src={agreement.checked ? IcCheckOn : IcCheckOff}
+                                        alt='agree'
+                                    />
+                                </div>
+                                <div style={{float : 'left'}}>
+                                    {agreement.label}
+                                </div>
+                                <div style={{width : '2vw', display : 'block', float : 'left', marginLeft : '2vw'}}>
+                                    <img
+                                        onClick={() => openPopup(index)}
+                                        src={IcFrontBtn}
+                                        alt='open-popup'
+                                    />
+                                </div>
                             </label>
                         </p>
                     ))}

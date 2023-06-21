@@ -8,7 +8,7 @@ import { UserInformation } from "../prototypes/common/UserInformation";
 class UserStore {
 
   rootStore : typeof RootStore;
-  baseUrl : string = "http://223.130.136.211";
+  baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
 
   constructor(rootStore : typeof RootStore) {
     this.rootStore = rootStore;
@@ -36,6 +36,18 @@ class UserStore {
     });
 
     return response.data;
+  }
+
+  async postUser(sequence : string) {
+    const request : object = {
+      sequence : sequence
+    };
+
+    await axios.post(`${this.baseUrl}/api/sign`, request, {
+      headers : {
+        "Content-Type" : "application/json"
+      }
+    });
   }
 
 }
