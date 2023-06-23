@@ -2,7 +2,7 @@ import React from "react";
 import IcMindRegister from "../../assets/images/icon/ic_mind_register.png";
 import IcFriendRegister from "../../assets/images/icon/ic_friend_register.png";
 import {useNavigate} from "react-router-dom";
-import IcPlusBtnWh from "../../assets/images/icon/ic_plus_btn_white.png";
+import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.png";
 
 interface PropsType{
     handleRegisterBtn: () => void,
@@ -24,7 +24,7 @@ const MainRegister = ({handleRegisterBtn}:PropsType) => {
                     <span className="sm-text">사람 등록하기</span>
                 </button>
                 <button type="button" className="cls-btn" onClick={handleRegisterBtn}>
-                    <span className="add-btn-plus"><img src={IcPlusBtnWh} alt="ic_plus_btn"/></span>
+                    <span className="add-btn-plus"><img src={IcPlusBtnOg} alt="ic_plus_btn"/></span>
                 </button>
             </div>
         </div>

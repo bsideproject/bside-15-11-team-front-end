@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import IcSettingBtn from "../../assets/images/icon/ic_setting_btn.png";
-import IcPlusBtnWh from "../../assets/images/icon/ic_plus_btn_white.png";
+import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.png";
 import { inject, observer } from 'mobx-react';
 import MainText from "../../components/main/MainText";
 import MainExchangedCount from "../../components/main/MainExchangedCount";
@@ -24,7 +24,9 @@ const Main = () => {
 
     return (
         <div className="Main inner">
-            <span className="setting-btn"><img src={IcSettingBtn} alt="setting-btn" /></span>
+            <div className="main-header">
+                <span className="setting-btn"><img src={IcSettingBtn} alt="setting-btn" /></span>
+            </div>
             <MainText isEmptyList={isEmptyList} />
             <MainExchangedCount />
             <MainSearch />
@@ -32,7 +34,7 @@ const Main = () => {
             <MainFriendList isEmptyList={isEmptyList} />
             {registerBtn ? <MainRegister handleRegisterBtn={handleRegisterBtn} /> :
                 <button type="button" className="add-btn" onClick={handleRegisterBtn}>
-                    <span className="add-btn-plus"><img src={IcPlusBtnWh} alt="ic_plus_btn"/></span>
+                    <span className="add-btn-plus"><img src={IcPlusBtnOg} alt="ic_plus_btn"/></span>
                 </button>
             }
         </div>

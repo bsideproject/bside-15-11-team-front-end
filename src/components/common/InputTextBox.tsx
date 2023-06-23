@@ -1,5 +1,5 @@
 import React from "react"
-import IcPlusBtnBl from "../../assets/images/icon/ic_plus_btn_black.png"
+import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.png";
 
 interface PropsType{
     inputTitle: string,
@@ -26,7 +26,7 @@ const InputTextBox = ({
             />
             {id === "friendName" ?
                 <div className="friend-name-add">
-                    <img src={IcPlusBtnBl} alt="plus-btn" /><span>여러 사람 등록하기</span>
+                    <img src={IcPlusBtnOg} alt="plus-btn" /><span>여러 사람 등록하기</span>
                 </div> : null
             }
         </div>

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import IcSearch from "../../assets/images/icon/ic_search.png";
 
 const MainSearch = () => {
 
@@ -18,8 +19,11 @@ const MainSearch = () => {
                 className="search-text"
                 value={searchText}
                 onChange={handleSearchText}
-                placeholder="친구를 검색해주세요."
+                placeholder="찾으시는 이름이 있으신가요?"
             />
+            <span className="search-icon">
+                <img src={IcSearch} alt="search-icon"/>
+            </span>
         </div>
     )
 }
