@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Sheet from 'react-modal-sheet';
-import IcCloseUnionBtn from '../../assets/images/icon/ic_close_union_btn.png';
 import DateUtil from '../../utils/DateUtil';
 import { Date as DateType} from '../../prototypes/common/Date';
 import { useSwipeable } from 'react-swipeable';
 import IcSaveBtn from '../../assets/images/icon/ic_save_btn.png';
+import ModalSheetTitleWrap from './ModalSheetTitleWrap';
 
 interface PropsType {
     isOpen : boolean,
@@ -103,7 +103,7 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
 
         // 캘린더 양쪽 위 border-radius
         setContainerTopBorderRadius(24, 24);
-    }, []);
+    }, [isOpen]);
 
     useEffect(() => {
 
@@ -136,7 +136,7 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
     const setContainerTopBorderRadius = (left : number, right : number) : void => {
         if (containerRef.current) {
             containerRef.current.style.borderTopLeftRadius = `${left}px`;
-            containerRef.current.style.borderTopRightRadius = `${left}px`;
+            containerRef.current.style.borderTopRightRadius = `${right}px`;
         }
     }
 
@@ -168,14 +168,10 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
         >
         <Sheet.Container ref={containerRef}>
             <Sheet.Content>
-                <div className='title-wrap'>
-                    <h2 className='title'>{title}</h2>
-                    <button className='save-button'>
-                        <img src={IcCloseUnionBtn} alt='close' 
-                            onClick={onClose}
-                        />
-                    </button>
-                </div>
+                <ModalSheetTitleWrap 
+                    title='날짜'
+                    onClose={onClose}
+                />
                 <div className='calendar'>
                     <div className="slider-container"
                         {...yearHandlers}

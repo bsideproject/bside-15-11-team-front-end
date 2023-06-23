@@ -93,3 +93,134 @@
         }
     }
 }
+
+.event-sheet {
+    .event-option-list {
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100vw;
+        margin-top : 5vw;
+
+        .event-option {
+            width: 89vw;
+            display: flex;
+            padding-bottom: 5vw;
+            padding-top : 5vw;
+            border-bottom: 1px solid $split-line-color;
+
+            &:first-child {
+                padding-top: 0;       
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            span {
+                font-size: 5vw;
+                font-weight: 500;
+                margin-left : 2.5vw;
+            }
+        }
+    }
+
+    textarea {
+        resize : none;
+        margin-left : 8vw;
+        padding-top : 5vw;
+        padding-left : 5vw;
+        border-radius: 8px;
+        background: #F7F7F7;
+        border: none;
+        height : 30vw;
+        width : 80vw;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .save {
+        width : 100%;
+        background-color: white;
+        margin-top : 26.875vw;
+    }
+}
+
+.EventTypeWrap {
+    margin-bottom: 7vw;
+    align-items: center;
+    background-color: #F7F7F7;
+    width: 70%;
+    margin-left: 15%;
+    border-radius: 8px;
+    padding: 2vw;
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    label {
+        padding-top: 3.5vw;
+        padding-bottom: 3.5vw;
+        display: inline-block;
+        width: 50%;
+        border-radius: 8px;
+        text-align: center;
+        font-size : 4.5vw;
+
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+    input[type="radio"]:checked+label {
+        background: #D9D9D9;
+    }
+
+}
+
+.MindWrap {
+
+    margin-bottom: 7vw;
+
+    .input-title {
+        font-weight: 500;
+        font-size: 4.5vw;
+        display: block;
+        margin-bottom: 7vw;
+    }
+
+    .mind-wrap {
+        margin-top: 3vw;
+        display: flex;
+        justify-content: space-around;
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            font-weight: 500;
+            font-size: 3.7vw;
+            color: #C0C0C0;
+            padding: 3.5vw;
+            border: 1px solid #C0C0C0;
+            border-radius: 8px;
+            margin-right: 2vw;
+            width: 45%;
+            text-align: center;
+
+            &:last-child {
+                margin: 0;
+            }
+        }
+
+        input[type="radio"]:checked+label {
+            background: #818181;
+            color: #fff;
+        }
+    }
+}

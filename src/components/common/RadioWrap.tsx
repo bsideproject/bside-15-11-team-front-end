@@ -10,7 +10,8 @@ interface Option {
 
 interface PropsType {
     inputTitle : string,
-    options : Option[]
+    options : Option[],
+    onSelect? : any
 }
 
 const RadioWrap = (props : PropsType) => {
@@ -25,7 +26,9 @@ const RadioWrap = (props : PropsType) => {
                 {
                     props.options.map((option) => (
                         <Fragment key={option.id}>
-                            <input type="radio" name={option.name} id={option.id}/>
+                            <input type="radio" name={option.name} id={option.id}
+                                onClick={props.onSelect}
+                            />
                             <label htmlFor={option.htmlFor}>{option.content}</label>
                         </Fragment>
                     ))
