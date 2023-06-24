@@ -25,7 +25,7 @@ const Auth = () => {
 
       const userRequest = convertResponse(kakaoData);
 
-      const backendResponse = await RootStore.userStore.getUser(userRequest)
+      const backendResponse : any = await RootStore.userStore.getUser(userRequest)
         .catch(error => {
           console.error("Server Api Error : ", error);
         });
@@ -40,6 +40,10 @@ const Auth = () => {
         navigate("/agreement");
       } else {
         navigate("/main");
+
+        // 임시로 가입된 경우에 post를 보내봄
+
+        await RootStore.userStore.postUser(backendResponse.sequence);
       }
 
     }
@@ -49,7 +53,7 @@ const Auth = () => {
 
   const convertResponse = (obj : any) : UserGetRequest => {
     const request : UserGetRequest = {
-      id : obj.id,
+      serviceUserId : obj.id,
       oauthServiceType : OauthServiceType.KAKAO
     };
 

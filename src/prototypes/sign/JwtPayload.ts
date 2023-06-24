@@ -1,3 +1,3 @@
-export interface MamgwanbooJwtPayload {
+export interface JwtPayload {
   sequence?: string;
 }

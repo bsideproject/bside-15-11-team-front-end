@@ -60,4 +60,12 @@ const put = <T>(url: string, data: any, config?: AxiosRequestConfig): Promise<T>
     .catch(handleError);
 };
 
-export { get, post, del, put };
+// PATCH method
+const patch = <T>(url : string, data : any, config? : AxiosRequestConfig) : Promise<T> => {
+  return axiosInstance
+    .patch<T>(url, data, config)
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export { get, post, del, put, patch };

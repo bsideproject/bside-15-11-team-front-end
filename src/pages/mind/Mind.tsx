@@ -12,6 +12,8 @@ import MoneyOption from './MoneyOption';
 import InputTextBox from '../../components/common/InputTextBox';
 import IcSaveRecordBtn from '../../assets/images/icon/Ic_save_record_btn.png';
 import { useNavigate } from 'react-router-dom';
+import MindStore from '../../store/MindStore';
+import RootStore from '../../store/RootStore';
 
 const Mind = () => {
 
@@ -36,6 +38,10 @@ const Mind = () => {
 
     setInputArray(list);
 
+    const setMindCount = async() => {
+      await RootStore.mindStore.setMindCount();
+    }
+    setMindCount();
   }, []);
 
   const handleInputClick = (index : number) => {

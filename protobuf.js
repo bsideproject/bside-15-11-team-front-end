@@ -33,4 +33,4 @@ async function generateInterfaces(protoFolder) {
 
 }
 
-generateInterfaces('src/protobuf/');
+generateInterfaces('src/startrail-protobuf/');
