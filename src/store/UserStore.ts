@@ -1,5 +1,4 @@
 import axios from "axios";
-import { OauthServiceType } from "../prototypes/common/type/OauthServiceType";
 import { UserGetRequest } from "../prototypes/user/UserRequest";
 import { UserResponse } from "../prototypes/user/UserResponse";
 import RootStore from "./RootStore";
@@ -61,13 +60,15 @@ class UserStore {
       sequence : sequence
     };
 
-    const response = await post(`${this.baseUrl}/api/sign`, request, {
+    const response : string = await post(`${this.baseUrl}/api/sign`, request, {
       headers : {
         "Content-Type" : "application/json"
       }
     });
 
     console.log("response body : " + JSON.stringify(response));
+
+    this.setJwtKey(response);
   }
 
 }
