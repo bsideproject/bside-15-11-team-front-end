@@ -3,6 +3,8 @@ import RootStore from './RootStore';
 import queryString from 'query-string';
 import axios from 'axios';
 import { Location } from 'react-router';
+import { get, post } from '../apis/RestApis';
+import { KakaoTokenResponse } from '../models/KakaoTokenResponse';
 
 class KakaoStore {
 
@@ -66,15 +68,15 @@ class KakaoStore {
     requestBody.append("code", code);
 
     try {
-      const response  = await axios.post('https://kauth.kakao.com/oauth/token', requestBody, {
+      const response : KakaoTokenResponse  = await post('https://kauth.kakao.com/oauth/token', requestBody, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
       });
-      console.log(response.data);
+      console.log(response);
       
-      if (response?.data?.access_token) {
-        this.setToken(response.data['access_token']);
+      if (response.access_token) {
+        this.setToken(response.access_token);
       }
 
       return await this.getKakaoUserData();
@@ -85,14 +87,14 @@ class KakaoStore {
 
   getKakaoUserData = async() => {
     console.log("token : " + this.getToken);
-    const response = await axios.get('https://kapi.kakao.com/v2/user/me', {
+    const response = await get('https://kapi.kakao.com/v2/user/me', {
       headers : {
         "Content-Type" : "application/x-www-form-urlencoded",
         "Authorization" : `Bearer ${this.getToken}`
       }
     });
 
-    return response.data;
+    return response;
   }
 }
 

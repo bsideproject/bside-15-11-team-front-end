@@ -1,5 +1,7 @@
 import { computed, makeObservable, observable } from 'mobx';
 import RootStore from './RootStore';
+import axios from 'axios';
+import { get } from '../apis/RestApis';
 
 interface Mind {
   sender : string,
@@ -12,6 +14,8 @@ class MindStore {
   username : string = "";
   rootStore : typeof RootStore;
   records : Mind[] = [];
+
+  baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
 
   constructor(rootStore : typeof RootStore) {
     this.rootStore = rootStore;
@@ -52,6 +56,19 @@ class MindStore {
     });
 
     return count;
+  }
+
+  async setMindCount() {
+    console.log("jwt key : " + this.rootStore.userStore.getJwtKey);
+    const response = await get(`${this.baseUrl}/api/relationships/count`, {
+      headers : {
+        Authorization : this.rootStore.userStore.getJwtKey
+      }
+    });
+
+    console.log("setMindCount : " + JSON.stringify(response));
+
+    return response;
   }
 }
 

@@ -1,6 +1,12 @@
+import { UserInformation } from "../common/UserInformation";
 import { OauthServiceType } from "../common/type/OauthServiceType";
 
 export interface UserGetRequest {
   oauthServiceType?: OauthServiceType;
-  id?: string;
+  serviceUserId?: string;
+}
+export interface UserPatchRequest {
+  oauthServiceType?: OauthServiceType;
+  serviceUserId?: string;
+  userInformation?: UserInformation;
 }

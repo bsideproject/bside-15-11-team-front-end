@@ -1,0 +1,3 @@
+[submodule "src/startrail-protobuf"]
+	path = src/startrail-protobuf
+	url = https://github.com/bsideproject/startrail-protobuf.git
