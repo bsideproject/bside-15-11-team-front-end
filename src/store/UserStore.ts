@@ -1,17 +1,19 @@
 import axios from "axios";
-import { UserGetRequest } from "../prototypes/user/UserRequest";
-import { UserResponse } from "../prototypes/user/UserResponse";
+import { UserGetRequestProto, UserPatchRequestProto } from "../prototypes/user/UserRequestProto";
+import { UserResponseProto } from "../prototypes/user/UserResponseProto";
 import RootStore from "./RootStore";
-import { UserInformation } from "../prototypes/common/UserInformation";
+import { UserInformationProto } from "../prototypes/common/UserInformationProto";
 import { action, computed, makeObservable, observable } from "mobx";
-import { post } from "../apis/RestApis";
+import { get, post } from "../apis/RestApis";
 import { patch } from "../apis/RestApis";
+import { SexTypeProto } from "../prototypes/common/type/SexTypeProto";
 
 class UserStore {
 
   rootStore : typeof RootStore;
   baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
   jwtKey : string = '';
+  serviceUserId : string = '';
 
   constructor(rootStore : typeof RootStore) {
     this.rootStore = rootStore;
@@ -19,7 +21,8 @@ class UserStore {
     makeObservable(this, {
       jwtKey : observable,
       setJwtKey : action,
-      getJwtKey : computed
+      getJwtKey : computed,
+      serviceUserId : observable,
     });
   }
 
@@ -31,28 +34,34 @@ class UserStore {
     return this.jwtKey;
   }
 
-  async getUser(request : UserGetRequest) : Promise<UserResponse> {
-    const response : any = await axios.get(`${this.baseUrl}/api/users?oauthServiceType=${request.oauthServiceType}&serviceUserId=${request.serviceUserId}`);
-    console.log(JSON.stringify(request));
-    return response.data;
+  setServiceUserId = (id : string) => {
+    this.serviceUserId = id;
   }
 
-  async patchUser(request : UserGetRequest, data : any) {
-    const serviceType : string = request.oauthServiceType?.toString() as string;
-    const serviceUserId : string = request.serviceUserId as string;
+  get getServiceUserId() : string {
+    return this.serviceUserId;
+  }
 
-    let userInfo : UserInformation = {
-      profileNickname : data.properties.nickname,
-      profileImageLink : data.properties.profile_image
-    };
+  async getUser(request : UserGetRequestProto) : Promise<UserResponseProto> {
+    const response : UserResponseProto = await get(`${this.baseUrl}/api/users?oauthServiceType=${request.oauthServiceType}&serviceUserId=${request.serviceUserId}`);
+    console.log(JSON.stringify(request));
 
-    const response : any = await patch(`${this.baseUrl}/api/users?oauthServiceType=${serviceType}&serviceUserId=${serviceUserId}`, {
-      oauthServiceType : serviceType,
-      serviceUserId : serviceUserId,
-      userInformation : userInfo
+    if (response.sequence) {
+      this.setServiceUserId(response.sequence);
+    }
+    
+    return response;
+  }
+
+  async patchUser(requestBody : UserPatchRequestProto) {
+
+    const response : UserPatchRequestProto = await patch(`${this.baseUrl}/api/users`, requestBody, {
+      headers : {
+        Authorization : this.getJwtKey
+      }
     });
 
-    return response.data;
+    return response;
   }
 
   async postUser(sequence : string) {

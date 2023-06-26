@@ -1,6 +1,5 @@
 import { computed, makeObservable, observable } from 'mobx';
 import RootStore from './RootStore';
-import axios from 'axios';
 import { get } from '../apis/RestApis';
 
 interface Mind {

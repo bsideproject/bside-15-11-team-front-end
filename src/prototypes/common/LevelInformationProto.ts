@@ -1,4 +1,4 @@
-export interface LevelInformation {
+export interface LevelInformationProto {
   total?: number;
   given?: number;
   taken?: number;

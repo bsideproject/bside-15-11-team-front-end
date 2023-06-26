@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
-import { UserGetRequest } from '../../prototypes/user/UserRequest';
-import { OauthServiceType } from '../../prototypes/common/type/OauthServiceType';
+import { UserGetRequestProto, UserPatchRequestProto } from '../../prototypes/user/UserRequestProto';
+import { OauthServiceTypeProto } from '../../prototypes/common/type/OauthServiceTypeProto';
 import NullChecker from '../../utils/NullChecker';
+import { KakaoUserResponse } from '../../models/KakaoResponse';
+import { SexTypeProto } from '../../prototypes/common/type/SexTypeProto';
+import { AgeRangeTypeProto } from '../../prototypes/common/type/AgeRangeTypeProto';
+import { BirthProto } from '../../prototypes/common/BirthProto';
+import { DateProto } from '../../prototypes/common/DateProto';
+import { UserResponseProto } from '../../prototypes/user/UserResponseProto';
 
 const Auth = () => {
 
@@ -14,36 +20,31 @@ const Auth = () => {
 
     const doLogin = async() => {
 
-      let nextPage = "";
-
-      const kakaoData = await RootStore.kakaoStore.doLogin(location)
-        .catch(error => {
-          console.error("Login error : ", error);
-        });
+      const kakaoData : KakaoUserResponse = await RootStore.kakaoStore.doLogin(location);
   
       console.log("user data : " + JSON.stringify(kakaoData));
 
-      const userRequest = convertResponse(kakaoData);
+      const userGetRequest : UserGetRequestProto = convertResponse2GetRequest(kakaoData.id as string, OauthServiceTypeProto.KAKAO);
 
-      const backendResponse : any = await RootStore.userStore.getUser(userRequest)
-        .catch(error => {
-          console.error("Server Api Error : ", error);
-        });
+      const backendResponse : UserResponseProto = await RootStore.userStore.getUser(userGetRequest);
 
       console.log("user data in DB : " + JSON.stringify(backendResponse));
       
       // db에 저장안되어 있을 경우 -> 신규 유저이므로 약관 화면으로 보내버림
       if (NullChecker.isEmpty(JSON.stringify(backendResponse))) {
-        const patchData = await RootStore.userStore.patchUser(userRequest, kakaoData);
 
-        console.log("patchData : " + JSON.stringify(patchData));
+        // const userPatchRequest : UserPatchRequestProto = convertResponse2PatchRequest(kakaoData, OauthServiceTypeProto.KAKAO);
+
+        // const patchData = await RootStore.userStore.patchUser(userPatchRequest);
+
+        // console.log("patchData : " + JSON.stringify(patchData));
         navigate("/agreement");
       } else {
         navigate("/main");
 
         // 임시로 가입된 경우에 post를 보내봄
 
-        await RootStore.userStore.postUser(backendResponse.sequence);
+        await RootStore.userStore.postUser(backendResponse.sequence as string);
       }
 
     }
@@ -51,11 +52,12 @@ const Auth = () => {
     doLogin();
   }, []);
 
-  const convertResponse = (obj : any) : UserGetRequest => {
-    const request : UserGetRequest = {
-      serviceUserId : obj.id,
-      oauthServiceType : OauthServiceType.KAKAO
-    };
+  const convertResponse2GetRequest = (id : string, oauthType : OauthServiceTypeProto) : UserGetRequestProto => {
+
+    const request : UserGetRequestProto = {
+      serviceUserId : id,
+      oauthServiceType : oauthType
+    }
 
     return request;
   }

@@ -1,10 +1,9 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import RootStore from './RootStore';
 import queryString from 'query-string';
-import axios from 'axios';
 import { Location } from 'react-router';
 import { get, post } from '../apis/RestApis';
-import { KakaoTokenResponse } from '../models/KakaoTokenResponse';
+import { KakaoTokenResponse, KakaoUserResponse } from '../models/KakaoResponse';
 
 class KakaoStore {
 
@@ -13,15 +12,19 @@ class KakaoStore {
   rootStore : typeof RootStore;
   token : string = '';
   redirectUrl = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+  userData : KakaoUserResponse = {};
 
   constructor(rootStore : typeof RootStore) {
     this.rootStore = rootStore;
 
     makeObservable(this, {
       token : observable,
+      userData : observable,
       getToken : computed,
+      getUserData : computed,
       setToken : action,
-      doLogin : action
+      doLogin : action,
+      setUserData : action
     });
 
   }
@@ -34,12 +37,20 @@ class KakaoStore {
     this.token = token;
   }
 
+  get getUserData() {
+    return this.userData;
+  }
+
+  setUserData = (data : KakaoUserResponse) => {
+    this.userData = data;
+  }
+
   // 카카오 서버로 정보제공 동의 요청하는 페이지로 이동
   // 유저가 동의 버튼을 클릭하면 redirect_uri로 인가코드가 넘어온다.
   requestAuthCode = async() => {
     await this.Kakao.Auth.authorize({
       redirectUri : this.redirectUrl,
-      scope : "profile_nickname, profile_image, birthday"
+      scope : "profile_nickname, profile_image, birthday, gender, age_range"
     });
   }
 
@@ -50,7 +61,7 @@ class KakaoStore {
     }
   }
 
-  doLogin = async(location : Location) => {
+  doLogin = async(location : Location) : Promise<KakaoUserResponse> => {
     const params = location.search;
     const query = queryString.parse(params);
 
@@ -79,20 +90,25 @@ class KakaoStore {
         this.setToken(response.access_token);
       }
 
-      return await this.getKakaoUserData();
     } catch(error) {
       console.error(error);
     }
+
+    return await this.getKakaoUserData();
   }
 
-  getKakaoUserData = async() => {
+  getKakaoUserData = async() : Promise<KakaoUserResponse> => {
     console.log("token : " + this.getToken);
-    const response = await get('https://kapi.kakao.com/v2/user/me', {
+    const response : KakaoUserResponse = await get('https://kapi.kakao.com/v2/user/me', {
       headers : {
         "Content-Type" : "application/x-www-form-urlencoded",
         "Authorization" : `Bearer ${this.getToken}`
       }
     });
+
+    if (response.id) {
+      this.setUserData(response);
+    }
 
     return response;
   }

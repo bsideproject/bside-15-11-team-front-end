@@ -1,18 +1,178 @@
 @use '../abstracts/mixin' as *;
 @use '../abstracts/variable' as *;
 
+.Mind {
+
+    .mind-register-wrap {
+        margin-top : 30px;
+
+        .EventTypeWrap {
+            margin-bottom: 7vw;
+            align-items: center;
+            background-color: $back-ground-color;
+            width: 70%;
+            margin-left: 15%;
+            border-radius: 8px;
+            padding: 2vw;
+
+            input[type="radio"] {
+                display: none;
+            }
+
+            label {
+                padding-top: 3.5vw;
+                padding-bottom: 3.5vw;
+                display: inline-block;
+                width: 50%;
+                border-radius: 8px;
+                text-align: center;
+                font-size: 4.5vw;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+
+            input[type="radio"]:checked+label {
+                background: $back-ground-color2;
+            }
+
+        }
+
+        .MindWrap {
+
+            margin-bottom: 7vw;
+
+            .input-title {
+                font-weight: 500;
+                font-size: 4.5vw;
+                display: block;
+                margin-bottom: 7vw;
+            }
+
+            .mind-wrap {
+                margin-top: 3vw;
+                display: flex;
+                justify-content: space-around;
+
+                input[type="radio"] {
+                    display: none;
+                }
+
+                label {
+                    font-weight: 500;
+                    font-size: 3.7vw;
+                    color: #C0C0C0;
+                    padding: 3.5vw;
+                    border: 1px solid #C0C0C0;
+                    border-radius: 8px;
+                    margin-right: 2vw;
+                    width: 45%;
+                    text-align: center;
+
+                    &:last-child {
+                        margin: 0;
+                    }
+                }
+
+                input[type="radio"]:checked+label {
+                    background: $btn-active-color;
+                    border: none;
+                    color: #fff;
+                }
+            }
+        }
+
+        .register-btn-wrap {
+            @include center;
+            justify-content: space-between;
+            margin-top: 35vw;
+
+            .register-btn {
+                display: block;
+                width: 48%;
+                font-weight: 500;
+                font-size: 3.7vw;
+                color: #fff;
+                background: $btn-active-color;
+                border-radius: 8px;
+                padding: 4.3vw 0;
+            }
+        }
+
+        .gift-InputTextBox {
+            margin-bottom: 7vw;
+
+            .input-text-box {
+                background: $back-ground-color2;
+                border-radius: 8px;
+                border: none;
+                margin-top: 3vw;
+                display: block;
+                width: 100%;
+                font-size: 4.5vw;
+                padding: 15px;
+            
+                &::placeholder {
+                    color: #C0C0C0;
+                }
+            }
+        }
+
+        .MoneyOptionWrap {
+            margin-bottom: 7vw;
+            .money-option-wrap {
+                margin-top: 3vw;
+                input[type="radio"]{display: none;}
+                label{
+                  font-weight: 500;
+                  font-size: 3.7vw;
+                  color: #C0C0C0;
+                  padding: 3.5vw;
+                  border: 1px solid #C0C0C0;
+                  border-radius: 8px;
+                  margin-right: 2vw;
+                  display: inline-block;
+                  &:last-child{margin: 0;}
+                }
+                input[type="radio"]:checked + label{
+                  background: $btn-active-color;
+                  border : none;
+                  color: #fff;
+                }
+            }
+        }
+
+        .register-btn-wrap{
+            @include center;
+            justify-content: space-between;
+            margin-top: 35vw;
+            .register-btn{
+              display: block;
+              width: 100%;
+              font-weight: 500;
+              font-size: 3.7vw;
+              color: #fff;
+              background: $btn-active-color;
+              border-radius: 8px;
+              padding: 4.3vw 0;
+            }
+        }
+    }
+}
+
 .FriendList {
 
-    .react-modal-sheet-content {
+    .friend-list-content {
 
         .count-div {
-            margin : 5vw 0;
+            margin: 5vw 0;
 
-            p {
+            #friend-count {
                 text-align: right;
                 font-weight: 500;
                 font-size: 4vw;
-                color : $inactive-gray-color;
+                color: $inactive-gray-color;
             }
         }
 
@@ -29,13 +189,13 @@
                     padding-left: 5vw;
                     font-weight: 400;
                     font-size: 4vw;
-                    color : $inactive-gray-color;
+                    color: $inactive-gray-color;
                     margin-bottom: 2vw;
 
                     &:first-child {
-                        font-size : 5vw;
+                        font-size: 5vw;
                         font-weight: 500;
-                        color : black;
+                        color: black;
                     }
                 }
 
@@ -44,7 +204,7 @@
 
         .close-button {
             @include arrowBtn(5vw);
-            position : absolute;
+            position: absolute;
             top: 8.5%;
             right: 8%;
         }
@@ -53,7 +213,7 @@
 
 .calendar {
     .slider-container {
-        width : 30vw;
+        width: 30vw;
         text-align: center;
         touch-action: pan-y;
         justify-content: center;
@@ -68,13 +228,13 @@
             margin-bottom: 2vw;
             font-size: 5vw;
             font-weight: 400;
-            color : $inactive-gray-color-font;
-            padding-top : 5vw;
+            color: $inactive-gray-color-font;
+            padding-top: 5vw;
             padding-bottom: 5vw;
             width: 100%;
-            
+
             &:first-child {
-                margin : 4vw;
+                margin: 4vw;
             }
 
             &:nth-child(2) {
@@ -85,11 +245,11 @@
 
         .selected {
             font-weight: 500;
-            color : black;
+            color: black;
         }
 
         .none {
-            color : white;
+            color: white;
         }
     }
 }
@@ -101,17 +261,17 @@
         flex-direction: column;
         align-items: flex-start;
         width: 100vw;
-        margin-top : 5vw;
+        margin-top: 5vw;
 
         .event-option {
             width: 89vw;
             display: flex;
             padding-bottom: 5vw;
-            padding-top : 5vw;
+            padding-top: 5vw;
             border-bottom: 1px solid $split-line-color;
 
             &:first-child {
-                padding-top: 0;       
+                padding-top: 0;
             }
 
             &:last-child {
@@ -121,21 +281,21 @@
             span {
                 font-size: 5vw;
                 font-weight: 500;
-                margin-left : 2.5vw;
+                margin-left: 2.5vw;
             }
         }
     }
 
     textarea {
-        resize : none;
-        margin-left : 8vw;
-        padding-top : 5vw;
-        padding-left : 5vw;
+        resize: none;
+        margin-left: 8vw;
+        padding-top: 5vw;
+        padding-left: 5vw;
         border-radius: 8px;
         background: #F7F7F7;
         border: none;
-        height : 30vw;
-        width : 80vw;
+        height: 30vw;
+        width: 80vw;
 
         &:focus {
             outline: none;
@@ -143,84 +303,8 @@
     }
 
     .save {
-        width : 100%;
+        width: 100%;
         background-color: white;
-        margin-top : 26.875vw;
-    }
-}
-
-.EventTypeWrap {
-    margin-bottom: 7vw;
-    align-items: center;
-    background-color: #F7F7F7;
-    width: 70%;
-    margin-left: 15%;
-    border-radius: 8px;
-    padding: 2vw;
-
-    input[type="radio"] {
-        display: none;
-    }
-
-    label {
-        padding-top: 3.5vw;
-        padding-bottom: 3.5vw;
-        display: inline-block;
-        width: 50%;
-        border-radius: 8px;
-        text-align: center;
-        font-size : 4.5vw;
-
-        &:last-child {
-            margin: 0;
-        }
-    }
-
-    input[type="radio"]:checked+label {
-        background: #D9D9D9;
-    }
-
-}
-
-.MindWrap {
-
-    margin-bottom: 7vw;
-
-    .input-title {
-        font-weight: 500;
-        font-size: 4.5vw;
-        display: block;
-        margin-bottom: 7vw;
-    }
-
-    .mind-wrap {
-        margin-top: 3vw;
-        display: flex;
-        justify-content: space-around;
-
-        input[type="radio"] {
-            display: none;
-        }
-
-        label {
-            font-weight: 500;
-            font-size: 3.7vw;
-            color: #C0C0C0;
-            padding: 3.5vw;
-            border: 1px solid #C0C0C0;
-            border-radius: 8px;
-            margin-right: 2vw;
-            width: 45%;
-            text-align: center;
-
-            &:last-child {
-                margin: 0;
-            }
-        }
-
-        input[type="radio"]:checked+label {
-            background: #818181;
-            color: #fff;
-        }
+        margin-top: 26.875vw;
     }
 }

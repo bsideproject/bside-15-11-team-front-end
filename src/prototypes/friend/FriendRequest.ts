@@ -1,20 +1,19 @@
-import { Birth } from "./Birth";
+import { BirthProto } from "../common/BirthProto";
 
-export interface FriendSearchCriteria {
+export interface FriendGetCriteriaProto {
   keyword?: string;
   sort?: string;
   relFilter?: string;
 }
-
-export interface FriendCreateDto {
+export interface FriendPostProto {
   nicknames?: string[];
   relationship?: string;
-  birth?: Birth;
+  birth?: BirthProto;
   memo?: string;
 }
-export interface FriendUpdateDto {
+export interface FriendPutProto {
   nickname?: string;
   relationship?: string;
-  birth?: Birth;
+  birth?: BirthProto;
   memo?: string;
 }

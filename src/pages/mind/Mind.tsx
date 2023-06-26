@@ -10,9 +10,10 @@ import EventType from './EventType';
 import MindType from './MindType';
 import MoneyOption from './MoneyOption';
 import InputTextBox from '../../components/common/InputTextBox';
-import IcSaveRecordBtn from '../../assets/images/icon/Ic_save_record_btn.png';
 import { useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
+import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
+import { Friend } from '../../models/Friend';
 
 const Mind = () => {
 
@@ -23,6 +24,7 @@ const Mind = () => {
   const [mindType, setMindType] = useState<string>('');
   const [money, setMoney] = useState<number>(0);
   const [memo, setMemo] = useState<string>('');
+  const [friendList, setFriendList] = useState<Friend[]>([]);
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,10 +39,7 @@ const Mind = () => {
 
     setInputArray(list);
 
-    const setMindCount = async() => {
-      await RootStore.mindStore.setMindCount();
-    }
-    setMindCount();
+    RootStore.friendStore.setFriendList();
   }, []);
 
   const handleInputClick = (index : number) => {
@@ -98,19 +97,25 @@ const Mind = () => {
 
   }
 
-  const save = () : void => {
+  const save = async() => {
 
     /*
       API 로 작성된 데이터 전송.
     */
 
+    
+
+    let saveList : RelationshipRequestProto[] = [];
+
+
+
     navigate("/main");
   }
 
   return (
-    <div className="Friend inner">
+    <div className="Mind inner">
       <TitleWrap title="마음 기록하기" />
-      <form className='friend-register-wrap'>
+      <form className='mind-register-wrap'>
         <EventType 
           selected={eventType}
           setEventType={setEventType}
@@ -157,7 +162,7 @@ const Mind = () => {
         }
         {
           mindType === 'gift' &&
-          <div className="InputTextBox">
+          <div className="gift-InputTextBox">
             <input
               type="text"
               className="input-text-box"
@@ -173,11 +178,11 @@ const Mind = () => {
           onChange={memoHandler}
           id="memo"
         />
-        <button style={{background : 'white'}}
-          onClick={() => save()}
-        >
-          <img src={IcSaveRecordBtn} alt="save" />
-        </button>
+        <div className="register-btn-wrap">
+          <button type="button" 
+            className="register-btn"
+            onClick={() => save()}>등록하기</button>
+        </div>
       </form>
       <FriendList 
         isOpen={openModal[0]}
