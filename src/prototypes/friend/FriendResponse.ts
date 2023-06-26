@@ -1,11 +1,11 @@
-import { LevelInformation } from "../common/LevelInformation";
-import { Birth } from "./Birth";
+import { BirthProto } from "../common/BirthProto";
+import { LevelInformationProto } from "../common/LevelInformationProto";
 
-export interface FriendDto {
+export interface FriendResponseProto {
   sequence?: string;
   nickname?: string;
   relationship?: string;
-  birth?: Birth;
+  birth?: BirthProto;
   memo?: string;
-  levelInformation?: LevelInformation;
+  levelInformation?: LevelInformationProto;
 }

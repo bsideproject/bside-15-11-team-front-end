@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Sheet from 'react-modal-sheet';
 import DateUtil from '../../utils/DateUtil';
-import { Date as DateType} from '../../prototypes/common/Date';
+import { DateProto } from '../../prototypes/common/DateProto';
 import { useSwipeable } from 'react-swipeable';
 import IcSaveBtn from '../../assets/images/icon/ic_save_btn.png';
 import ModalSheetTitleWrap from './ModalSheetTitleWrap';
@@ -16,7 +16,7 @@ interface PropsType {
 
 const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsType) => {
 
-    const [date, setDate] = useState<DateType>({
+    const [date, setDate] = useState<DateProto>({
         year : 0,
         month : 0,
         day : 0

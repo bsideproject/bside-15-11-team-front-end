@@ -3,6 +3,8 @@ import Sheet from 'react-modal-sheet';
 import FriendInfo from "./FriendInfo";
 import { FriendCheck } from "../../models/FriendCheck";
 import IcCloseBtn from '../../assets/images/icon/ic_close_btn.png';
+import RootStore from "../../store/RootStore";
+import { FriendResponseProto } from './../../prototypes/friend/FriendResponse';
 
 interface PropsType {
   isOpen : boolean;
@@ -25,39 +27,28 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
 
   useEffect(() => {
     setContainerHeight(containerRef, 100);
-  }, [isOpen]);
 
-  useEffect(() => {
-    let list : FriendCheck[] = [
-      {
-        friend : {
-          id :'김유주',
-          name : '김유주',
-          relation : '친구'
-        }, check : false, display : true
-      },{
-        friend : {
-          id :'한유주',
-          name : '한유주',
-          relation : '친구'
-        }, check : false, display : true
-      },{
-        friend : {
-          id :'김선주',
-          name : '김선주',
-          relation : '친구'
-        }, check : false, display : true
-      },
-      {
-        friend : {
-          id :'김선화',
-          name : '김선화',
-          relation : '친구'
-        }, check : false, display : true
+    let friendCheckList : FriendCheck[] = [];
+
+    let friendList : FriendResponseProto[] = RootStore.friendStore.getFriendList;
+
+    console.log("friend List : " + JSON.stringify(friendList));
+
+    friendList.forEach(friend => {
+      if (friend.sequence && friend.nickname && friend.relationship) {
+        friendCheckList.push({
+          friend : {
+            id : friend.sequence,
+            name : friend.nickname,
+            relation : friend.relationship
+          },
+          check : false,
+          display : true
+        });
       }
-    ];
+    });
 
-    list.sort((f1, f2) => {
+    friendCheckList.sort((f1, f2) => {
       if (f1.friend.name > f2.friend.name) {
         return 1;
       } else if (f1.friend.name < f2.friend.name) {
@@ -67,10 +58,10 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
       }
     })
 
-    setFriendList(list);
+    setFriendList(friendCheckList);
 
-    setTotalCount(list.length);
-  }, [])
+    setTotalCount(friendCheckList.length);
+  }, [isOpen]);
 
   const handleInput = () => {
     const text : string = inputRef.current?.value as string;
@@ -127,10 +118,10 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
       onClose={function(){}}
       disableDrag={true}
       >
-      <Sheet.Container className="sheet-content-container"
+      <Sheet.Container
         ref={containerRef}
       >
-        <Sheet.Content>
+        <Sheet.Content className="friend-list-content">
           <div className='title-wrap'>
             <h2 className='title'>관계 목록</h2>
             <button className='save-button' onClick={
@@ -138,7 +129,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
               저장
             </button>
           </div>
-          <div className="InputTextBox">
+          <div className="modal-InputTextBox">
             <input
                 type="text"
                 className="input-text-box"
@@ -154,7 +145,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
             </div>
           </div>
           <div className="count-div">
-            <p>{`${checkCount} / ${totalCount}`}</p>
+            <p id="friend-count">{`${checkCount} / ${totalCount}`}</p>
           </div>
           <div id='friend-list'>
             {friendList.map((obj) => (

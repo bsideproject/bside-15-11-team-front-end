@@ -1,4 +1,4 @@
-export const enum SexType {
+export const enum SexTypeProto {
   MALE = "MALE",
   FEMALE = "FEMALE",
 }

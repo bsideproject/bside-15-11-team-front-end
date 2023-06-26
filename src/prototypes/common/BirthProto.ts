@@ -1,4 +1,4 @@
-export interface Birth {
+export interface BirthProto {
   isLunar?: string;
   date?: string;
 }

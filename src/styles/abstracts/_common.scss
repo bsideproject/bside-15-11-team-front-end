@@ -1,4 +1,5 @@
 @use '../abstracts/mixin' as *;
+@use '../abstracts/variable' as *;
 
 // 페이지 상단 타이틀
 .title-wrap{
@@ -30,7 +31,7 @@
     display: block;
   }
   .input-text-box{
-    background: #383838;
+    background: $back-ground-color2;
     border-radius: 8px;
     border: none;
     margin-top: 3vw;
@@ -46,6 +47,25 @@
 
 .react-modal-sheet-content {
   padding : 5vw;
+  * {
+    color : black;
+  }
+
+  .modal-InputTextBox {
+    .input-text-box{
+        background: $modal-inputbox-background-color;
+        border-radius: 8px;
+        border: none;
+        margin-top: 3vw;
+        display: block;
+        width: 100%;
+        font-size: 4.5vw;
+        padding: 15px;
+        &::placeholder{
+          color: #C0C0C0;
+        }
+    }
+  }
 }
 
 @keyframes slideAnimation {

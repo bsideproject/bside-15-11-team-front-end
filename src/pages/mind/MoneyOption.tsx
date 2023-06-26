@@ -7,9 +7,9 @@ interface PropsType {
 
 const MoneyOption = ({options, onSelect} : PropsType) => {
     return (
-        <div className="RelationWrap">
+        <div className="MoneyOptionWrap">
             
-            <div className="relation-wrap">
+            <div className="money-option-wrap">
                 {
                     options.map((option) => (
                         <Fragment key={option}>

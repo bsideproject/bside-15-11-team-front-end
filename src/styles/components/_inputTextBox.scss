@@ -5,12 +5,13 @@
 .InputTextBoxWithArrow {
 
   position: relative;
+  margin-bottom: 7vw;
 
   .front-btn {
-    @include arrowBtn(10px);
-    position : absolute;
-    top : 55%;
-    right : 3%;
+    @include arrowBtn(24px);
+    position: absolute;
+    top: 55%;
+    right: 3%;
   }
 
 }

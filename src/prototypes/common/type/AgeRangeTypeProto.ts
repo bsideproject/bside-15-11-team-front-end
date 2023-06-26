@@ -1,4 +1,4 @@
-export const enum AgeRangeType {
+export const enum AgeRangeTypeProto {
   UNDER_TEEN = "UNDER_TEEN",
   TEENS = "TEENS",
   TWENTIES = "TWENTIES",

@@ -1,4 +1,4 @@
-export const enum ItemType {
+export const enum ItemTypeProto {
   CASH = "CASH",
   PRESENT = "PRESENT",
 }
