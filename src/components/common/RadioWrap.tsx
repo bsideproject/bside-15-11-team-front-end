@@ -5,13 +5,15 @@ interface Option {
     name : string,
     id : string,
     htmlFor : string,
-    content : string
+    content : string,
+    value : string
 }
 
 interface PropsType {
     inputTitle : string,
     options : Option[],
-    onSelect? : any
+    onSelect? : any,
+    handleRegister: any
 }
 
 const RadioWrap = (props : PropsType) => {
@@ -24,10 +26,11 @@ const RadioWrap = (props : PropsType) => {
             
             <div className="relation-wrap">
                 {
-                    props.options.map((option) => (
-                        <Fragment key={option.id}>
+                    props.options.map((option, key) => (
+                        <Fragment key={key}>
                             <input type="radio" name={option.name} id={option.id}
-                                onClick={props.onSelect}
+                                onClick={props.onSelect} onChange={props.handleRegister}
+                                value={option.value}
                             />
                             <label htmlFor={option.htmlFor}>{option.content}</label>
                         </Fragment>

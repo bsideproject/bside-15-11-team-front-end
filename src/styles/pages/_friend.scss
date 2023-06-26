@@ -7,12 +7,14 @@
     margin-top: 30px;
     .InputTextBox{
       margin-bottom: 7vw;
+      position: relative;
       &:last-child{margin: 0;}
       .friend-name-add{
         cursor: pointer;
-        margin-top: 3.5vw;
         @include center;
         justify-content: flex-start;
+        position: absolute;
+        right: 0; top: 0;
         img{width: 20px;}
         span{
           font-weight: 500;
@@ -40,10 +42,12 @@
           border-radius: 8px;
           margin-right: 2vw;
           display: inline-block;
+          transition: .3s;
           &:last-child{margin: 0;}
         }
         input[type="radio"]:checked + label{
-          background: #818181;
+          background: #FA7F64;
+          border: 1px solid #FA7F64;
           color: #fff;
         }
       }
@@ -58,7 +62,7 @@
         font-weight: 500;
         font-size: 3.7vw;
         color: #fff;
-        background: #2C2C2C;
+        background: #FA7F64;
         border-radius: 8px;
         padding: 4.3vw 0;
       }
