@@ -11,10 +11,11 @@ interface PropsType {
     onClose : any,
     title : string,
     inputArray : string[],
-    setInputArray : any
+    setInputArray : any,
+    setContainerHeight : (arg0 : any, arg1 : string) => void
 }
 
-const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsType) => {
+const Calendar = ({title, isOpen, onClose, inputArray, setInputArray, setContainerHeight} : PropsType) => {
 
     const [date, setDate] = useState<DateProto>({
         year : 0,
@@ -49,18 +50,28 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
 
     const monthHandlers = useSwipeable({
         onSwipedUp : (eventData) => {
-            if (date.month && date.month < 12) {
+            if (date.year && date.day && date.month && date.month < 12) {
                 const month : number = date.month;
+                
                 let obj = date;
                 obj.month = month+1;
+                const dayCount = DateUtil.getNumberOfDays(date.year, month);
+                if (date.day > dayCount) {
+                    obj.day = dayCount;
+                }
+
                 setDate({...obj});
             }
         },
         onSwipedDown : (eventData) => {
-            if (date.month && date.month > 1) {
+            if (date.year && date.day && date.month && date.month > 1) {
                 const month : number = date.month;
                 let obj = date;
                 obj.month = month-1;
+                const dayCount = DateUtil.getNumberOfDays(date.year, month-2);
+                if (date.day > dayCount) {
+                    obj.day = dayCount;
+                }
                 setDate({...obj});
             }
         }
@@ -69,7 +80,7 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
     const dayHandlers = useSwipeable({
         onSwipedUp : (eventData) => {
             if (date.year && date.month) {
-                const dayCount = DateUtil.getNumberOfDays(date.year, date.month);
+                const dayCount = DateUtil.getNumberOfDays(date.year, date.month-1);
                 if (date.day && date.day < dayCount) {
                     const day : number = date.day;
                     let obj = date;
@@ -103,6 +114,7 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
 
         // 캘린더 양쪽 위 border-radius
         setContainerTopBorderRadius(24, 24);
+        setContainerHeight(containerRef, '95vw');
     }, [isOpen]);
 
     useEffect(() => {
@@ -111,8 +123,8 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
         const m = date.month as number;
         const d = date.day as number;
 
-        const dayCount = DateUtil.getNumberOfDays(y, d);
-
+        const dayCount = DateUtil.getNumberOfDays(y, m-1);
+        
         setYears([...[y-1,y,y+1]]);
 
         if (2 <= m && m <= 11) {
@@ -127,10 +139,9 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
             setDays([...[d-1,d,d+1]]);
         } else if (d === 1) {
             setDays([...[0, 1, 2]]);
-        } else if (d === dayCount) {
+        } else if (d >= dayCount) {
             setDays([...[d-1, d]]);
         }
-        console.log("y : " + y);
     }, [date]);
 
     const setContainerTopBorderRadius = (left : number, right : number) : void => {
@@ -163,7 +174,6 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray} : PropsTyp
         <Sheet className='calendar-sheet'
             isOpen={isOpen}
             onClose={function(){}}
-            snapPoints={[0.47]}
             disableDrag={true}
         >
         <Sheet.Container ref={containerRef}>

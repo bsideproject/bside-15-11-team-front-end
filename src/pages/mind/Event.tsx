@@ -10,10 +10,11 @@ interface PropsType {
     isOpen : boolean,
     onClose : any,
     inputArray : string[],
-    setInputArray : (arg0 : string[]) => void
+    setInputArray : (arg0 : string[]) => void,
+    setContainerHeight : (arg0 : any, arg1 : string) => void
 }
 
-const Event = ({isOpen, onClose, inputArray, setInputArray} : PropsType) => {
+const Event = ({isOpen, onClose, inputArray, setInputArray, setContainerHeight} : PropsType) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -27,11 +28,12 @@ const Event = ({isOpen, onClose, inputArray, setInputArray} : PropsType) => {
 
         // 캘린더 양쪽 위 border-radius
         setContainerTopBorderRadius(24, 24);
+        setContainerHeight(containerRef, '170vw');
     }, [isOpen]);
 
     useEffect(() => {
         checkValidation();
-    }, [selectEvent])
+    }, [selectEvent]);
 
     const setContainerTopBorderRadius = (left : number, right : number) : void => {
         if (containerRef.current) {
@@ -45,10 +47,13 @@ const Event = ({isOpen, onClose, inputArray, setInputArray} : PropsType) => {
             if (selectEvent === '기타') {
                 if (textAreaRef.current) {
                     const text = textAreaRef.current.value;
-                    console.log("text : " + text);
                     if (text && text.length > 0) {
                         setSavable(true);
+                    } else {
+                        setSavable(false);
                     }
+                } else {
+                    setSavable(false);
                 }
             } else {
                 setSavable(true);
@@ -75,7 +80,6 @@ const Event = ({isOpen, onClose, inputArray, setInputArray} : PropsType) => {
         <Sheet className='event-sheet'
             isOpen={isOpen}
             onClose={function(){}}
-            snapPoints={[0.82]}
             disableDrag={true}
         >
             <Sheet.Container ref={containerRef}>
@@ -104,6 +108,7 @@ const Event = ({isOpen, onClose, inputArray, setInputArray} : PropsType) => {
                     <textarea 
                         placeholder='입력하세요'
                         ref={textAreaRef}
+                        onKeyUp={() => checkValidation()}
                     />
                     <button className='save' disabled={!isSavable}
                         onClick={() => save()}
