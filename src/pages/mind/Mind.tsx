@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
 import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
 import { Friend } from '../../models/Friend';
+import IcPhotoUploadBtn from '../../assets/images/icon/ic_photo_upload_btn.png';
 
 const Mind = () => {
 
@@ -24,9 +25,10 @@ const Mind = () => {
   const [mindType, setMindType] = useState<string>('');
   const [money, setMoney] = useState<number>(0);
   const [memo, setMemo] = useState<string>('');
-  const [friendList, setFriendList] = useState<Friend[]>([]);
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
   const navigate = useNavigate();
 
@@ -55,9 +57,9 @@ const Mind = () => {
     setOpenModal(list);
   }
 
-  const setContainerHeight = (ref : any, height : number) => {
+  const setContainerHeight = (ref : any, height : string) => {
     if (ref.current) {
-      ref.current.style.height = `${height}vh`;
+      ref.current.style.height = `${height}`;
     }
   }
 
@@ -112,6 +114,32 @@ const Mind = () => {
     navigate("/main");
   }
 
+  const handleFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
+
+  const handleUploadPhoto = async(e : React.ChangeEvent<HTMLInputElement>) => {
+    let file = undefined;
+    const reader : FileReader = new FileReader();
+
+    if (e.target.files) {
+      file = e.target.files[0];
+
+      reader.onloadend = () => {
+        if (imageRef.current) {
+          imageRef.current.src = reader.result as string;
+        }
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+  }
+
   return (
     <div className="Mind inner">
       <TitleWrap title="마음 기록하기" />
@@ -162,14 +190,31 @@ const Mind = () => {
         }
         {
           mindType === 'gift' &&
-          <div className="gift-InputTextBox">
-            <input
-              type="text"
-              className="input-text-box"
-              id='gift-input'
-              placeholder='선물을 입력하세요'
-            />
-          </div>
+          <Fragment>
+            <div className="gift-InputTextBox">
+              <input
+                type="text"
+                className="input-text-box"
+                id='gift-input'
+                placeholder='선물을 입력하세요'
+              />
+            </div>
+            <div>
+              <button id="save-photo-button"
+                onClick={(e) => {e.preventDefault();handleFileInput();}}
+              >
+                <img src={IcPhotoUploadBtn} alt='photo upload' />
+              </button>
+              <input 
+                type="file"
+                accept='image/*'
+                ref={fileInputRef}
+                style={{display : 'none'}}
+                onChange={handleUploadPhoto}
+              />
+              <img ref={imageRef} alt="Preview" />
+            </div>
+          </Fragment>
         }
         <InputTextBox 
           inputTitle='메모(선택)'
@@ -196,12 +241,14 @@ const Mind = () => {
         title={"날짜"}
         inputArray={inputArray}
         setInputArray={setInputArray}
+        setContainerHeight={setContainerHeight}
       />
       <Event 
         isOpen={openModal[2]}
         onClose={() => handleClose(2)}
         inputArray={inputArray}
         setInputArray={setInputArray}
+        setContainerHeight={setContainerHeight}
       />
     </div>
   );

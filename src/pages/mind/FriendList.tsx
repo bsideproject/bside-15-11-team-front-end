@@ -9,7 +9,7 @@ import { FriendResponseProto } from './../../prototypes/friend/FriendResponse';
 interface PropsType {
   isOpen : boolean;
   onClose : (arg0 : number) => void;
-  setContainerHeight : (arg0 : any, arg1 : number) => void;
+  setContainerHeight : (arg0 : any, arg1 : string) => void;
   appendFriendList : (arg0 : FriendCheck[]) => void;
 }
 
@@ -26,7 +26,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
   const [totalCount, setTotalCount] = useState<number>(0);
 
   useEffect(() => {
-    setContainerHeight(containerRef, 100);
+    setContainerHeight(containerRef, '100vh');
 
     let friendCheckList : FriendCheck[] = [];
 
