@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const API_BASE_URL = 'http://223.130.136.211:3000/'; // Replace with your API base URL
+const API_BASE_URL = 'https://www.byeoljachui.com/'; // Replace with your API base URL
 
 // Create an instance of Axios with custom configuration
 const axiosInstance = axios.create({
