@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { get } from "../apis/RestApis";
+import { get, post } from "../apis/RestApis";
 import { FriendResponseProto } from "../prototypes/friend/FriendResponse";
 import RootStore from "./RootStore";
 
@@ -32,6 +32,9 @@ class FriendStore {
     get getFriendList() : FriendResponseProto[] {
         return this.friendList;
     }
+
+    // 친구 등록 api
+
 }
 
 export default FriendStore;
