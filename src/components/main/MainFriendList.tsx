@@ -14,7 +14,6 @@ interface PropsType{
 const MainFriendList = ({ isEmptyList }:PropsType) => {
 
     let navigate = useNavigate();
-
     const handleFriendClick = () => {
         navigate("/detail");
     }
