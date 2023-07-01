@@ -10,6 +10,7 @@ import Auth from './pages/login/Auth';
 import Friend from "./pages/friend/Friend";
 import Mind from './pages/mind/Mind';
 import Detail from "./pages/detail/Detail";
+import Design from "./pages/design";
 
 function App() {
     return (
