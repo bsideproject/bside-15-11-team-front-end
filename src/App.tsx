@@ -18,12 +18,12 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />}></Route>
-                    <Route path="/signup" element={<Signup />}></Route>
-                    <Route path="/agreement" element={<Agreement />}></Route>
-                    <Route path="/main" element={<Main />}></Route>
-                    <Route path="/friend" element={<Friend />}></Route>
-                    <Route path="/auth" element={<Auth/>}></Route>
-                    <Route path="/mind" element={<Mind />}></Route>
+                    <Route path="/page/signup" element={<Signup />}></Route>
+                    <Route path="/page/agreement" element={<Agreement />}></Route>
+                    <Route path="/page/main" element={<Main />}></Route>
+                    <Route path="/page/friend" element={<Friend />}></Route>
+                    <Route path="/page/auth" element={<Auth/>}></Route>
+                    <Route path="/page/relationship" element={<Mind />}></Route>
 
                     <Route path="/design" element={<Design />}></Route>
                 </Routes>

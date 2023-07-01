@@ -15,11 +15,11 @@ const MainRegister = ({handleRegisterBtn}:PropsType) => {
     return(
         <div className="MainRegister">
             <div className="register-btn-wrap">
-                <button type="button" className="resgister-btn" onClick={() => navigate("/mind")}>
+                <button type="button" className="resgister-btn" onClick={() => navigate("/page/mind")}>
                     <img src={IcMindRegister} alt="mind-icon" />
                     <span className="sm-text">마음 기록하기</span>
                 </button>
-                <button type="button" className="resgister-btn" onClick={() => navigate("/friend")}>
+                <button type="button" className="resgister-btn" onClick={() => navigate("/page/friend")}>
                     <img src={IcFriendRegister} alt="friend-icon" />
                     <span className="sm-text">사람 등록하기</span>
                 </button>
