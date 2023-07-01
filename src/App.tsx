@@ -10,7 +10,6 @@ import Auth from './pages/login/Auth';
 import Friend from "./pages/friend/Friend";
 import Mind from './pages/mind/Mind';
 import Detail from "./pages/detail/Detail";
-import Design from "./pages/design";
 
 function App() {
     return (
@@ -26,7 +25,6 @@ function App() {
                     <Route path="/page/auth" element={<Auth/>}></Route>
                     <Route path="/page/relationship" element={<Mind />}></Route>
                     <Route path="/page/detail" element={<Detail />}></Route>
-                    <Route path="/design" element={<Design />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
