@@ -8,8 +8,8 @@ import { Provider } from 'mobx-react';
 import RootStore from './store/RootStore';
 import Auth from './pages/login/Auth';
 import Friend from "./pages/friend/Friend";
-import Design from "./pages/design";
 import Mind from './pages/mind/Mind';
+import Detail from "./pages/detail/Detail";
 
 function App() {
     return (
@@ -24,7 +24,7 @@ function App() {
                     <Route path="/page/friend" element={<Friend />}></Route>
                     <Route path="/page/auth" element={<Auth/>}></Route>
                     <Route path="/page/relationship" element={<Mind />}></Route>
-
+                    <Route path="/page/detail" element={<Detail />}></Route>
                     <Route path="/design" element={<Design />}></Route>
                 </Routes>
             </BrowserRouter>
