@@ -7,6 +7,7 @@ import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow
 
 const Friend = () => {
     // 오늘 날짜
+
     let now = new Date();
     let year= now.getFullYear();
     let month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1) : '0'+(now.getMonth() + 1);
