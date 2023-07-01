@@ -38,9 +38,9 @@ const Auth = () => {
         // const patchData = await RootStore.userStore.patchUser(userPatchRequest);
 
         // console.log("patchData : " + JSON.stringify(patchData));
-        navigate("/agreement");
+        navigate("/page/agreement");
       } else {
-        navigate("/main");
+        navigate("/page/main");
 
         // 임시로 가입된 경우에 post를 보내봄
 
