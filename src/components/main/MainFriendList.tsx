@@ -15,7 +15,7 @@ const MainFriendList = ({ isEmptyList }:PropsType) => {
 
     let navigate = useNavigate();
     const handleFriendClick = () => {
-        navigate("/detail");
+        navigate("/page/detail");
     }
 
     return(
