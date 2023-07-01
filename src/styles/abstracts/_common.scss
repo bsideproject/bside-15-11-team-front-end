@@ -68,15 +68,6 @@
   }
 }
 
-@keyframes slideAnimation {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0%);
-  }
-}
-
 .calendar {
   .slider-container {
       width: 30vw;
@@ -117,5 +108,24 @@
       .none {
           color: white;
       }
+  }
+}
+
+.error-message {
+  margin-bottom: 5vw;
+  margin-top: -3vw;
+
+  p {
+    font-size: 3.5vw;
+    color : $btn-active-color;
+  }
+}
+
+@keyframes slideAnimation {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
   }
 }
