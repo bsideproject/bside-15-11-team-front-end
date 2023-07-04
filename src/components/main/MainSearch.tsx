@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import IcSearch from "../../assets/images/icon/ic_search.png";
+import IcSearch from "../../assets/images/icon/ic_search.svg";
+import {FriendResponseProto} from "../../prototypes/friend/FriendResponse";
 
-const MainSearch = () => {
+const MainSearch = (mainFriendList:[]) => {
 
     const [searchText, setSearchText] = useState<string>("");
 
@@ -13,6 +14,9 @@ const MainSearch = () => {
 
     return(
         <div className="MainSearch">
+            <span className="search-icon">
+                <img src={IcSearch} alt="search-icon" />
+            </span>
             <input
                 type="text"
                 id="searchText"
@@ -21,9 +25,6 @@ const MainSearch = () => {
                 onChange={handleSearchText}
                 placeholder="찾으시는 이름이 있으신가요?"
             />
-            <span className="search-icon">
-                <img src={IcSearch} alt="search-icon"/>
-            </span>
         </div>
     )
 }

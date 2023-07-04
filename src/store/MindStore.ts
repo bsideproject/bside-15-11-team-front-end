@@ -38,33 +38,33 @@ class MindStore {
       if (record.sender === this.username) {
         count++;
       }
-      
+
     });
 
     return count;
   }
 
-  get getTakeCount() : number { 
+  get getTakeCount() : number {
     let count : number = 0;
 
     this.records.forEach(record => {
       if (record.taker === this.username) {
         count++;
       }
-      
+
     });
 
     return count;
   }
 
-  async setMindCount() {
+  async setMindCount(setCount?:any) {
     console.log("jwt key : " + this.rootStore.userStore.getJwtKey);
     const response = await get(`${this.baseUrl}/api/relationships/count`, {
       headers : {
         Authorization : this.rootStore.userStore.getJwtKey
       }
     });
-
+    if(response) setCount(response);
     console.log("setMindCount : " + JSON.stringify(response));
 
     return response;

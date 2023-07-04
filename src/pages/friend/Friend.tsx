@@ -4,8 +4,13 @@ import InputTextBox from "../../components/common/InputTextBox";
 import RadioWrap from "../../components/common/RadioWrap";
 import Calendar from "../../components/common/Calendar";
 import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow";
+import {FriendResponseProto} from "../../prototypes/friend/FriendResponse";
+import RootStore from "../../store/RootStore";
+import {FriendPostProto} from "../../prototypes/friend/FriendRequest";
+import {useNavigate} from "react-router-dom";
 
 const Friend = () => {
+    let navigate = useNavigate();
     // 오늘 날짜
     let now = new Date();
     let year= now.getFullYear();
@@ -20,6 +25,8 @@ const Friend = () => {
 
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
+
+    let friendList : FriendPostProto[] = RootStore.friendStore.getFriendList;
     const setContainerHeight = (ref : any, height : string) => {
         if (ref.current) {
             ref.current.style.height = `${height}`;
@@ -56,13 +63,12 @@ const Friend = () => {
     // 등록 완료 후 action
     const handleConfirm = () => {
         alert("등록이 완료되었습니다.");
-        console.log(
-            "friendName: "+ friendName,
-            "friendRelation: "+ friendRelation,
-            "friendDirectInput: "+ friendDirectInput,
-            "friendMemo: "+ friendMemo,
-            inputArray
+        RootStore.friendStore.setRegisterFriend(
+            friendName, friendRelation,
+            friendDirectInput, friendMemo,
+            inputArray[1]
         );
+        return navigate("/");
     }
 
     // 등록 버튼
