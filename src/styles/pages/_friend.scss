@@ -46,9 +46,8 @@
           &:last-child{margin: 0;}
         }
         input[type="radio"]:checked + label{
-          background: #FA7F64;
           border: 1px solid #FA7F64;
-          color: #fff;
+          color: #FA7F64;
         }
       }
     }

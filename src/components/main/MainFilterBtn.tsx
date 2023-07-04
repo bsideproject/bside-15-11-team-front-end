@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import IcFilterBtn from "../../assets/images/icon/ic_filter_btn.png";
+import IcFilterBtn from "../../assets/images/icon/ic_filter_btn.svg";
 
 const FilterBtn = () => {
 
