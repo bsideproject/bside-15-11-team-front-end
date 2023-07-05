@@ -3,11 +3,17 @@ import { ItemProto } from "../common/ItemProto";
 import { RelationshipResponseProto } from "../common/RelationshipProto";
 import { RelationshipTypeProto } from "../common/type/RelationshipTypeProto";
 
-export interface RelationshipGetResponse {
+export interface RelationshipCountResponseProto {
+  total? : number;
+  given? : number;
+  taken : number;
+}
+
+export interface RelationshipGetResponseProto {
   relationships?: RelationshipPutResponseProto[];
 }
 
-export interface RelationshipGetDetailResponse {
+export interface RelationshipGetDetailResponseProto {
   sequence?: string;
   friendSequence?: string;
   type?: RelationshipTypeProto;
