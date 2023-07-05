@@ -23,7 +23,7 @@ class FriendStore {
     setFriendList = async() => {
         const response : FriendResponseProto[] = await get(`${this.baseUrl}/api/friend`, {
             headers : {
-                Authorization : this.rootStore.userStore.getJwtKey
+                Authorization : RootStore.userStore.getJwtKey
             }
         });
 

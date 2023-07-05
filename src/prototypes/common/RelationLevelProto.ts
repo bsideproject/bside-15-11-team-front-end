@@ -6,3 +6,8 @@ export interface RelationLevelProto {
   countFrom?: number;
   countTo?: number;
 }
+
+export interface RelationLevelGetCriteriaProto {
+  searchKey? : string;
+  searchValue? : string;
+}

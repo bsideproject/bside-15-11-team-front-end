@@ -1,4 +1,7 @@
+import { DateProto } from "./DateProto";
+import { YnTypeProto } from "./type/YnTypeProto";
+
 export interface BirthProto {
-  isLunar?: string;
-  date?: string;
+  isLunar?: YnTypeProto;
+  date?: DateProto;
 }
