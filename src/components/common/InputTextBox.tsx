@@ -1,5 +1,5 @@
 import React from "react"
-import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.png";
+import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.svg";
 
 interface PropsType{
     inputTitle: string,
