@@ -83,6 +83,12 @@
             }
         }
 
+        .upload-image {
+            height : 70vw;
+            width: 80vw;
+            margin-left: 5vw;
+        }
+
         .register-btn-wrap {
             @include center;
             justify-content: space-between;

@@ -13,10 +13,15 @@ import InputTextBox from '../../components/common/InputTextBox';
 import { useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
 import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
-import { Friend } from '../../models/Friend';
 import IcPhotoUploadBtn from '../../assets/images/icon/ic_photo_upload_btn.png';
+import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import NullChecker from '../../utils/NullChecker';
+import { ItemProto } from '../../prototypes/common/ItemProto';
+import { ItemTypeProto } from '../../prototypes/common/type/ItemTypeProto';
+import { DateProto } from '../../prototypes/common/DateProto';
+import { RelationshipTypeProto } from '../../prototypes/common/type/RelationshipTypeProto';
+import { RelationshipPostRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
 
 const Mind = () => {
 
@@ -168,6 +173,53 @@ const Mind = () => {
 
     let saveList : RelationshipRequestProto[] = [];
 
+    const friendSequence = RootStore.userStore.getJwtKey;
+    const type : RelationshipTypeProto = eventType === 'give' ? RelationshipTypeProto.GIVEN : RelationshipTypeProto.TAKEN;
+    const event = inputArray[2];
+    let itemType : ItemTypeProto = ItemTypeProto.CASH;
+    let item = '';
+
+    if (mindType === 'cash' && moneyInputRef.current) {
+      item = moneyInputRef.current.value;
+      itemType = ItemTypeProto.CASH;
+    }
+
+    if (mindType === 'gift' && giftRef.current) {
+      item = giftRef.current.value;
+      itemType = ItemTypeProto.PRESENT;
+    }
+
+    const eventDate : string = inputArray[1];
+
+    const memoTxt = memo;
+
+    const itemProto : ItemProto = {
+      imageLink : "",
+      name : item,
+      type : itemType
+    }
+
+    const dateProto : DateProto = {
+      year : parseInt(eventDate.split("-")[0]),
+      month : parseInt(eventDate.split("-")[1]),
+      day : parseInt(eventDate.split("-")[2])
+    }
+
+    saveList.push({
+      friendSequence : friendSequence,
+      type : type,
+      event : event,
+      date : dateProto,
+      item : itemProto,
+      memo : memoTxt
+    });
+
+    const relationshipPostRequestProto : RelationshipPostRequestProto = {
+      relationships : saveList
+    };
+
+    await RootStore.mindStore.postMind(relationshipPostRequestProto);
+
     navigate("/page/main");
   }
 
@@ -314,7 +366,7 @@ const Mind = () => {
                 onKeyUp={() => onChangeMindContent("gift")}
               />
             </div>
-            <div>
+            <div style={{marginBottom : '5vw'}}>
               <button id="save-photo-button"
                 onClick={(e) => {e.preventDefault();handleFileInput();}}
               >
@@ -327,7 +379,9 @@ const Mind = () => {
                 style={{display : 'none'}}
                 onChange={handleUploadPhoto}
               />
-              <img ref={imageRef} alt="Preview" />
+              <img ref={imageRef} src={IcDefaultImage} alt='default image'
+                className='upload-image'
+              />
             </div>
           </Fragment>
         }

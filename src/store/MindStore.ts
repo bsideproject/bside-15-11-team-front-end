@@ -1,6 +1,7 @@
 import { computed, makeObservable, observable } from 'mobx';
 import RootStore from './RootStore';
-import { get } from '../apis/RestApis';
+import { get, post } from '../apis/RestApis';
+import { RelationshipPostRequestProto } from '../prototypes/relationship/RelationshipRequestProto';
 
 interface Mind {
   sender : string,
@@ -66,6 +67,18 @@ class MindStore {
     });
 
     console.log("setMindCount : " + JSON.stringify(response));
+
+    return response;
+  }
+
+  async postMind(requestBody : RelationshipPostRequestProto) {
+    const response = await post(`${this.baseUrl}/api/relationships`, requestBody, {
+      headers : {
+        "Authorization" : RootStore.userStore.getJwtKey
+      }
+    });
+
+    console.log("postMind : " + JSON.stringify(response));
 
     return response;
   }
