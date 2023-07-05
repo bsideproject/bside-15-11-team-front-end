@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
-import { UserGetRequestProto, UserPatchRequestProto } from '../../prototypes/user/UserRequestProto';
+import { UserGetRequestProto } from '../../prototypes/user/UserRequestProto';
 import { OauthServiceTypeProto } from '../../prototypes/common/type/OauthServiceTypeProto';
 import NullChecker from '../../utils/NullChecker';
 import { KakaoUserResponse } from '../../models/KakaoResponse';
-import { SexTypeProto } from '../../prototypes/common/type/SexTypeProto';
-import { AgeRangeTypeProto } from '../../prototypes/common/type/AgeRangeTypeProto';
-import { BirthProto } from '../../prototypes/common/BirthProto';
-import { DateProto } from '../../prototypes/common/DateProto';
 import { UserResponseProto } from '../../prototypes/user/UserResponseProto';
 
 const Auth = () => {

@@ -17,7 +17,7 @@ const MainRegister = ({handleRegisterBtn, isEmptyList}:PropsType) => {
     return(
         <div className="MainRegister">
             <div className="register-btn-wrap">
-                <button type="button" disabled={isEmptyList} className="resgister-btn" onClick={() => navigate("/page/mind")}>
+                <button type="button" disabled={isEmptyList} className="resgister-btn" onClick={() => navigate("/page/relationship")}>
                     {isEmptyList ? <img src={IcMindRegisterOff} alt="mind-icon" /> : <img src={IcMindRegisterOn} alt="mind-icon" />}
                     <span className="sm-text">마음 기록하기</span>
                 </button>

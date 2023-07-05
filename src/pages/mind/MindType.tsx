@@ -4,7 +4,7 @@ const MindType = (props : any) => {
     return (
         <div className="MindWrap">
             <label className="input-title">
-                마음의 종류
+                마음의 종류 (필수)
             </label>
 
             <div className="mind-wrap">

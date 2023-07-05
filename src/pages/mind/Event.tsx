@@ -10,11 +10,11 @@ interface PropsType {
     isOpen : boolean,
     onClose : any,
     inputArray : string[],
-    setInputArray : (arg0 : string[]) => void,
+    setEventInput : (arg0 : string) => void,
     setContainerHeight : (arg0 : any, arg1 : string) => void
 }
 
-const Event = ({isOpen, onClose, inputArray, setInputArray, setContainerHeight} : PropsType) => {
+const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} : PropsType) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -62,15 +62,11 @@ const Event = ({isOpen, onClose, inputArray, setInputArray, setContainerHeight} 
     }
 
     const save = () : void => {
-        let array = inputArray;
-
         if (selectEvent === '기타' && textAreaRef.current) {
             const text = textAreaRef.current.value;
-            array[2] = text;
-            setInputArray([...array]);
+            setEventInput(text);
         } else {
-            array[2] = selectEvent;
-            setInputArray([...array]);
+            setEventInput(selectEvent);
         }
 
         onClose();
