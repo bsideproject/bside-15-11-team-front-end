@@ -59,10 +59,9 @@ class MindStore {
   }
 
   async setMindCount(setCount?:any) {
-    console.log("jwt key : " + this.rootStore.userStore.getJwtKey);
     const response = await get(`${this.baseUrl}/api/relationships/count`, {
       headers : {
-        Authorization : this.rootStore.userStore.getJwtKey
+        Authorization : RootStore.userStore.getJwtKey
       }
     });
     if(response) setCount(response);

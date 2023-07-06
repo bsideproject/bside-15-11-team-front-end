@@ -62,23 +62,23 @@ const Friend = () => {
     }
 
     // 등록 완료 후 action
-    const handleConfirm = () => {
+    const handleConfirm = (page : string) => {
         alert("등록이 완료되었습니다.");
         RootStore.friendStore.setRegisterFriend(
             friendName, friendRelation,
             friendDirectInput, friendMemo,
             inputArray[1]
         );
-        return navigate("/");
+        return navigate(`/page/${page}`);
     }
 
     // 등록 버튼
-    const handleSubmit = () => {
+    const handleSubmit = (page : string) => {
         if(friendName !== "" && friendRelation !== ""){
             if(friendRelation !== "directInput"){
-                handleConfirm();
+                handleConfirm(page);
             }else if(friendRelation === "directInput" && friendDirectInput !== ""){
-                handleConfirm();
+                handleConfirm(page);
             }else{
                 alert("이름 또는 관계를 확인해주세요.");
             }
@@ -168,8 +168,8 @@ const Friend = () => {
                     onChange={handleRegister}
                 />
                 <div className="register-btn-wrap">
-                    <button type="button" className="register-btn" onClick={handleSubmit}>등록하기</button>
-                    <button type="button" className="register-btn">등록 후 마음 기록하기</button>
+                    <button type="button" className="register-btn" onClick={() => handleSubmit("main")}>등록하기</button>
+                    <button type="button" className="register-btn" onClick={() => handleSubmit(`relationship?friendName=${friendName}`)}>등록 후 마음 기록하기</button>
                 </div>
             </form>
         </div>

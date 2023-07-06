@@ -10,7 +10,7 @@ import EventType from './EventType';
 import MindType from './MindType';
 import MoneyOption from './MoneyOption';
 import InputTextBox from '../../components/common/InputTextBox';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
 import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
 import IcPhotoUploadBtn from '../../assets/images/icon/ic_photo_upload_btn.png';
@@ -22,6 +22,7 @@ import { ItemTypeProto } from '../../prototypes/common/type/ItemTypeProto';
 import { DateProto } from '../../prototypes/common/DateProto';
 import { RelationshipTypeProto } from '../../prototypes/common/type/RelationshipTypeProto';
 import { RelationshipPostRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
+import queryString from 'query-string';
 
 const Mind = () => {
 
@@ -40,14 +41,23 @@ const Mind = () => {
   const giftRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const todayString : string = DateUtil.getTodayString();
 
     let list : string[] = [...inputArray];
-
+    // 날짜 default값 : 오늘 날짜
     list[1] = todayString;
 
+    if (location.search) {
+      const params = location.search;
+      const query = queryString.parse(params);
+
+      if (query.friendName) {
+        list[0] = query.friendName as string;
+      }
+    }
     setInputArray(list);
 
     RootStore.friendStore.setFriendList();
