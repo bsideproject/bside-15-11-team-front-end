@@ -4,22 +4,20 @@ import InputTextBox from "../../components/common/InputTextBox";
 import RadioWrap from "../../components/common/RadioWrap";
 import Calendar from "../../components/common/Calendar";
 import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow";
-import {FriendResponseProto} from "../../prototypes/friend/FriendResponse";
 import RootStore from "../../store/RootStore";
-import {FriendPostProto} from "../../prototypes/friend/FriendRequest";
 import {useNavigate} from "react-router-dom";
 
 const Friend = () => {
     let navigate = useNavigate();
-    // 오늘 날짜
 
+    // 오늘 날짜
     let now = new Date();
     let year= now.getFullYear();
     let month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1) : '0'+(now.getMonth() + 1);
     let date = (now.getDate() + 1) > 9 ? (now.getDate() + 1) : '0'+(now.getDate() + 1);
     let nowDate = `${year}-${month}-${date}`;
 
-    const [friendName, setFriendName] = useState("");
+    const [friendName, setFriendName] = useState<string[]>([""]);
     const [friendRelation, setFriendRelation] = useState("");
     const [friendMemo, setFriendMemo] = useState("");
     const [friendDirectInput, setFriendDirectInput] = useState("");
@@ -27,7 +25,6 @@ const Friend = () => {
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
 
-    let friendList : FriendPostProto[] = RootStore.friendStore.getFriendList;
     const setContainerHeight = (ref : any, height : string) => {
         if (ref.current) {
             ref.current.style.height = `${height}`;
@@ -47,12 +44,24 @@ const Friend = () => {
         list[index] = false;
         setOpenModal(list);
     }
+    // handle friend name
+    const handleAddName = (): void => {
+        setFriendName([...friendName, ""]);
+    }
+    const handleNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>): void => {
+        const newFriendName = [...friendName];
+        newFriendName[index] = event.target.value;
+        setFriendName(newFriendName);
+    }
+    const handleRemoveName = (index: number): void => {
+        const newFriendName = [...friendName];
+        newFriendName.splice(index, 1);
+        setFriendName(newFriendName);
+    }
 
-    // input text 관리
+    // handle input text
     const handleRegister = (event: any) => {
-        if(event.target.id === "friendName"){
-            setFriendName(event.target.value);
-        }else if(event.target.name === "relation"){
+        if(event.target.name === "relation"){
             setFriendRelation(event.target.value);
         }else if(event.target.id === "friendMemo"){
             setFriendMemo(event.target.value);
@@ -74,13 +83,16 @@ const Friend = () => {
 
     // 등록 버튼
     const handleSubmit = (page : string) => {
-        if(friendName !== "" && friendRelation !== ""){
+        if(friendName[0] !== "" && friendRelation !== ""){
             if(friendRelation !== "directInput"){
+                console.log("ok")
                 handleConfirm(page);
             }else if(friendRelation === "directInput" && friendDirectInput !== ""){
+                console.log("ok")
                 handleConfirm(page);
             }else{
                 alert("이름 또는 관계를 확인해주세요.");
+                return;
             }
         }else{
             alert("이름 또는 관계를 확인해주세요.");
@@ -95,8 +107,10 @@ const Friend = () => {
                     inputTitle="이름"
                     placeholder="입력하세요 (최대 8자)"
                     id="friendName"
-                    value={friendName}
-                    onChange={handleRegister}
+                    friendName={friendName}
+                    onChange={handleNameChange}
+                    addFriend={handleAddName}
+                    removeFriend={handleRemoveName}
                 />
                 <RadioWrap
                     inputTitle='관계'
