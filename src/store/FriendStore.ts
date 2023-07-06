@@ -38,14 +38,14 @@ class FriendStore {
 
     // 친구 등록 api
     async setRegisterFriend(
-        friendName: string,
+        friendName: string[],
         friendRelation: string,
         friendDirectInput: string,
         friendMemo: string,
         birth: string
     ){
         const request  = {
-            nicknames: [friendName],
+            nicknames: friendName,
             relationship: friendRelation,
             birth: {
                 isLunar: "N",
@@ -58,12 +58,12 @@ class FriendStore {
             memo: friendMemo
         };
         try{
-            const response = await post(`${this.baseUrl}/api/friend`, request,{
+            const res = await post(`${this.baseUrl}/api/friend`, request,{
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
             });
-            console.log("friend Register : " + JSON.stringify(response));
+            console.log(res);
         }catch (err){
             console.log(err);
         }
@@ -78,7 +78,7 @@ class FriendStore {
                 },
             })
             if(res) setMainFriendList(res);
-
+            console.log(res)
         }catch (err){
             console.log(err);
         }
