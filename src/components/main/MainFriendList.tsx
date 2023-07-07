@@ -16,6 +16,7 @@ interface PropsType{
 const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
 
     let navigate = useNavigate();
+    console.log("searchList: ",searchList)
     const handleFriendClick = () => {
         navigate("/page/detail");
     }
@@ -30,7 +31,7 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
                             <li className="friend-cont" key={key} onClick={handleFriendClick}>
                                 <span className="friend-name">{data.nickname}</span>
                                 <span className="friend-relation">{data.relationship}</span>
-                                <span className="friend-level"><img src={ImgLevel1} alt="level"/><em className="level">0</em></span>
+                                <span className="friend-level"><img src={ImgLevel1} alt="level"/><em className="level">{data.levelInformation?.level}</em></span>
                             </li>
                         ))}
                     </ul>:<p className="empty-message">찾으시는 친구가 없어요.<br/>마음을 기록하려면 먼처 친구를 등록하세요.</p>
