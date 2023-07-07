@@ -10,6 +10,7 @@ import MainRegister from "../../components/main/MainRegister";
 import RootStore from "../../store/RootStore";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
 
+
 const Main = () => {
     let key = RootStore.userStore.getJwtKey;
 
