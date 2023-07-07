@@ -4,7 +4,6 @@ import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.svg";
 import { inject, observer } from 'mobx-react';
 import MainText from "../../components/main/MainText";
 import MainExchangedCount from "../../components/main/MainExchangedCount";
-import MainSearch from "../../components/main/MainSearch";
 import FilterBtn from "../../components/main/MainFilterBtn";
 import MainFriendList from "../../components/main/MainFriendList";
 import MainRegister from "../../components/main/MainRegister";
@@ -13,22 +12,25 @@ import IcSearch from "../../assets/images/icon/ic_search.svg";
 
 const Main = () => {
     let key = RootStore.userStore.getJwtKey;
+
     // 리스트 비었을 때 분기처리
     const [isEmptyList, setIsEmptyList] = useState<boolean>(true);
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
-    // count
     const [count, setCount] = useState<any>(null);
-    // 친구 목록
     const [mainFriendList, setMainFriendList] = useState<any>(null);
-    // 검색
     const [searchText, setSearchText] = useState<string>("");
+    const [filterParams, setFilterParams] = useState<string>("level");
 
     // 친구 목록 불러오기 api
     useEffect(() => {
-        if(key){
-            RootStore.mindStore.setMindCount(setCount);
-            RootStore.friendStore.getFriendListMain(setMainFriendList);
+        sessionStorage.setItem("jwt", key);
+        async function apiCallSet(){
+            if(key){
+                await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
+                await RootStore.mindStore.setMindCount(setCount);
+            }
         }
+        apiCallSet();
 
         // 친구 존재 여부 확인
         if(mainFriendList){
@@ -38,18 +40,30 @@ const Main = () => {
         }
 
     }, [key]);
+
+    // 필터링
+    const handleFilter = async () => {
+        if(filterParams === "level"){
+            setFilterParams("nickname");
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
+        } else if (filterParams === "nickname"){
+            setFilterParams("level");
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
+        }
+    }
+
     // 검색
     const handleSearchText = (event:any) => {
         if(event.target.type === "text"){
             setSearchText(event.target.value.toLowerCase());
         }
     }
-    //검색 내용 필터
+    // 검색 내용 필터
     const searchList = mainFriendList?.filter((item:any) => {
         return item.nickname.toLowerCase().includes(searchText);
     });
 
-
+    // 추가 버튼
     const handleRegisterBtn = () => {
         if(registerBtn){
             setRegisterBtn(false);
@@ -84,7 +98,7 @@ const Main = () => {
                     placeholder="찾으시는 이름이 있으신가요?"
                 />
             </div>
-            <FilterBtn />
+            <FilterBtn handleFilter={handleFilter} />
             <MainFriendList
                 isEmptyList={isEmptyList}
                 searchList={searchList}
