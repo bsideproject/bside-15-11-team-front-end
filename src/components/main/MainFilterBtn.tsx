@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import IcFilterBtn from "../../assets/images/icon/ic_filter_btn.svg";
 
-const FilterBtn = () => {
+const FilterBtn = (props:any) => {
 
     const [isIntimacy, isSetIntimacy] = useState<boolean>(false);
 
     const handleFilterBtn = () => {
+        props.handleFilter();
         if(isIntimacy){
             isSetIntimacy(false);
         } else {
