@@ -114,12 +114,15 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
 
   return (
     <Sheet className='FriendList Inner'
-      isOpen={isOpen} 
+      isOpen={isOpen}
       onClose={function(){}}
       disableDrag={true}
       >
       <Sheet.Container
         ref={containerRef}
+        style={{
+          backgroundColor: "#242424",
+        }}
       >
         <Sheet.Content className="friend-list-content">
           <div className='title-wrap'>
@@ -138,7 +141,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
                 ref={inputRef}
             />
             <div className="close-button">
-              <img src={IcCloseBtn} alt="close" 
+              <img src={IcCloseBtn} alt="close"
                 onClick={deleteKeyword}
                 hidden={hideCloseBtn()}
               />
@@ -149,7 +152,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
           </div>
           <div id='friend-list'>
             {friendList.map((obj) => (
-              <FriendInfo 
+              <FriendInfo
                 friendCheck={obj}
                 key={obj.friend.id}
                 updateCheckCount={updateCheckCount}

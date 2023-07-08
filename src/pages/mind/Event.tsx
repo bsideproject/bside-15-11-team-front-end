@@ -78,9 +78,14 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
             onClose={function(){}}
             disableDrag={true}
         >
-            <Sheet.Container ref={containerRef}>
+            <Sheet.Container
+                ref={containerRef}
+                style={{
+                    backgroundColor: "#242424",
+                }}
+            >
                 <Sheet.Content>
-                    <ModalSheetTitleWrap 
+                    <ModalSheetTitleWrap
                         title='이벤트'
                         onClose={onClose}
                     />
@@ -89,7 +94,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                         events.map((event) => (
                             <div className='event-option' key={event}>
                                 <div style={{width : '5vw'}}>
-                                    <img src={event === selectEvent ? IcCheckOn : IcCheckOff} 
+                                    <img src={event === selectEvent ? IcCheckOn : IcCheckOff}
                                         alt='select'
                                         onClick={() => {setSelectEvent(event);}}
                                     />
@@ -101,7 +106,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                         ))
                     }
                     </div>
-                    <textarea 
+                    <textarea
                         placeholder='입력하세요'
                         ref={textAreaRef}
                         onKeyUp={() => checkValidation()}
