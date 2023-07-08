@@ -5,6 +5,9 @@
 .title-wrap{
   @include center;
   justify-content: flex-start;
+  &.modal{
+    justify-content: space-between;
+  }
   .back-btn{
     width: 24px;
     display: block;
@@ -20,10 +23,9 @@
   }
 
   .save-button {
-    margin-left: auto;
     border : none;
-    background-color: white;
-    font-size: 4vw;
+    width: 7vw;
+    display: inline-block;
     font-weight: 500;
   }
 }
@@ -44,6 +46,11 @@
     width: 100%;
     font-size: 4.5vw;
     padding: 15px;
+    &.memo{
+      height: 110px;
+      overflow-y: scroll;
+      white-space: pre;
+    }
     &::placeholder{
       color: #818181;
     }
@@ -51,10 +58,7 @@
 }
 
 .react-modal-sheet-content {
-  padding : 5vw;
-  * {
-    color : black;
-  }
+  padding : 20px;
 
   .modal-InputTextBox {
     .input-text-box{
@@ -74,8 +78,11 @@
 }
 
 .calendar {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0;
   .slider-container {
-      width: 30vw;
+      width: 32%;
       text-align: center;
       touch-action: pan-y;
       justify-content: center;
@@ -84,36 +91,40 @@
       display: flex;
       flex-direction: column;
       float: left;
-
       p {
-          margin-top: 2vw;
-          margin-bottom: 2vw;
-          font-size: 5vw;
+          margin-top: 1vw;
+          margin-bottom: 1vw;
+          font-size: 4.5vw;
           font-weight: 400;
-          color: $inactive-gray-color-font;
-          padding-top: 5vw;
-          padding-bottom: 5vw;
+          color: #818181;
+          padding-top: 15px;
+          padding-bottom: 15px;
           width: 100%;
 
-          &:first-child {
-              margin: 4vw;
-          }
-
           &:nth-child(2) {
-              border-top: 1px solid #F8F8F8;
-              border-bottom: 1px solid #F8F8F8;
+            border-radius: 8px;
+            background-color: #383838;
           }
       }
 
       .selected {
           font-weight: 500;
-          color: black;
+          color: #fff;
       }
 
       .none {
           color: white;
       }
   }
+}
+
+.common-btn-og{
+  display: block;
+  width: 100%;
+  color: #ffffff;
+  background-color: #FA7F64;
+  padding: 17px 0;
+  border-radius: 12px;
 }
 
 .error-message {

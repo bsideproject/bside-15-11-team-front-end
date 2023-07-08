@@ -12,10 +12,22 @@ interface PropsType {
     title : string,
     inputArray : string[],
     setInputArray : any,
-    setContainerHeight : (arg0 : any, arg1 : string) => void
+    setContainerHeight : (arg0 : any, arg1 : string) => void,
+    id?: string,
+    onChange?: any,
+    checked?: boolean
 }
 
-const Calendar = ({title, isOpen, onClose, inputArray, setInputArray, setContainerHeight} : PropsType) => {
+const Calendar = ({
+    title,
+    isOpen,
+    onClose,
+    inputArray,
+    setInputArray,
+    setContainerHeight,
+    id, onChange,
+    checked
+} : PropsType) => {
 
     const [date, setDate] = useState<DateProto>({
         year : 0,
@@ -52,7 +64,7 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray, setContain
         onSwipedUp : (eventData) => {
             if (date.year && date.day && date.month && date.month < 12) {
                 const month : number = date.month;
-                
+
                 let obj = date;
                 obj.month = month+1;
                 const dayCount = DateUtil.getNumberOfDays(date.year, month);
@@ -124,7 +136,7 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray, setContain
         const d = date.day as number;
 
         const dayCount = DateUtil.getNumberOfDays(y, m-1);
-        
+
         setYears([...[y-1,y,y+1]]);
 
         if (2 <= m && m <= 11) {
@@ -176,11 +188,18 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray, setContain
             onClose={function(){}}
             disableDrag={true}
         >
-        <Sheet.Container ref={containerRef}>
+        <Sheet.Container ref={containerRef}
+                         style={{
+                             backgroundColor: "#242424",
+                         }}
+        >
             <Sheet.Content>
-                <ModalSheetTitleWrap 
+                <ModalSheetTitleWrap
                     title='날짜'
                     onClose={onClose}
+                    id={id}
+                    onChange={onChange}
+                    checked={checked}
                 />
                 <div className='calendar'>
                     <div className="slider-container"
@@ -217,9 +236,9 @@ const Calendar = ({title, isOpen, onClose, inputArray, setInputArray, setContain
                         ))}
                     </div>
                 </div>
-                <div style={{width : '100%'}} onClick={saveDate}>
-                    <img src={IcSaveBtn} alt='save' />
-                </div>
+                <button type="button" className="common-btn-og" onClick={saveDate}>
+                    저장하기
+                </button>
             </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop />
