@@ -42,13 +42,14 @@ class FriendStore {
         friendRelation: string,
         friendDirectInput: string,
         friendMemo: string,
-        birth: string
+        birth: string,
+        isLunar: boolean
     ){
         const request  = {
             nicknames: friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
             birth: {
-                isLunar: "N",
+                isLunar: isLunar ? "Y": "N",
                 date: {
                     year: birth.split("-")[0],
                     month: birth.split("-")[1],

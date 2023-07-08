@@ -43,7 +43,7 @@ const InputTextBox = ({
                 )) :
                 <input
                     type="text"
-                    className="input-text-box"
+                    className={id === "friendMemo" ? "input-text-box memo" : "input-text-box"}
                     id={id}
                     placeholder={placeholder}
                     value={value}

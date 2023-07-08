@@ -9,19 +9,6 @@
       margin-bottom: 7vw;
       position: relative;
       &:last-child{margin: 0;}
-      .friend-name-add{
-        cursor: pointer;
-        @include center;
-        justify-content: flex-start;
-        position: absolute;
-        right: 0; top: 0;
-        img{width: 20px;}
-        span{
-          font-weight: 500;
-          font-size: 3.5vw;
-          margin-left: 1vw;
-        }
-      }
     }
     .RelationWrap{
       margin-bottom: 7vw;
@@ -54,7 +41,7 @@
     .register-btn-wrap{
       @include center;
       justify-content: space-between;
-      margin-top: 35vw;
+      margin-top: 25vw;
       .register-btn{
         display: block;
         width: 48%;
@@ -74,9 +61,70 @@
     padding: 15px 45px 15px 15px;
   }
   .text-box-del-btn{
+    width: 6vw;
     position: absolute;
     right: 15px; top: 50%;
     transform: translateY(-50%);
   }
 }
 
+// datepicker
+.datepicker.default{
+  background-color: #242424;
+  border-radius: 24px 24px 0 0;
+  padding: 24px 0;
+  width: 100%;
+  .datepicker-header{
+    display: none;
+  }
+  .datepicker-content{
+    padding: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .datepicker-navbar{
+    margin-top: 20px;
+    padding: 0 20px 20px;
+    .datepicker-navbar-btn:first-child{
+      width: 100%;
+      display: block;
+      background-color: #FA7F64;
+      border-radius: 8px;
+      float: none;
+      color: #fff;
+      font-size: 3.7vw;
+      padding: 8px 0;
+      height: auto;
+    }
+    .datepicker-navbar-btn:last-child{
+      display: none;
+    }
+  }
+}
+.datepicker.default .datepicker-scroll li{
+  color: #818181;
+  font-size: 4.5vw;
+}
+.friend-name-add{
+  cursor: pointer;
+  @include center;
+  justify-content: flex-start;
+  position: absolute;
+  right: 0; top: 0;
+  z-index: 999;
+  &.isLunar{
+    position: static;
+  }
+  label{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  img{width: 6vw;}
+  span{
+    font-weight: 500;
+    font-size: 3.5vw;
+    margin-left: 1vw;
+  }
+  input[type="checkbox"]{display: none}
+}

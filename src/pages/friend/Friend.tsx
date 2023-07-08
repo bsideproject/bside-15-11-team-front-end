@@ -21,6 +21,8 @@ const Friend = () => {
     const [friendRelation, setFriendRelation] = useState("");
     const [friendMemo, setFriendMemo] = useState("");
     const [friendDirectInput, setFriendDirectInput] = useState("");
+    const [isLunar, setIsLunar] = useState<boolean>(false);
+    const [birthUnKnown, setBirthUnknown] = useState<boolean>(false);
 
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
@@ -32,7 +34,6 @@ const Friend = () => {
     }
 
     const handleInputClick = (index : number) => {
-        console.log("handleInputClick ", index);
         let list : boolean[] = [...openModal];
         list[index] = true;
         setOpenModal(list);
@@ -76,7 +77,7 @@ const Friend = () => {
         RootStore.friendStore.setRegisterFriend(
             friendName, friendRelation,
             friendDirectInput, friendMemo,
-            inputArray[1]
+            inputArray[1], isLunar
         );
         return navigate(`/page/${page}`);
     }
@@ -85,10 +86,8 @@ const Friend = () => {
     const handleSubmit = (page : string) => {
         if(friendName[0] !== "" && friendRelation !== ""){
             if(friendRelation !== "directInput"){
-                console.log("ok")
                 handleConfirm(page);
             }else if(friendRelation === "directInput" && friendDirectInput !== ""){
-                console.log("ok")
                 handleConfirm(page);
             }else{
                 alert("이름 또는 관계를 확인해주세요.");
@@ -160,11 +159,13 @@ const Friend = () => {
                         /> : null
                 }
                 <InputTextBoxWithArrow
-                    inputTitle='생일'
+                    inputTitle="생일"
                     placeholder={nowDate}
-                    id='date'
+                    id="birth"
                     onClick={() => handleInputClick(1)}
                     value={inputArray[1]}
+                    onChange={setBirthUnknown}
+                    checked={birthUnKnown}
                 />
                 <Calendar
                     isOpen={openModal[1]}
@@ -173,6 +174,9 @@ const Friend = () => {
                     inputArray={inputArray}
                     setInputArray={setInputArray}
                     setContainerHeight={setContainerHeight}
+                    id="isLunar"
+                    onChange={setIsLunar}
+                    checked={isLunar}
                 />
                 <InputTextBox
                     inputTitle="메모 (선택)"
