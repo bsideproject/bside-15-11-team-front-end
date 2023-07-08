@@ -3,7 +3,6 @@ import Sheet from 'react-modal-sheet';
 import DateUtil from '../../utils/DateUtil';
 import { DateProto } from '../../prototypes/common/DateProto';
 import { useSwipeable } from 'react-swipeable';
-import IcSaveBtn from '../../assets/images/icon/ic_save_btn.png';
 import ModalSheetTitleWrap from './ModalSheetTitleWrap';
 
 interface PropsType {
