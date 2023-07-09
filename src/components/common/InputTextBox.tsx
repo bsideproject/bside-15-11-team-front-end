@@ -11,7 +11,8 @@ interface PropsType{
     id: string,
     addFriend?: any,
     removeFriend?: any,
-    friendName?: any
+    friendName?: any,
+    maxLength?: number
 }
 
 const InputTextBox = ({
@@ -22,7 +23,8 @@ const InputTextBox = ({
                           id,
                           addFriend,
                           removeFriend,
-                          friendName
+                          friendName,
+                          maxLength
 }:PropsType) => {
     return (
         <div className="InputTextBox">
@@ -37,17 +39,19 @@ const InputTextBox = ({
                             placeholder={placeholder}
                             value={name}
                             onChange={(event) => onChange(key, event)}
+                            maxLength={maxLength}
                         />
                         {key === 0 ? null : <span onClick={() => removeFriend(key)} className="text-box-del-btn"><img src={IcMinusBtnWh} alt="remove-btn"/></span>}
                     </div>
                 )) :
                 <input
                     type="text"
-                    className={id === "friendMemo" ? "input-text-box memo" : "input-text-box"}
+                    className="input-text-box memo"
                     id={id}
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
+                    maxLength={maxLength}
                 />
             }
             {id === "friendName" ?
