@@ -25,13 +25,10 @@ const Main = () => {
     // 친구 목록 불러오기 api
     useEffect(() => {
         sessionStorage.setItem("jwt", key);
-        async function apiCallSet(){
-            if(key){
-                await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
-                await RootStore.mindStore.setMindCount(setCount);
-            }
+
+        if(key){
+            apiCallSet();
         }
-        apiCallSet();
 
         // 친구 존재 여부 확인
         if(mainFriendList){
@@ -40,8 +37,12 @@ const Main = () => {
             setIsEmptyList(false);
         }
 
-    }, [key]);
+    }, [ ,key]);
 
+    const apiCallSet = async () => {
+        await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
+        await RootStore.mindStore.setMindCount(setCount);
+    }
     // 필터링
     const handleFilter = async () => {
         if(filterParams === "level"){

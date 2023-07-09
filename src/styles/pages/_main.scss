@@ -5,6 +5,7 @@
 .Main{
   position: relative;
   overflow-x: hidden;
+  min-height: 500px;
   z-index: 1;
   &::before{
     content: "";

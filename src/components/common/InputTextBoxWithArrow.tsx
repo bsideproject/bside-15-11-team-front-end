@@ -30,7 +30,7 @@ const InputTextBoxWithArrow = ({
         <label className="input-title">{inputTitle}</label>
         <input
           type="text"
-          className="input-text-box"
+          className={checked ? "input-text-box on" : `input-text-box ${id}`}
           id={id}
           placeholder={placeholder}
           value={NullChecker.isEmpty(value) ? '' : value}

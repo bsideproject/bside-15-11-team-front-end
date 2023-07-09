@@ -6,6 +6,7 @@ import Calendar from "../../components/common/Calendar";
 import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow";
 import RootStore from "../../store/RootStore";
 import {useNavigate} from "react-router-dom";
+import ErrorMessage from "../../components/common/ErrorMessage";
 
 const Friend = () => {
     let navigate = useNavigate();
@@ -26,6 +27,8 @@ const Friend = () => {
 
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
+
+    const [isValidation, setIsValidation] = useState<boolean[]>([true, true, true]);
 
     const setContainerHeight = (ref : any, height : string) => {
         if (ref.current) {
@@ -77,24 +80,42 @@ const Friend = () => {
         RootStore.friendStore.setRegisterFriend(
             friendName, friendRelation,
             friendDirectInput, friendMemo,
-            inputArray[1], isLunar
+            inputArray[1], isLunar, birthUnKnown
         );
-        return navigate(`/page/${page}`);
+        navigate(`/page/${page}`);
     }
 
     // 등록 버튼
     const handleSubmit = (page : string) => {
-        if(friendName[0] !== "" && friendRelation !== ""){
+
+        if(friendName[0] !== "" && friendRelation !== "" && (inputArray[1] !== "" || birthUnKnown)){
             if(friendRelation !== "directInput"){
                 handleConfirm(page);
             }else if(friendRelation === "directInput" && friendDirectInput !== ""){
                 handleConfirm(page);
             }else{
-                alert("이름 또는 관계를 확인해주세요.");
-                return;
+                if(friendDirectInput === ""){
+                    let copy = isValidation;
+                    copy[1] = false;
+                    setIsValidation([...copy]);
+                }
             }
         }else{
-            alert("이름 또는 관계를 확인해주세요.");
+            if(friendName[0] === ""){
+                let copy = isValidation;
+                copy[0] = false;
+                setIsValidation([...copy]);
+            }else if(friendRelation === "" || friendDirectInput === ""){
+                let copy = isValidation;
+                copy[1] = false;
+                setIsValidation([...copy]);
+            }else if(inputArray[1] === "" || !birthUnKnown){
+                let copy = isValidation;
+                copy[2] = false;
+                setIsValidation([...copy]);
+            }else{
+                setIsValidation([true, true, true]);
+            }
         }
     }
 
@@ -104,13 +125,17 @@ const Friend = () => {
             <form className="friend-register-wrap">
                 <InputTextBox
                     inputTitle="이름"
-                    placeholder="입력하세요 (최대 8자)"
+                    placeholder="입력하세요 (최대 6자)"
                     id="friendName"
                     friendName={friendName}
                     onChange={handleNameChange}
                     addFriend={handleAddName}
                     removeFriend={handleRemoveName}
+                    maxLength={6}
                 />
+                {!isValidation[0] &&
+                    <ErrorMessage message='필수 입력 사항입니다.' />
+                }
                 <RadioWrap
                     inputTitle='관계'
                     handleRegister={handleRegister}
@@ -148,6 +173,9 @@ const Friend = () => {
                         }]
                     }
                 />
+                {!isValidation[1] &&
+                    <ErrorMessage message='필수 선택 사항입니다.' />
+                }
                 {
                     friendRelation === "directInput" ?
                         <InputTextBox
@@ -156,6 +184,7 @@ const Friend = () => {
                             id="friendDirectInput"
                             value={friendDirectInput}
                             onChange={handleRegister}
+                            maxLength={8}
                         /> : null
                 }
                 <InputTextBoxWithArrow
@@ -167,6 +196,9 @@ const Friend = () => {
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
                 />
+                {!isValidation[2] &&
+                    <ErrorMessage message='필수 입력 사항입니다.' />
+                }
                 <Calendar
                     isOpen={openModal[1]}
                     onClose={() => handleClose(1)}
@@ -178,13 +210,16 @@ const Friend = () => {
                     onChange={setIsLunar}
                     checked={isLunar}
                 />
-                <InputTextBox
-                    inputTitle="메모 (선택)"
-                    placeholder="입력하세요 (최대 40자)"
-                    id="friendMemo"
-                    value={friendMemo}
-                    onChange={handleRegister}
-                />
+                <div className="InputTextBox">
+                    <label className="input-title">메모 (선택)</label>
+                    <textarea
+                        className="input-text-box memo"
+                        placeholder="입력하세요 (최대 40자)"
+                        id="friendMemo"
+                        value={friendMemo}
+                        onChange={handleRegister}
+                    />
+                </div>
                 <div className="register-btn-wrap">
                     <button type="button" className="register-btn" onClick={() => handleSubmit("main")}>등록하기</button>
                     <button type="button" className="register-btn" onClick={() => handleSubmit(`relationship?friendName=${friendName}`)}>등록 후 마음 기록하기</button>
