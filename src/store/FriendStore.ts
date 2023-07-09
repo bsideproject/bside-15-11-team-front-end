@@ -85,6 +85,20 @@ class FriendStore {
             console.log(err);
         }
     }
+
+    // 친구 상세 조회
+    async getFriendDetail(sequence:any, setDetailInfo: any){
+        try{
+            const res = await get(`${this.baseUrl}/api/friend/${sequence}`,{
+                headers : {
+                    Authorization : this.rootStore.userStore.getJwtKey
+                },
+            })
+            if(res) setDetailInfo(res);
+        }catch (err){
+            console.log(err);
+        }
+    }
 }
 
 export default FriendStore;

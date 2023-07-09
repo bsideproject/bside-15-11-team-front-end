@@ -17,8 +17,8 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
 
     let navigate = useNavigate();
     console.log("searchList: ",searchList)
-    const handleFriendClick = () => {
-        navigate("/page/detail");
+    const handleFriendClick = (sequence:any) => {
+        navigate(`/page/detail?sequence=${sequence}`);
     }
 
     return(
@@ -28,7 +28,7 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
                 (searchList?.length !== 0 ?
                     <ul className="friend-list-wrap">
                         {searchList?.map((data:FriendResponseProto, key) => (
-                            <li className="friend-cont" key={key} onClick={handleFriendClick}>
+                            <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
                                 <span className="friend-name">{data.nickname}</span>
                                 <span className="friend-relation">{data.relationship}</span>
                                 <span className="friend-level"><img src={ImgLevel1} alt="level"/><em className="level">{data.levelInformation?.level}</em></span>
@@ -36,8 +36,6 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
                         ))}
                     </ul>:<p className="empty-message">찾으시는 친구가 없어요.<br/>마음을 기록하려면 먼처 친구를 등록하세요.</p>
                 )
-
-
             }
         </div>
     )
