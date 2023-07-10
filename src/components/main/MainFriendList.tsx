@@ -1,10 +1,4 @@
 import React from "react";
-import ImgLevel1 from "../../assets/images/level/level_1.png";
-import ImgLevel2 from "../../assets/images/level/level_2.png";
-import ImgLevel3 from "../../assets/images/level/level_3.png";
-import ImgLevel4 from "../../assets/images/level/level_4.png";
-import ImgLevel5 from "../../assets/images/level/level_5.png";
-import ImgLevel6 from "../../assets/images/level/level_6.png";
 import {useNavigate} from "react-router-dom";
 import {FriendResponseProto} from "../../prototypes/friend/FriendResponse";
 
@@ -21,6 +15,22 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
         navigate(`/page/detail?sequence=${sequence}`);
     }
 
+    const levelImgSwitch = (num:any) => {
+        if(num === 0){
+            return "1";
+        }else if(num >= 1 && num <= 3 ){
+            return "2";
+        }else if(num >= 4 && num <= 7 ){
+            return "3";
+        }else if(num >= 8 && num <= 12 ){
+            return "4";
+        }else if(num >= 13 && num <= 19 ){
+            return "5";
+        }else if(num >= 20){
+            return "6";
+        }
+    }
+
     return(
         <div className="MainFriendList">
             {isEmptyList ?
@@ -31,7 +41,7 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
                             <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
                                 <span className="friend-name">{data.nickname}</span>
                                 <span className="friend-relation">{data.relationship}</span>
-                                <span className="friend-level"><img src={ImgLevel1} alt="level"/><em className="level">{data.levelInformation?.level}</em></span>
+                                <span className="friend-level"><img src={require("../../assets/images/level/level_"+levelImgSwitch(data.levelInformation?.level)+".svg")} alt="level"/><em className="level">{data.levelInformation?.level}</em></span>
                             </li>
                         ))}
                     </ul>:<p className="empty-message">찾으시는 친구가 없어요.<br/>마음을 기록하려면 먼처 친구를 등록하세요.</p>

@@ -13,12 +13,18 @@
 
   // level card
   .LevelCard{
-    background: #383838 url("../../assets/images/level/bg_level_2.png") no-repeat top;
+    &.l1{background: #383838 url("../../assets/images/level/bg_level_1.svg") no-repeat top; background-size: 100%;}
+    &.l2{background: #383838 url("../../assets/images/level/bg_level_2.svg") no-repeat top; background-size: 100%;}
+    &.l3{background: #383838 url("../../assets/images/level/bg_level_3.svg") no-repeat top; background-size: 100%;}
+    &.l4{background: #383838 url("../../assets/images/level/bg_level_4.svg") no-repeat top; background-size: 100%;}
+    &.l5{background: #383838 url("../../assets/images/level/bg_level_5.svg") no-repeat top; background-size: 100%;}
+    background: #383838;
+    background-size: 100%;
     border-radius: 12px;
     padding: 16px;
     margin-top: 31px;
     .level-text{
-      width: 88px; height: 88px;
+      width: 24vw; height: 24vw;
       text-align: center;
       position: relative;
       margin: 0 auto;
@@ -40,7 +46,7 @@
     }
 
     .level-description{
-      margin-top: 16px;
+      margin-top: 25px;
       text-align: center;
       font-size: 4.5vw;
       font-weight: bold;
@@ -49,16 +55,17 @@
       font-size: 3.7vw;
       text-align: center;
       margin-top: 6px;
+      line-height: 1.5;
     }
 
     .progress-bar-wrap{
-      width: 100%; height: 4px;
+      width: 100%; height: 1vw;
       position: relative;
       background: rgba(255, 255, 255, 0.10);
       border-radius: 100px;
-      margin: 16px 0 8px;
+      margin: 4.5vw 0 2vw;
       .progress{
-        height: 4px;
+        height: 1vw;
         border-radius: 100px;
         background-color: #fff;
         &.l1{width: 5%;}

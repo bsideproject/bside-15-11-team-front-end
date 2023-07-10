@@ -72,6 +72,9 @@ const Friend = () => {
         }else if(event.target.id === "friendDirectInput"){
             setFriendDirectInput(event.target.value);
         }
+        if(friendRelation !== "directInput" && friendRelation !== ""){
+            setFriendDirectInput("");
+        }
     }
 
     // 등록 완료 후 action
@@ -88,34 +91,23 @@ const Friend = () => {
     // 등록 버튼
     const handleSubmit = (page : string) => {
 
-        if(friendName[0] !== "" && friendRelation !== "" && (inputArray[1] !== "" || birthUnKnown)){
-            if(friendRelation !== "directInput"){
-                handleConfirm(page);
-            }else if(friendRelation === "directInput" && friendDirectInput !== ""){
-                handleConfirm(page);
-            }else{
-                if(friendDirectInput === ""){
-                    let copy = isValidation;
-                    copy[1] = false;
-                    setIsValidation([...copy]);
-                }
-            }
+        if(friendName[0] === ""){
+            let copy = isValidation;
+            copy[0] = false;
+            setIsValidation([...copy]);
+        }else if(
+            (friendRelation === "" && friendDirectInput === "") ||
+            (friendRelation === "directInput" && friendDirectInput === "")
+        ){
+            let copy = isValidation;
+            copy[1] = false;
+            setIsValidation([...copy]);
+        }else if(inputArray[1] === "" && !birthUnKnown){
+            let copy = isValidation;
+            copy[2] = false;
+            setIsValidation([...copy]);
         }else{
-            if(friendName[0] === ""){
-                let copy = isValidation;
-                copy[0] = false;
-                setIsValidation([...copy]);
-            }else if(friendRelation === "" || friendDirectInput === ""){
-                let copy = isValidation;
-                copy[1] = false;
-                setIsValidation([...copy]);
-            }else if(inputArray[1] === "" || !birthUnKnown){
-                let copy = isValidation;
-                copy[2] = false;
-                setIsValidation([...copy]);
-            }else{
-                setIsValidation([true, true, true]);
-            }
+            handleConfirm(page);
         }
     }
 

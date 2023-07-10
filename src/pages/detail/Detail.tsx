@@ -15,7 +15,7 @@ const Detail = () => {
     useEffect(() => {
         apiCallSet(getSequence);
     }, []);
-    console.log(detailInfo)
+    console.log(detailInfo);
     const apiCallSet = async (sequence:any) => {
         await RootStore.friendStore.getFriendDetail(sequence, setDetailInfo);
     }
@@ -24,7 +24,7 @@ const Detail = () => {
         <div className="Detail inner">
             <TitleWrap title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
             <span className="modify-icon"><img src={ImgModifyIcon} alt="modify-icon"/></span>
-            <LevelCard />
+            <LevelCard detailInfo={detailInfo && detailInfo} />
             <div className="other-info-wrap">
                 <div className="other-info">
                     <div className="other-info-tit"><img src={ImgBirth} alt="birth-icon"/>&nbsp;생일</div>
