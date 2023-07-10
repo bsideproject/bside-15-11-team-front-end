@@ -1,0 +1,30 @@
+<svg width="320" height="112" viewBox="0 0 320 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_45_2674)">
+<g opacity="0.6">
+<path opacity="0.08" fill-rule="evenodd" clip-rule="evenodd" d="M320 9.5L160 56L241 -25H320V9.5Z" fill="#FF8850"/>
+<path opacity="0.12" d="M160 56L320 9.5V26.5V56H160Z" fill="#FF8850"/>
+<path opacity="0.04" d="M160 56V-25H241L160 56Z" fill="#FF8850"/>
+<path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M0 9.5V-25H79L160 56L0 9.5Z" fill="#FF8850"/>
+<path opacity="0.04" d="M160 56L0 9.5V26.5V56H160Z" fill="#FF8850"/>
+<path opacity="0.1" d="M160 56V-25H79L160 56Z" fill="#FF8850"/>
+<path opacity="0.04" fill-rule="evenodd" clip-rule="evenodd" d="M320 137H241L160 56L320 102.5V137Z" fill="#FF8850"/>
+<path opacity="0.08" d="M160 56.0004L320 102.5V85.5004V56.0004H160Z" fill="#FF8850"/>
+<path opacity="0.12" d="M160 56V137H241L160 56Z" fill="#FF8850"/>
+<path opacity="0.12" fill-rule="evenodd" clip-rule="evenodd" d="M0 137V102.5L160 56L79 137H0Z" fill="#FF8850"/>
+<path opacity="0.08" d="M160 56.0004L0 102.5V85.5004V56.0004H160Z" fill="#FF8850"/>
+<path opacity="0.04" d="M160 56V137H79L160 56Z" fill="#FF8850"/>
+</g>
+<circle opacity="0.08" cx="160" cy="61" r="47" fill="#FF8850"/>
+<circle opacity="0.08" cx="160" cy="61" r="39.9851" fill="#FF8850"/>
+<circle opacity="0.6" cx="269.5" cy="32.5" r="1.5" fill="#FFB74A"/>
+<circle opacity="0.6" cx="76.5" cy="94.5" r="2.5" fill="#FFB74A"/>
+<circle opacity="0.6" cx="116.5" cy="14.5" r="2.5" fill="#FF9A94"/>
+<circle cx="229.5" cy="106.5" r="1.5" fill="#434CA3"/>
+<circle opacity="0.6" cx="42.5" cy="23.5" r="1.5" fill="#434CA3"/>
+</g>
+<defs>
+<clipPath id="clip0_45_2674">
+<rect width="320" height="112" fill="white"/>
+</clipPath>
+</defs>
+</svg>

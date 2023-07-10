@@ -46,7 +46,7 @@ const InputTextBox = ({
                 )) :
                 <input
                     type="text"
-                    className="input-text-box memo"
+                    className="input-text-box"
                     id={id}
                     placeholder={placeholder}
                     value={value}
