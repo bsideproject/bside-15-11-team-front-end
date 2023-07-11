@@ -37,11 +37,11 @@ const Detail = () => {
             <div className="other-info-wrap">
                 <div className="other-info">
                     <div className="other-info-tit"><img src={ImgBirth} alt="birth-icon"/>&nbsp;생일</div>
-                    {detailInfo && detailInfo.birth === "{}" ?
-                        <div className="other-info-cont">{detailInfo && detailInfo.birth?.date?.year}년&nbsp;
-                            {detailInfo && detailInfo.birth?.date?.month}월&nbsp;
-                            {detailInfo && detailInfo.birth?.date?.day}일&nbsp;
-                            ({detailInfo && detailInfo.birth?.isLunar === "N" ? "양력" : detailInfo.birth?.isLunar === "Y" ? "음력" : null})</div> : null
+                    {detailInfo  ?
+                        <div className="other-info-cont">{detailInfo && detailInfo.birth?.date?.year}{detailInfo.birth?.date?.year && "년"}&nbsp;
+                            {detailInfo && detailInfo.birth?.date?.month}{detailInfo.birth?.date?.month && "월"}&nbsp;
+                            {detailInfo && detailInfo.birth?.date?.day}{detailInfo.birth?.date?.day && "일"}&nbsp;
+                            {detailInfo && detailInfo.birth?.isLunar === "N" ? "(양력)" : detailInfo.birth?.isLunar === "Y" ? "(음력)" : null}</div> : null
                     }
                 </div>
                 <div className="other-info">
