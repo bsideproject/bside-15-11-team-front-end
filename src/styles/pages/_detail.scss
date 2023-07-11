@@ -118,4 +118,38 @@
     }
   }
 
+
+
+}
+
+.sheet-header{
+  padding: 10px 0;
+}
+.gDWucW::before{
+  top: 15px !important;
+}
+// exchange wrap
+.ExchangeWrap{
+  width: 100%;
+  padding: 10px 20px 0 ;
+  font-size: 14px;
+  .exchange-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h3{
+      color: #232323;
+      font-size: inherit;
+    }
+    .filter-wrap{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{width: 4.5vw;}
+      span{
+        color: #818181;
+        font-size: 3vw;
+      }
+    }
+  }
 }

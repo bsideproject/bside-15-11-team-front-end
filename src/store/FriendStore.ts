@@ -99,6 +99,21 @@ class FriendStore {
             console.log(err);
         }
     }
+
+    // 친구 주고 받은 내역 조회
+    async getFriendExchange(sequence:string){
+        try{
+            const res = await get(`${this.baseUrl}/api/relationship/${sequence}`,{
+                headers : {
+                    Authorization : this.rootStore.userStore.getJwtKey
+                },
+            })
+            console.log(res);
+
+        }catch (err){
+            console.log(err);
+        }
+    }
 }
 
 export default FriendStore;
