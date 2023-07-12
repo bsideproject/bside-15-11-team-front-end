@@ -133,6 +133,7 @@
   width: 100%;
   padding: 10px 20px 0 ;
   font-size: 14px;
+  margin-top: 20px;
   .exchange-title{
     display: flex;
     align-items: center;
@@ -150,6 +151,44 @@
         color: #818181;
         font-size: 3vw;
       }
+    }
+  }
+}
+
+.exchange-wrap{
+  margin-top: 20px;
+  border-left: 1px solid rgba(192, 192, 192, 1);
+  .exchange-cont{
+    position: relative;
+    padding: 5px 0 24px 15px;
+    h4{
+      color: #232323;
+      font-size: 3.7vw;
+      font-weight: 500;
+      line-height: normal;
+      margin-bottom: 5px;
+    }
+    .exchanged-item{
+      color: #818181;
+      font-size: 3.7vw;
+      font-weight: 400;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .exchanged-date{
+      color: #C0C0C0;
+      font-size: 14px;
+      font-weight: 400;
+      display: block;
+    }
+    .exchanged-givtak{
+      position: absolute;
+      right: 0; top: 0;
+      background-color: #000;
+      font-size: 3vw;
+      padding: 1vw;
+      font-weight: 500;
+      border-radius: 8px;
     }
   }
 }

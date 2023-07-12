@@ -71,13 +71,14 @@ class MindStore {
   }
 
   async postMind(requestBody : RelationshipPostRequestProto) {
+    console.log(requestBody);
     const response = await post(`${this.baseUrl}/api/relationships`, requestBody, {
       headers : {
         "Authorization" : RootStore.userStore.getJwtKey
       }
     });
 
-    console.log("postMind : " + JSON.stringify(response));
+    console.log("postMind : " + response);
 
     return response;
   }
