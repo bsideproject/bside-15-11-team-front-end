@@ -5,7 +5,7 @@ const EventType = ({selected, setEventType} : any) => {
         <div className='EventTypeWrap'>
             <input
                 type='radio'
-                className='event-type-btn'
+                className={selected === 'give' ? 'event-type-btn on' : 'event-type-btn'}
                 name='event'
                 defaultChecked={selected === 'give'}
                 onClick = {() => setEventType('give')}
@@ -13,7 +13,7 @@ const EventType = ({selected, setEventType} : any) => {
             <label htmlFor='give'>준 마음</label>
             <input
                 type='radio'
-                className='event-type-btn'
+                className={selected === 'take' ? 'event-type-btn on' : 'event-type-btn'}
                 name='event'
                 defaultChecked={selected === 'take'}
                 onClick={() => setEventType('take')}

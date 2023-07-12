@@ -13,28 +13,29 @@
             width: 70%;
             margin-left: 15%;
             border-radius: 8px;
-            padding: 2vw;
+            padding: 8px;
 
             input[type="radio"] {
                 display: none;
             }
 
             label {
-                padding-top: 3.5vw;
-                padding-bottom: 3.5vw;
+                padding: 10px 0;
                 display: inline-block;
                 width: 50%;
                 border-radius: 8px;
                 text-align: center;
-                font-size: 4.5vw;
-
+                font-size: 3.7vw;
+                color: #818181;
+                transition: .3s;
                 &:last-child {
                     margin: 0;
                 }
             }
 
             input[type="radio"]:checked+label {
-                background: $back-ground-color2;
+                background: #383838;
+                color: #fff;
             }
 
         }
@@ -53,7 +54,7 @@
             .mind-wrap {
                 margin-top: 3vw;
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-between;
 
                 input[type="radio"] {
                     display: none;
@@ -65,20 +66,15 @@
                     color: #C0C0C0;
                     padding: 3.5vw;
                     border: 1px solid #C0C0C0;
-                    border-radius: 8px;
-                    margin-right: 2vw;
-                    width: 45%;
+                    border-radius: 12px;
+                    width: 48%;
                     text-align: center;
-
-                    &:last-child {
-                        margin: 0;
-                    }
+                    transition: .3s;
                 }
 
                 input[type="radio"]:checked+label {
-                    background: $btn-active-color;
-                    border: none;
-                    color: #fff;
+                    border: 1px solid #FA7F64;
+                    color: #FA7F64;
                 }
             }
         }
@@ -118,9 +114,9 @@
                 width: 100%;
                 font-size: 4.5vw;
                 padding: 15px;
-            
+
                 &::placeholder {
-                    color: #C0C0C0;
+                    color: #818181;
                 }
             }
         }
@@ -139,12 +135,12 @@
                   border-radius: 8px;
                   margin-right: 2vw;
                   display: inline-block;
+                    transition: .3s;
                   &:last-child{margin: 0;}
                 }
                 input[type="radio"]:checked + label{
-                  background: $btn-active-color;
-                  border : none;
-                  color: #fff;
+                    border: 1px solid $btn-active-color;
+                    color: $btn-active-color;
                 }
             }
         }
@@ -196,7 +192,6 @@
 
             .friend-info {
                 margin-left: 5vw;
-
                 p {
                     padding-left: 5vw;
                     font-weight: 400;
@@ -207,7 +202,7 @@
                     &:first-child {
                         font-size: 5vw;
                         font-weight: 500;
-                        color: black;
+                        color: #fff;
                     }
                 }
 
@@ -217,8 +212,9 @@
         .close-button {
             @include arrowBtn(5vw);
             position: absolute;
-            top: 8.5%;
+            top: 50%;
             right: 8%;
+            transform: translateY(-50%);
         }
     }
 }

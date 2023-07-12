@@ -21,12 +21,30 @@
     color: rgba(175, 175, 175, 1);
     margin-left: 6px;
   }
+}
 
+// modal save btn
+.save-button-wrap{
+  position: fixed;
+  bottom: 0;
+  background-color: #242424;
+  padding: 15px 10px;
+  width: 100%;
   .save-button {
     border : none;
-    width: 7vw;
+    width: 90%;
     display: inline-block;
     font-weight: 500;
+    font-size: 3.7vw;
+    color: #fff;
+    border-radius: 12px;
+    padding: 15px 0;
+    background-color: #FA7F64;
+    transition: .3s;
+    &:disabled{
+      color: #818181;
+      background-color: #AFAFAF;
+    }
   }
 }
 
@@ -68,18 +86,26 @@
   padding : 20px;
 
   .modal-InputTextBox {
+    margin: 24px 0;
+    border-radius: 8px;
+    background-color: #383838;
+    position: relative;
+    .search-icon{
+      width: 7vw;
+      display: block;
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+    }
     .input-text-box{
-        background: $modal-inputbox-background-color;
-        border-radius: 8px;
-        border: none;
-        margin-top: 3vw;
-        display: block;
-        width: 100%;
-        font-size: 4.5vw;
-        padding: 15px;
-        &::placeholder{
-          color: #C0C0C0;
-        }
+      display: block;
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 16px;
+      padding-left: 45px;
+      font-size: 3.7vw;
+      color: #fff;
     }
   }
 }
