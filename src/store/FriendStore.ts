@@ -5,6 +5,7 @@ import RootStore from "./RootStore";
 import {FriendPostProto} from "../prototypes/friend/FriendRequest";
 import {BirthProto} from "../prototypes/common/BirthProto";
 import React, {useEffect} from "react";
+import {RelationshipGetRequestProto} from "../prototypes/relationship/RelationshipRequestProto";
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -103,11 +104,11 @@ class FriendStore {
     // 친구 주고 받은 내역 조회
     async getFriendExchange(sequence:string){
         try{
-            const res = await get(`${this.baseUrl}/api/relationship/${sequence}`,{
+            const res = await get(`${this.baseUrl}/api/relationships?friendSequence=${sequence}&sortOrderType=ASC`, {
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
-            })
+            });
             console.log(res);
 
         }catch (err){

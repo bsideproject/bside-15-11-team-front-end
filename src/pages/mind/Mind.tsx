@@ -35,6 +35,8 @@ const Mind = () => {
   const [money, setMoney] = useState<number>(0);
   const [memo, setMemo] = useState<string>('');
 
+  const [selectedSeq, setSelectedSeq] = useState("");
+
   const moneyInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -82,12 +84,12 @@ const Mind = () => {
   }
 
   const appendFriendList = (friendList : FriendCheck[]) => {
-
     let text = '';
 
     friendList.forEach(obj => {
       if (obj.check) {
         text+=`${obj.friend.name}, `
+        setSelectedSeq(obj.friend.id);
       }
     })
 
@@ -182,8 +184,7 @@ const Mind = () => {
     }
 
     let saveList : RelationshipRequestProto[] = [];
-
-    const friendSequence = RootStore.userStore.getJwtKey;
+    const friendSequence = selectedSeq;
     const type : RelationshipTypeProto = eventType === 'give' ? RelationshipTypeProto.GIVEN : RelationshipTypeProto.TAKEN;
     const event = inputArray[2];
     let itemType : ItemTypeProto = ItemTypeProto.CASH;
@@ -264,7 +265,7 @@ const Mind = () => {
       let inputList = inputArray;
       inputList[2] = event;
       setInputArray([...inputList]);
-      
+
       let validList = validCheckArray;
       validList[2] = true;
       setValidCheckArray([...validList]);
@@ -303,7 +304,7 @@ const Mind = () => {
     <div className="Mind inner">
       <TitleWrap title="마음 기록하기" />
       <form className='mind-register-wrap'>
-        <EventType 
+        <EventType
           selected={eventType}
           setEventType={setEventType}
         />
@@ -315,7 +316,7 @@ const Mind = () => {
           value={inputArray[0]}
         />
         { !validCheckArray[0] &&
-          <ErrorMessage 
+          <ErrorMessage
             message='필수 입력 사항입니다.'
           />
         }
@@ -326,11 +327,11 @@ const Mind = () => {
           value={inputArray[1]}
         />
         { !validCheckArray[1] &&
-          <ErrorMessage 
+          <ErrorMessage
             message='필수 입력 사항입니다.'
           />
         }
-        <InputTextBoxWithArrow 
+        <InputTextBoxWithArrow
           inputTitle='이벤트 (필수)'
           id='event'
           onClick={() => handleInputClick(2)}
@@ -338,11 +339,11 @@ const Mind = () => {
           placeholder={`${eventType === 'give' ? '준' : '받은'} 이유를 선택하세요.`}
         />
         { !validCheckArray[2] &&
-          <ErrorMessage 
+          <ErrorMessage
             message='필수 입력 사항입니다.'
           />
         }
-        <MindType 
+        <MindType
           onSelect={setMindType}
         />
         { mindType === 'cash' &&
@@ -357,7 +358,7 @@ const Mind = () => {
                 onKeyUp={() => onChangeMindContent("cash")}
               />
             </div>
-            <MoneyOption 
+            <MoneyOption
               options={['1', '5', '10']}
               onSelect={addMoney}
             />
@@ -382,7 +383,7 @@ const Mind = () => {
               >
                 <img src={IcPhotoUploadBtn} alt='photo upload' />
               </button>
-              <input 
+              <input
                 type="file"
                 accept='image/*'
                 ref={fileInputRef}
@@ -396,11 +397,11 @@ const Mind = () => {
           </Fragment>
         }
         { !validCheckArray[3] &&
-          <ErrorMessage 
+          <ErrorMessage
             message='필수 입력 사항입니다.'
           />
         }
-        <InputTextBox 
+        <InputTextBox
           inputTitle='메모(선택)'
           placeholder='입력하세요. (최대 50자)'
           value={memo}
@@ -408,18 +409,18 @@ const Mind = () => {
           id="memo"
         />
         <div className="register-btn-wrap">
-          <button type="button" 
+          <button type="button"
             className="register-btn"
             onClick={() => save()}>등록하기</button>
         </div>
       </form>
-      <FriendList 
+      <FriendList
         isOpen={openModal[0]}
         onClose={() => handleClose(0)}
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}
       />
-      <Calendar 
+      <Calendar
         isOpen={openModal[1]}
         onClose={() => handleClose(1)}
         title={"날짜"}
@@ -427,7 +428,7 @@ const Mind = () => {
         setInputArray={setInputArray}
         setContainerHeight={setContainerHeight}
       />
-      <Event 
+      <Event
         isOpen={openModal[2]}
         onClose={() => handleClose(2)}
         inputArray={inputArray}
