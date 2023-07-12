@@ -5,6 +5,9 @@ import { FriendCheck } from "../../models/FriendCheck";
 import IcCloseBtn from '../../assets/images/icon/ic_close_btn.png';
 import RootStore from "../../store/RootStore";
 import { FriendResponseProto } from './../../prototypes/friend/FriendResponse';
+import IcBackBtn from "../../assets/images/icon/ic_back_btn.svg";
+import {useNavigate} from "react-router-dom";
+import IcSearch from "../../assets/images/icon/ic_search.svg";
 
 interface PropsType {
   isOpen : boolean;
@@ -14,7 +17,6 @@ interface PropsType {
 }
 
 const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : PropsType) => {
-
   // sheet-modal height이 기존 react-sheet-modal에서 최대로
   // 안 올라가는 문제가 있어서 sheet container dom을 직접 가지고
   // height을 조정
@@ -111,7 +113,6 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
 
     return true;
   }
-
   return (
     <Sheet className='FriendList Inner'
       isOpen={isOpen}
@@ -126,24 +127,24 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
       >
         <Sheet.Content className="friend-list-content">
           <div className='title-wrap'>
-            <h2 className='title'>관계 목록</h2>
-            <button className='save-button' onClick={
-              () => {saveFriends();onClose(0);}}>
-              저장
-            </button>
+            <span className="back-btn" onClick={() => onClose(0)}><img src={IcBackBtn} alt="back-btn" /></span>
+            <h2 className='title'>관계</h2>
           </div>
           <div className="modal-InputTextBox">
+                <span className="search-icon">
+                    <img src={IcSearch} alt="search-icon" />
+                </span>
             <input
                 type="text"
                 className="input-text-box"
-                placeholder={'검색어'}
                 onKeyUp={() => handleInput()}
+                placeholder="찾으시는 이름이 있으신가요?"
                 ref={inputRef}
             />
             <div className="close-button">
               <img src={IcCloseBtn} alt="close"
-                onClick={deleteKeyword}
-                hidden={hideCloseBtn()}
+                   onClick={deleteKeyword}
+                   hidden={hideCloseBtn()}
               />
             </div>
           </div>
@@ -158,6 +159,12 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
                 updateCheckCount={updateCheckCount}
               />
             ))}
+          </div>
+          <div className="save-button-wrap">
+            <button disabled={checkCount === 0} className='save-button' onClick={
+              () => {saveFriends();onClose(0);}}>
+              저장
+            </button>
           </div>
         </Sheet.Content>
       </Sheet.Container>

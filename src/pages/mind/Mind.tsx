@@ -112,7 +112,7 @@ const Mind = () => {
 
   const addMoney = (add : number) => {
     let sum = add + money;
-
+    console.log(sum)
     setMoney(sum);
 
     if (moneyInputRef.current) {
@@ -120,7 +120,7 @@ const Mind = () => {
     }
   }
 
-  const memoHandler = (e : React.ChangeEvent<HTMLInputElement>) : void => {
+  const memoHandler = (e : any) : void => {
     const text = e.target.value;
     setMemo(text);
 
@@ -272,13 +272,17 @@ const Mind = () => {
     }
   }
 
+  // 3자리 콤마 함수
+  function formatNumberWithCommas(number:any) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const onChangeMindContent = (type : string) : void => {
 
     if (type === "cash") {
       let text = "";
       if (moneyInputRef.current) {
         text = moneyInputRef.current.value;
-
         if (!NullChecker.isEmpty(text)) {
           let array = validCheckArray;
           array[3] = true;
@@ -377,23 +381,23 @@ const Mind = () => {
                 onKeyUp={() => onChangeMindContent("gift")}
               />
             </div>
-            <div style={{marginBottom : '5vw'}}>
-              <button id="save-photo-button"
-                onClick={(e) => {e.preventDefault();handleFileInput();}}
-              >
-                <img src={IcPhotoUploadBtn} alt='photo upload' />
-              </button>
-              <input
-                type="file"
-                accept='image/*'
-                ref={fileInputRef}
-                style={{display : 'none'}}
-                onChange={handleUploadPhoto}
-              />
-              <img ref={imageRef} src={IcDefaultImage} alt='default image'
-                className='upload-image'
-              />
-            </div>
+            {/*<div style={{marginBottom : '5vw'}}>*/}
+            {/*  <button id="save-photo-button"*/}
+            {/*    onClick={(e) => {e.preventDefault();handleFileInput();}}*/}
+            {/*  >*/}
+            {/*    <img src={IcPhotoUploadBtn} alt='photo upload' />*/}
+            {/*  </button>*/}
+            {/*  <input*/}
+            {/*    type="file"*/}
+            {/*    accept='image/*'*/}
+            {/*    ref={fileInputRef}*/}
+            {/*    style={{display : 'none'}}*/}
+            {/*    onChange={handleUploadPhoto}*/}
+            {/*  />*/}
+            {/*  <img ref={imageRef} src={IcDefaultImage} alt='default image'*/}
+            {/*    className='upload-image'*/}
+            {/*  />*/}
+            {/*</div>*/}
           </Fragment>
         }
         { !validCheckArray[3] &&
@@ -401,13 +405,16 @@ const Mind = () => {
             message='필수 입력 사항입니다.'
           />
         }
-        <InputTextBox
-          inputTitle='메모(선택)'
-          placeholder='입력하세요. (최대 50자)'
-          value={memo}
-          onChange={memoHandler}
-          id="memo"
-        />
+        <div className="InputTextBox">
+          <label className="input-title">메모 (선택)</label>
+          <textarea
+              className="input-text-box memo"
+              placeholder="입력하세요 (최대 40자)"
+              value={memo}
+              onChange={memoHandler}
+              id="memo"
+          />
+        </div>
         <div className="register-btn-wrap">
           <button type="button"
             className="register-btn"

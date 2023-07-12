@@ -1,4 +1,4 @@
-import IcCheckOn from '../../assets/images/icon/ic_check_on.png'
+import IcCheckOn from '../../assets/images/icon/ic_check_on_og.svg'
 import IcCheckOff from '../../assets/images/icon/ic_check_off.svg'
 import { FriendCheck } from '../../models/FriendCheck';
 
