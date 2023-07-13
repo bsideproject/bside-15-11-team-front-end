@@ -52,7 +52,10 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                                     `${detailInfo?.nickname}님` :
                                     item?.type === "TAKEN" ?
                                         "나" : null}의 {item?.event}</h4>
-                            <span className="exchanged-item">{item?.item?.name}{item?.item?.type === "CASH" && "원"}</span>
+                            <span className="exchanged-item">
+                                {item?.item?.type === "CASH" ? item?.item?.name.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","):item?.item?.name}
+                                {item?.item?.type === "CASH" && "원"}
+                            </span>
                             <span className="exchanged-date">{item?.date?.year}년 {item?.date?.month}월 {item?.date?.day}일</span>
                             {item?.type === "GIVEN" &&
                                 <span className="exchanged-givtak giv">준 마음</span>
