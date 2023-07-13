@@ -15,11 +15,9 @@ const FriendInfo = ({friendCheck, updateCheckCount} : PropTypes) => {
     }
 
     return friendCheck.display ? (
-        <div className='select-friend'>
+        <div className='select-friend' onClick={() => check()}>
             <div style={{width : '6vw', float : 'left'}}>
-                <img src={friendCheck.check ? IcCheckOn : IcCheckOff} alt='check'
-                    onClick={() => check()}
-                />
+                <img src={friendCheck.check ? IcCheckOn : IcCheckOff} alt='check' />
             </div>
             <div className='friend-info'>
                 <p>{friendCheck.friend.name}</p>

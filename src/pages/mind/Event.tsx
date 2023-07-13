@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Sheet from 'react-modal-sheet';
 import ModalSheetTitleWrap from '../../components/common/ModalSheetTitleWrap';
-import IcCheckOn from '../../assets/images/icon/ic_check_on2.png';
-import IcCheckOff from '../../assets/images/icon/ic_check_off2.png';
-import IcInactiveSaveBtn from '../../assets/images/icon/ic_inactive_save_btn.png';
-import IcActiveSaveBtn from '../../assets/images/icon/ic_save_btn.png';
+import IcCheckOn from '../../assets/images/icon/ic_check_on2.svg';
+import IcCheckOff from '../../assets/images/icon/ic_check_off2.svg';
+import InputTextBox from "../../components/common/InputTextBox";
 
 interface PropsType {
     isOpen : boolean,
@@ -28,7 +27,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
 
         // 캘린더 양쪽 위 border-radius
         setContainerTopBorderRadius(24, 24);
-        setContainerHeight(containerRef, '170vw');
+        setContainerHeight(containerRef, '80%');
     }, [isOpen]);
 
     useEffect(() => {
@@ -92,11 +91,11 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                     <div className='event-option-list'>
                     {
                         events.map((event) => (
-                            <div className='event-option' key={event}>
+                            <div className='event-option' key={event} onClick={() => {setSelectEvent(event);}}>
                                 <div style={{width : '5vw'}}>
                                     <img src={event === selectEvent ? IcCheckOn : IcCheckOff}
                                         alt='select'
-                                        onClick={() => {setSelectEvent(event);}}
+
                                     />
                                 </div>
                                 <span>
@@ -106,16 +105,23 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                         ))
                     }
                     </div>
-                    <textarea
-                        placeholder='입력하세요'
+                    <InputTextBox
+                        style={{
+                            backgroundColor: "#383838"
+                        }}
+                        inputTitle=""
+                        placeholder="입력하세요 (최대 6자)"
                         ref={textAreaRef}
                         onKeyUp={() => checkValidation()}
+                        maxLength={6}
                     />
-                    <button className='save' disabled={!isSavable}
-                        onClick={() => save()}
-                    >
-                        <img src={isSavable ? IcActiveSaveBtn : IcInactiveSaveBtn} alt='save'/>
-                    </button>
+                    <div className="save-button-wrap">
+                        <button
+                            className='save-button'
+                            disabled={!isSavable}
+                            onClick={() => save()}
+                        >저장하기</button>
+                    </div>
                 </Sheet.Content>
             </Sheet.Container>
             <Sheet.Backdrop />
