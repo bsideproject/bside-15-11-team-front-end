@@ -4,15 +4,18 @@ import IcMinusBtnWh from "../../assets/images/icon/ic_minus_btn_white_c.svg";
 import IcDelBtnX from "../../assets/images/icon/ic_del_x_btn.svg";
 
 interface PropsType{
-    inputTitle: string,
-    placeholder: string,
+    inputTitle?: string,
+    placeholder?: string,
     value?: any,
-    onChange: any,
-    id: string,
+    onChange?: any,
+    id?: string,
     addFriend?: any,
     removeFriend?: any,
     friendName?: any,
-    maxLength?: number
+    maxLength?: number,
+    ref?: any,
+    onKeyUp?: any,
+    style?: any
 }
 
 const InputTextBox = ({
@@ -24,7 +27,10 @@ const InputTextBox = ({
                           addFriend,
                           removeFriend,
                           friendName,
-                          maxLength
+                          maxLength,
+                          ref,
+                          onKeyUp,
+                          style
 }:PropsType) => {
     return (
         <div className="InputTextBox">
@@ -52,6 +58,9 @@ const InputTextBox = ({
                     value={value}
                     onChange={onChange}
                     maxLength={maxLength}
+                    ref={ref}
+                    onKeyUp={onKeyUp}
+                    style={style}
                 />
             }
             {id === "friendName" ?

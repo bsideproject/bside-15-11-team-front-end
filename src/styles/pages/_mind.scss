@@ -221,13 +221,8 @@
 
 .event-sheet {
     .event-option-list {
-
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100vw;
-        margin-top: 5vw;
-
+        width: 100%;
+        margin-top: 12vw;
         .event-option {
             width: 89vw;
             display: flex;
@@ -268,8 +263,23 @@
     }
 
     .save {
-        width: 100%;
-        background-color: white;
         margin-top: 26.875vw;
+        border: none;
+        width: 90%;
+        display: inline-block;
+        font-weight: 500;
+        font-size: 3.7vw;
+        color: #fff;
+        border-radius: 12px;
+        padding: 15px 0;
+        background-color: #FA7F64;
+        transition: 0.3s;
+        &:disabled{
+            color: #818181;
+            background-color: #AFAFAF;
+        }
     }
+}
+.react-modal-sheet-container {
+    padding-bottom: 5vw;
 }
