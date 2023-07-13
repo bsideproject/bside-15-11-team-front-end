@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
 import TitleWrap from "../../components/common/TitleWrap";
 import InputTextBox from "../../components/common/InputTextBox";
 import RadioWrap from "../../components/common/RadioWrap";
@@ -7,10 +8,13 @@ import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow
 import RootStore from "../../store/RootStore";
 import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../../components/common/ErrorMessage";
+import ModalConfirm from "../../components/common/ModalConfirm";
+import axios from "axios";
 
 const Friend = () => {
     let navigate = useNavigate();
-
+    const getSequence:string|null = new URLSearchParams(window.location.search).get("sequence");
+    const getEdit:string|null = new URLSearchParams(window.location.search).get("edit");
     // 오늘 날짜
     let now = new Date();
     let year= now.getFullYear();
@@ -29,6 +33,45 @@ const Friend = () => {
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
 
     const [isValidation, setIsValidation] = useState<boolean[]>([true, true, true]);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
+    // edit
+    const [detailInfo, setDetailInfo] = useState<any>();
+    let yearF = "";
+    let monthF = "";
+    let dayF = "";
+
+    useEffect(() => {
+        if(getEdit && getEdit === "edit"){
+            apiCallSet(getSequence);
+        }
+    }, []);
+    useEffect(() => {
+        const nameF = detailInfo?.nickname;
+
+        setFriendMemo(detailInfo?.memo);
+        if(detailInfo?.birth === "{}"){
+            setBirthUnknown(true);
+        }else{
+            yearF = detailInfo?.birth?.year;
+            monthF = detailInfo?.birth?.month;
+            dayF = detailInfo?.birth?.day;
+        }
+        // setFriendRelation(detailInfo?.relationship);
+        // setFriendDirectInput(detailInfo?.nickname);
+
+        if(detailInfo?.isLunar === "N"){
+            setIsLunar(false);
+        }else{
+            setIsLunar(true);
+        }
+        setIsLunar(detailInfo?.isLunar);
+
+    }, [detailInfo]);
+    console.log(detailInfo)
+    const apiCallSet = async (sequence:any) => {
+        await RootStore.friendStore.getFriendDetail(sequence, setDetailInfo);
+    }
 
     const setContainerHeight = (ref : any, height : string) => {
         if (ref.current) {
@@ -111,9 +154,27 @@ const Friend = () => {
         }
     }
 
+    const baseUrl = process.env.REACT_APP_SERVICE_URI
+    // 삭제 확인 버튼
+    const handleDeleteTrue = async () => {
+        try {
+            const response = await axios.delete(`${baseUrl}/api/friend/${getSequence}`,{
+                headers : {
+                    Authorization : RootStore.userStore.getJwtKey
+                },
+            });
+            if(response.status === 200){
+                setIsOpen(false);
+                setIsOkOpen(true);
+            }
+        }catch (err){
+            console.log(err);
+        }
+    }
+
     return(
         <div className="Friend inner">
-            <TitleWrap title="관계 등록하기" />
+            <TitleWrap title={`관계 ${getEdit === "edit" ? "수정" : "등록"}하기`} />
             <form className="friend-register-wrap">
                 <InputTextBox
                     inputTitle="이름"
@@ -212,11 +273,37 @@ const Friend = () => {
                         onChange={handleRegister}
                     />
                 </div>
-                <div className="register-btn-wrap">
-                    <button type="button" className="register-btn" onClick={() => handleSubmit("main")}>등록하기</button>
-                    <button type="button" className="register-btn" onClick={() => handleSubmit(`relationship?friendName=${friendName}`)}>등록 후 마음 기록하기</button>
-                </div>
+                {getEdit === "edit" ?
+                    <div className="register-btn-wrap edit">
+                        <button type="button" className="register-btn remove" onClick={() => setIsOpen(true)}>
+                            <img src={ImgDelBtn} alt="delete-btn" />
+                        </button>
+                        <button type="button" className="register-btn edit" onClick={() => handleSubmit(`/page/detail?sequence=${getSequence}`)}>저장하기</button>
+                    </div> :
+                    <div className="register-btn-wrap">
+                        <button type="button" className="register-btn" onClick={() => handleSubmit("main")}>등록하기</button>
+                        <button type="button" className="register-btn" onClick={() => handleSubmit(`relationship?friendName=${friendName}`)}>등록 후 마음 기록하기</button>
+                    </div>
+                }
             </form>
+
+            <ModalConfirm
+                isOpen={isOpen}
+                modalChoice="type2"
+                mainText="관계를 삭제하시겠어요?"
+                subText="삭제 시 마음 히스토리도 함께 삭제됩니다."
+                confirmAction={handleDeleteTrue}
+                cancelAction={() => setIsOpen(false)}
+                confirmText="삭제"
+                cancelText="취소"
+            />
+            <ModalConfirm
+                isOpen={isOkOpen}
+                modalChoice="type1"
+                mainText="삭제가 완료되었습니다."
+                confirmAction={() => navigate("/page/main")}
+                confirmText="확인"
+            />
         </div>
     )
 }

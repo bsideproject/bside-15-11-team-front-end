@@ -170,6 +170,64 @@
   }
 }
 
+.ModalConfirm{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 9999;
+  background-color: rgba(0,0,0,.6);
+  .modal-wrap{
+    border-radius: 12px;
+    background: #242424;
+    padding: 5vw;
+    width: 90%;
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    .modal-text{
+      font-size: 3.7vw;
+      font-weight: 500;
+      color: #fff;
+      line-height: 20px;
+      text-align: left;
+      margin-bottom: 1vw;
+    }
+    .modal-sub-text{
+      font-size: 3.7vw;
+      color: #C0C0C0;
+      font-weight: 400;
+      line-height: 20px;
+      text-align: left;
+    }
+    .modal-btn-wrap{
+      margin-top: 4.5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      button{
+        width: 100%;
+        display: block;
+        color: #FFF;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: -0.6px;
+        border-radius: 12px;
+        padding: 12px 0;
+        margin: 0 4px;
+      }
+      .confirm-btn{
+        background: #FA7F64;
+      }
+      .cancel-btn{
+        background-color: #383838;
+      }
+    }
+  }
+}
+
 @keyframes slideAnimation {
   from {
     transform: translateY(100%);
