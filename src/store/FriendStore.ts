@@ -102,15 +102,15 @@ class FriendStore {
     }
 
     // 친구 주고 받은 내역 조회
-    async getFriendExchange(sequence:string){
+    async getFriendExchange(sequence:string, sort:string, setExchangeData?:any){
+        const sortParams = sort ? "DESC" : "ASC";
         try{
-            const res = await get(`${this.baseUrl}/api/relationships?friendSequence=${sequence}&sortOrderType=ASC`, {
+            const res = await get(`${this.baseUrl}/api/relationships?friendSequence=${sequence}&sort=${sort}`, {
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
             });
-            console.log(res);
-
+            if(res) setExchangeData(res);
         }catch (err){
             console.log(err);
         }

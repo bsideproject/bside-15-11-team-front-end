@@ -173,6 +173,9 @@
       font-weight: 500;
       line-height: normal;
       margin-bottom: 5px;
+      &.taken{
+        font-weight: 700;
+      }
     }
     .exchanged-item{
       color: #818181;
@@ -190,11 +193,18 @@
     .exchanged-givtak{
       position: absolute;
       right: 0; top: 0;
-      background-color: #000;
       font-size: 3vw;
       padding: 1vw;
       font-weight: 500;
       border-radius: 8px;
+      &.giv{
+        background-color: #ECECEC;
+        color: #818181;
+      }
+      &.tak{
+        background-color: #818181;
+        color: #fff;
+      }
     }
   }
 }

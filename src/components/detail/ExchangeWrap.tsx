@@ -1,53 +1,67 @@
 import IcFilter from "../../assets/images/icon/ic_detail_filter.svg"
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import RootStore from "../../store/RootStore";
 
-const ExchangeWrap = (sequence:any) => {
+interface params{
+    detailInfo?: any,
+    sequence?: any
+}
 
-    console.log(sequence.sequence)
+const ExchangeWrap = ({detailInfo, sequence}:params) => {
+
+    const [sort, setSort] = useState("ASC");
+    const [exchangeData, setExchangeData] = useState<any>();
 
     useEffect(() => {
-        RootStore.friendStore.getFriendExchange(sequence.sequence);
+        handleApiCall("DESC");
     }, []);
+    // useEffect(() => {
+    //     console.log(exchangeData && exchangeData.relationships)
+    // }, [exchangeData]);
+
+    const handleFilter = async () => {
+
+        if(sort === "ASC"){
+            setSort("DESC");
+            await handleApiCall(sort);
+        }else if(sort === "DESC"){
+            setSort("ASC");
+            await handleApiCall(sort);
+        }
+
+    }
+    const handleApiCall = async (sort: string) => {
+        await RootStore.friendStore.getFriendExchange(sequence, sort, setExchangeData);
+    }
 
     return(
         <div className="ExchangeWrap">
             <div className="exchange-title">
                 <h3>마음 히스토리</h3>
-                <div className="filter-wrap">
+                <div className="filter-wrap" onClick={handleFilter}>
                     <img src={IcFilter} alt="filter-icon" />
-                    <span>최신순</span>
+                    <span>{sort === "DESC" ? "과거순" : "최신순"}</span>
                 </div>
             </div>
                 <ul className="exchange-wrap">
-                    <li className="exchange-cont">
-                        <i className="exchanged-circle"></i>
-                        <h4>[이름]님의 [이벤트명]</h4>
-                        <span className="exchanged-item">50,000원</span>
-                        <span className="exchanged-date">2022년 07월 13일</span>
-                        <span className="exchanged-givtak">준 마음</span>
-                    </li>
-                    <li className="exchange-cont">
-                        <i className="exchanged-circle"></i>
-                        <h4>[이름]님의 [이벤트명]</h4>
-                        <span className="exchanged-item">50,000원</span>
-                        <span className="exchanged-date">2022년 07월 13일</span>
-                        <span className="exchanged-givtak">준 마음</span>
-                    </li>
-                    <li className="exchange-cont">
-                        <i className="exchanged-circle"></i>
-                        <h4>[이름]님의 [이벤트명]</h4>
-                        <span className="exchanged-item">50,000원</span>
-                        <span className="exchanged-date">2022년 07월 13일</span>
-                        <span className="exchanged-givtak">준 마음</span>
-                    </li>
-                    <li className="exchange-cont">
-                        <i className="exchanged-circle"></i>
-                        <h4>[이름]님의 [이벤트명]</h4>
-                        <span className="exchanged-item">50,000원</span>
-                        <span className="exchanged-date">2022년 07월 13일</span>
-                        <span className="exchanged-givtak">준 마음</span>
-                    </li>
+                    {exchangeData && exchangeData.relationships.map((item:any, key:any) => (
+                        <li className="exchange-cont" key={key}>
+                            <i className="exchanged-circle"></i>
+                            <h4 className={item?.type === "TAKEN" ? "taken" : ""}>
+                                {item?.type === "GIVEN" ?
+                                    `${detailInfo?.nickname}님` :
+                                    item?.type === "TAKEN" ?
+                                        "나" : null}의 {item?.event}</h4>
+                            <span className="exchanged-item">{item?.item?.name}{item?.item?.type === "CASH" && "원"}</span>
+                            <span className="exchanged-date">{item?.date?.year}년 {item?.date?.month}월 {item?.date?.day}일</span>
+                            {item?.type === "GIVEN" &&
+                                <span className="exchanged-givtak giv">준 마음</span>
+                            }
+                            {item?.type === "TAKEN" &&
+                                <span className="exchanged-givtak tak">받은 마음</span>
+                            }
+                        </li>
+                    ))}
                 </ul>
 
 

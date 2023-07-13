@@ -37,7 +37,7 @@ const Main = () => {
             setIsEmptyList(false);
         }
 
-    }, [ ,key]);
+    }, [key]);
 
     const apiCallSet = async () => {
         await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");

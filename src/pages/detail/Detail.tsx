@@ -52,7 +52,10 @@ const Detail = () => {
                 </div>
             </div>
             <Sheet {...sheetProps}>
-                <ExchangeWrap sequence={getSequence} />
+                <ExchangeWrap
+                    detailInfo={detailInfo}
+                    sequence={getSequence}
+                />
             </Sheet>
 
         </div>

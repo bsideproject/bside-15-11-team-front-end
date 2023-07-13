@@ -21,8 +21,6 @@ class DateUtil {
     getNumberOfDays = (year : number, month : number) : number => {
         const date = new Date(year, month, 1);
 
-        console.log("date : " + date);
-
         date.setMonth(date.getMonth() + 1);
         date.setDate(date.getDate() - 1);
 

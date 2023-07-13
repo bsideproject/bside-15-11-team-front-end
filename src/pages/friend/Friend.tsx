@@ -37,9 +37,6 @@ const Friend = () => {
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
     // edit
     const [detailInfo, setDetailInfo] = useState<any>();
-    let yearF = "";
-    let monthF = "";
-    let dayF = "";
 
     useEffect(() => {
         if(getEdit && getEdit === "edit"){
@@ -47,25 +44,24 @@ const Friend = () => {
         }
     }, []);
     useEffect(() => {
-        const nameF = detailInfo?.nickname;
-
+        // 이름
+        setFriendName([detailInfo?.nickname]);
+        // 메모
         setFriendMemo(detailInfo?.memo);
-        if(detailInfo?.birth === "{}"){
+        // 관계
+        setFriendRelation(detailInfo?.relationship);
+        console.log(detailInfo?.relationship)
+        // 생일
+        if(detailInfo && Object.keys(detailInfo?.birth).length === 0){
             setBirthUnknown(true);
         }else{
-            yearF = detailInfo?.birth?.year;
-            monthF = detailInfo?.birth?.month;
-            dayF = detailInfo?.birth?.day;
-        }
-        // setFriendRelation(detailInfo?.relationship);
-        // setFriendDirectInput(detailInfo?.nickname);
 
+        }
         if(detailInfo?.isLunar === "N"){
             setIsLunar(false);
         }else{
             setIsLunar(true);
         }
-        setIsLunar(detailInfo?.isLunar);
 
     }, [detailInfo]);
     console.log(detailInfo)
