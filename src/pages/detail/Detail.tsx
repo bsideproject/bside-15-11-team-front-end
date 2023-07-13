@@ -7,9 +7,11 @@ import ImgMemo from "../../assets/images/icon/ic_memo.png";
 import RootStore from "../../store/RootStore";
 import ExchangeWrap from "../../components/detail/ExchangeWrap";
 import Sheet, { type SheetProps } from "react-dynamic-bottom-sheet";
+import {useNavigate} from "react-router-dom";
 
 const Detail = () => {
 
+    const navigate = useNavigate();
     const getSequence = new URLSearchParams(window.location.search).get("sequence");
     const [detailInfo, setDetailInfo] = useState<any>();
 
@@ -32,7 +34,7 @@ const Detail = () => {
     return(
         <div className="Detail inner">
             <TitleWrap title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
-            <span className="modify-icon"><img src={ImgModifyIcon} alt="modify-icon"/></span>
+            <span className="modify-icon" onClick={() => navigate(`/page/friend?sequence=${getSequence}&edit=edit`)}><img src={ImgModifyIcon} alt="modify-icon"/></span>
             <LevelCard detailInfo={detailInfo && detailInfo} />
             <div className="other-info-wrap">
                 <div className="other-info">

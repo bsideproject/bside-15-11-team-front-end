@@ -41,7 +41,19 @@
     .register-btn-wrap{
       @include center;
       justify-content: space-between;
-      margin-top: 25vw;
+      margin-top: 20vw;
+      &.edit{
+        .register-btn.remove{
+          width: 20%;
+          padding: 3.7vw 0;
+          background-color: transparent;
+          border: 1px solid #818181;
+          img{width: 24px;}
+        }
+        .register-btn.edit{
+          width: 76%;
+        }
+      }
       .register-btn{
         display: block;
         width: 48%;
@@ -50,7 +62,7 @@
         color: #fff;
         background: $btn-active-color;
         border-radius: 8px;
-        padding: 4.3vw 0;
+        padding: 5.3vw 0;
       }
     }
   }
