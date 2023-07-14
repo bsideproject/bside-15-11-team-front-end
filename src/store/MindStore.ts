@@ -65,7 +65,6 @@ class MindStore {
       }
     });
     if(response) setCount(response);
-    console.log("setMindCount : " + JSON.stringify(response));
 
     return response;
   }

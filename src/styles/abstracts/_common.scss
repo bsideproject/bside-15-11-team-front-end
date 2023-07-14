@@ -69,6 +69,7 @@
       height: 110px;
       overflow-y: scroll;
       white-space: pre;
+      resize: none;
     }
     &::placeholder{
       color: #818181;
