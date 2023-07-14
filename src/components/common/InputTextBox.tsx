@@ -15,7 +15,8 @@ interface PropsType{
     maxLength?: number,
     ref?: any,
     onKeyUp?: any,
-    style?: any
+    style?: any,
+    getEdit?: any
 }
 
 const InputTextBox = ({
@@ -30,7 +31,8 @@ const InputTextBox = ({
                           maxLength,
                           ref,
                           onKeyUp,
-                          style
+                          style,
+                          getEdit
 }:PropsType) => {
     return (
         <div className="InputTextBox">
@@ -63,7 +65,7 @@ const InputTextBox = ({
                     style={style}
                 />
             }
-            {id === "friendName" ?
+            {!getEdit && id === "friendName" ?
                 <div className="friend-name-add" onClick={addFriend}>
                     <img src={IcPlusBtnWh} alt="plus-btn" /><span>여러 사람 등록하기</span>
                 </div> : null

@@ -10,7 +10,6 @@ import KakaoAuth from './pages/login/KakaoAuth';
 import Friend from "./pages/friend/Friend";
 import Mind from './pages/mind/Mind';
 import Detail from "./pages/detail/Detail";
-import DatePickerWrap from "./components/common/DatePickerWrap";
 
 function App() {
     return (
@@ -27,7 +26,6 @@ function App() {
                     <Route path="/page/relationship" element={<Mind />}></Route>
                     <Route path="/page/detail" element={<Detail />}></Route>
 
-                    <Route path="/page/date" element={<DatePickerWrap />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

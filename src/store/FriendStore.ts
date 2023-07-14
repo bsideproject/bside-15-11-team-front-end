@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { get, post } from "../apis/RestApis";
+import {get, patch, post, put} from "../apis/RestApis";
 import { FriendResponseProto } from "../prototypes/friend/FriendResponse";
 import RootStore from "./RootStore";
 import {FriendPostProto} from "../prototypes/friend/FriendRequest";
@@ -45,7 +45,9 @@ class FriendStore {
         friendMemo: string,
         birth: string,
         isLunar: boolean,
-        birthUnKnown: boolean
+        birthUnKnown: boolean,
+        getEdit?: string|null,
+        getSequence?: string|null
     ){
         const request  = {
             nicknames: friendName,
@@ -61,12 +63,21 @@ class FriendStore {
             memo: friendMemo
         };
         try{
-            const res = await post(`${this.baseUrl}/api/friend`, request,{
-                headers : {
-                    Authorization : this.rootStore.userStore.getJwtKey
-                },
-            });
-            console.log(res);
+            if(getEdit === "edit"){
+                const res = await put(`${this.baseUrl}/api/friend/${getSequence}`, request,{
+                    headers : {
+                        Authorization : this.rootStore.userStore.getJwtKey
+                    },
+                });
+                console.log(res);
+            }else{
+                const res = await post(`${this.baseUrl}/api/friend`, request,{
+                    headers : {
+                        Authorization : this.rootStore.userStore.getJwtKey
+                    },
+                });
+                console.log(res);
+            }
         }catch (err){
             console.log(err);
         }

@@ -22,6 +22,7 @@ const Friend = () => {
     let date = (now.getDate() + 1) > 9 ? (now.getDate() + 1) : '0'+(now.getDate() + 1);
     let nowDate = `${year}-${month}-${date}`;
 
+    const relation = ["가족", "친구", "동료", "지인"];
     const [friendName, setFriendName] = useState<string[]>([""]);
     const [friendRelation, setFriendRelation] = useState("");
     const [friendMemo, setFriendMemo] = useState("");
@@ -35,6 +36,8 @@ const Friend = () => {
     const [isValidation, setIsValidation] = useState<boolean[]>([true, true, true]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
+    const [isSaveOpen, setIsSaveOpen] = useState<boolean>(false);
+    const [goRegister, setGoRegister] = useState<boolean>(false);
     // edit
     const [detailInfo, setDetailInfo] = useState<any>();
 
@@ -43,28 +46,36 @@ const Friend = () => {
             apiCallSet(getSequence);
         }
     }, []);
+
     useEffect(() => {
         // 이름
-        setFriendName([detailInfo?.nickname]);
+        detailInfo && setFriendName([detailInfo?.nickname]);
         // 메모
-        setFriendMemo(detailInfo?.memo);
+        detailInfo && setFriendMemo(detailInfo?.memo);
         // 관계
-        setFriendRelation(detailInfo?.relationship);
-        console.log(detailInfo?.relationship)
+        if(detailInfo && !relation.includes(detailInfo?.relationship)){
+            setFriendRelation("directInput")
+            setFriendDirectInput(detailInfo?.relationship);
+        }else{
+            detailInfo && setFriendRelation(detailInfo?.relationship);
+        }
         // 생일
         if(detailInfo && Object.keys(detailInfo?.birth).length === 0){
             setBirthUnknown(true);
         }else{
-
+            let copy = [...inputArray];
+            copy[1] = detailInfo && `${detailInfo?.birth?.date?.year}-${detailInfo?.birth?.date?.month < 10 ? "0"+detailInfo?.birth?.date?.month : detailInfo?.birth?.date?.month}-${detailInfo?.birth?.date?.day < 10 ? "0"+detailInfo?.birth?.date?.day : detailInfo?.birth?.date?.day}`;
+            detailInfo && setInputArray(copy);
         }
-        if(detailInfo?.isLunar === "N"){
+        if(detailInfo && detailInfo?.birth?.isLunar === "N"){
             setIsLunar(false);
         }else{
-            setIsLunar(true);
+            detailInfo && setIsLunar(true);
         }
 
     }, [detailInfo]);
-    console.log(detailInfo)
+
+    // 등록된 정보 불러오기
     const apiCallSet = async (sequence:any) => {
         await RootStore.friendStore.getFriendDetail(sequence, setDetailInfo);
     }
@@ -117,18 +128,17 @@ const Friend = () => {
     }
 
     // 등록 완료 후 action
-    const handleConfirm = (page : string) => {
-        alert("등록이 완료되었습니다.");
-        RootStore.friendStore.setRegisterFriend(
+    const handleConfirm = async () => {
+        await RootStore.friendStore.setRegisterFriend(
             friendName, friendRelation,
             friendDirectInput, friendMemo,
-            inputArray[1], isLunar, birthUnKnown
+            inputArray[1], isLunar, birthUnKnown,
+            getEdit && getEdit,getSequence && getSequence
         );
-        navigate(`/page/${page}`);
     }
 
     // 등록 버튼
-    const handleSubmit = (page : string) => {
+    const handleSubmit = () => {
 
         if(friendName[0] === ""){
             let copy = isValidation;
@@ -146,7 +156,8 @@ const Friend = () => {
             copy[2] = false;
             setIsValidation([...copy]);
         }else{
-            handleConfirm(page);
+            handleConfirm();
+            setIsSaveOpen(true);
         }
     }
 
@@ -181,6 +192,7 @@ const Friend = () => {
                     addFriend={handleAddName}
                     removeFriend={handleRemoveName}
                     maxLength={6}
+                    getEdit={getEdit}
                 />
                 {!isValidation[0] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />
@@ -188,6 +200,7 @@ const Friend = () => {
                 <RadioWrap
                     inputTitle='관계'
                     handleRegister={handleRegister}
+                    friendRelation={friendRelation && friendRelation}
                     options={
                         [{
                             name : 'relation',
@@ -274,13 +287,15 @@ const Friend = () => {
                         <button type="button" className="register-btn remove" onClick={() => setIsOpen(true)}>
                             <img src={ImgDelBtn} alt="delete-btn" />
                         </button>
-                        <button type="button" className="register-btn edit" onClick={() => handleSubmit(`/page/detail?sequence=${getSequence}`)}>저장하기</button>
+                        <button type="button" className="register-btn edit" onClick={handleSubmit}>저장하기</button>
                     </div> :
                     <div className="register-btn-wrap">
-                        <button type="button" className="register-btn" onClick={() => handleSubmit("main")}>등록하기</button>
-                        <button type="button" className="register-btn" onClick={() => handleSubmit(`relationship?friendName=${friendName}`)}>등록 후 마음 기록하기</button>
+                        <button type="button" className="register-btn" onClick={handleSubmit}>등록하기</button>
+                        <button type="button" className="register-btn" onClick={() => {setGoRegister(true); handleSubmit()}
+                        }>등록 후 마음 기록하기</button>
                     </div>
                 }
+
             </form>
 
             <ModalConfirm
@@ -298,6 +313,16 @@ const Friend = () => {
                 modalChoice="type1"
                 mainText="삭제가 완료되었습니다."
                 confirmAction={() => navigate("/page/main")}
+                confirmText="확인"
+            />
+            <ModalConfirm
+                isOpen={isSaveOpen}
+                modalChoice="type1"
+                mainText="등록이 완료되었습니다."
+                confirmAction={() => navigate(getEdit === "edit" ?
+                    `/page/detail?sequence=${getSequence}` : goRegister ?
+                        `/page/relationship?friendName=${friendName}` :
+                        "/page/main")}
                 confirmText="확인"
             />
         </div>
