@@ -6,6 +6,9 @@ import RootStore from './store/RootStore';
 import Friend from "./pages/friend/Friend";
 import Mind from './pages/mind/Mind';
 import Detail from "./pages/detail/Detail";
+import Login from './pages/login/Login';
+import Agreement from './pages/login/Agreement';
+import KakaoAuth from './pages/login/KakaoAuth';
 
 function App() {
 
@@ -44,6 +47,9 @@ function App() {
                     <Route path="/page/friend" element={<Friend />}></Route>
                     <Route path="/page/relationship" element={<Mind />}></Route>
                     <Route path="/page/detail" element={<Detail />}></Route>
+                    <Route path="/page/login" element={<Login />}></Route>
+                    <Route path="/page/agreement" element={<Agreement />}></Route>
+                    <Route path="/page/auth/kakao" element={<KakaoAuth/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
