@@ -27,10 +27,10 @@ function App() {
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                // const data = JSON.parse(event.data);
-                //
-                // RootStore.userStore.setJwtKey(data.jwtKey);
-                // RootStore.userStore.setServiceUserId(data.userData.sequence);
+                const data = JSON.parse(event.data);
+
+                RootStore.userStore.setJwtKey(data.jwtKey);
+                RootStore.userStore.setServiceUserId(data.userData.sequence);
             }
         };
 
