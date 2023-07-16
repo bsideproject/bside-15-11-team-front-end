@@ -50,7 +50,7 @@ class FriendStore {
         getSequence?: string|null
     ){
         const request  = {
-            nickname: friendName[0],
+            nicknames: friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
             birth: birthUnKnown ? null : {
                 isLunar: isLunar ? "Y": "N",
