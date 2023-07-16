@@ -3,7 +3,6 @@ import TitleWrap from "../../components/common/TitleWrap";
 import InputTextBox from "../../components/common/InputTextBox";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import {useNavigate} from "react-router-dom";
-import queryString from "query-string";
 
 const SettingNickname = () => {
 

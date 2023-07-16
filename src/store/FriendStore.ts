@@ -114,7 +114,6 @@ class FriendStore {
 
     // 친구 주고 받은 내역 조회
     async getFriendExchange(sequence:string, sort:string, setExchangeData?:any){
-        const sortParams = sort ? "DESC" : "ASC";
         try{
             const res = await get(`${this.baseUrl}/api/relationships?friendSequence=${sequence}&sort=${sort}`, {
                 headers : {
