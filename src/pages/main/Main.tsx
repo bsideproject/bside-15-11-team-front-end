@@ -9,11 +9,13 @@ import MainFriendList from "../../components/main/MainFriendList";
 import MainRegister from "../../components/main/MainRegister";
 import RootStore from "../../store/RootStore";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
+import {useNavigate} from "react-router-dom";
 
 
 const Main = () => {
     let key = RootStore.userStore.getJwtKey;
-
+    let navigate = useNavigate();
+    let testNick = "test";
     // 리스트 비었을 때 분기처리
     const [isEmptyList, setIsEmptyList] = useState<boolean>(true);
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
@@ -77,12 +79,13 @@ const Main = () => {
     return (
         <div className="Main inner">
             <div className="main-header">
-                <span className="setting-btn"><img src={IcSettingBtn} alt="setting-btn" /></span>
+                <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${testNick}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
             </div>
             <MainText
                 isEmptyList={isEmptyList}
                 length={mainFriendList? mainFriendList.length : null}
                 count={count? count : ""}
+                nickname={testNick}
             />
             <MainExchangedCount
                 count={count? count : ""}

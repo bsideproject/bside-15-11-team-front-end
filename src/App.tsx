@@ -9,6 +9,11 @@ import Detail from "./pages/detail/Detail";
 import Login from './pages/login/Login';
 import Agreement from './pages/login/Agreement';
 import KakaoAuth from './pages/login/KakaoAuth';
+import Setting from "./pages/setting/Setting";
+import SettingNickname from "./pages/setting/SettingNickname";
+import SettingOptIn from "./pages/setting/SettingOptIn";
+import SettingTerms from "./pages/setting/SettingTerms";
+import SettingWithdrawal from "./pages/setting/SettingWithdrawal";
 
 function App() {
 
@@ -22,10 +27,10 @@ function App() {
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                const data = JSON.parse(event.data);
-
-                RootStore.userStore.setJwtKey(data.jwtKey);
-                RootStore.userStore.setServiceUserId(data.userData.sequence);
+                // const data = JSON.parse(event.data);
+                //
+                // RootStore.userStore.setJwtKey(data.jwtKey);
+                // RootStore.userStore.setServiceUserId(data.userData.sequence);
             }
         };
 
@@ -35,7 +40,7 @@ function App() {
             window.removeEventListener('message', handleMessage);
         }
 
-    }, [isMessageReceived]);      
+    }, [isMessageReceived]);
 
     return (
     <Provider RootStore={RootStore}>
@@ -50,6 +55,12 @@ function App() {
                     <Route path="/page/login" element={<Login />}></Route>
                     <Route path="/page/agreement" element={<Agreement />}></Route>
                     <Route path="/page/auth/kakao" element={<KakaoAuth/>}></Route>
+
+                    <Route path="/page/setting" element={<Setting />}></Route>
+                    <Route path="/page/setting/nickname" element={<SettingNickname />}></Route>
+                    <Route path="/page/setting/optin" element={<SettingOptIn />}></Route>
+                    <Route path="/page/setting/terms" element={<SettingTerms />}></Route>
+                    <Route path="/page/setting/withdrawal" element={<SettingWithdrawal />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
