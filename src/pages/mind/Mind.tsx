@@ -9,12 +9,9 @@ import Event from './Event';
 import EventType from './EventType';
 import MindType from './MindType';
 import MoneyOption from './MoneyOption';
-import InputTextBox from '../../components/common/InputTextBox';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
 import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
-import IcPhotoUploadBtn from '../../assets/images/icon/ic_photo_upload_btn.png';
-import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import NullChecker from '../../utils/NullChecker';
 import { ItemProto } from '../../prototypes/common/ItemProto';
@@ -23,6 +20,7 @@ import { DateProto } from '../../prototypes/common/DateProto';
 import { RelationshipTypeProto } from '../../prototypes/common/type/RelationshipTypeProto';
 import { RelationshipPostRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
 import queryString from 'query-string';
+import DatePickers from "../../components/common/DatePickers";
 
 const Mind = () => {
 
@@ -427,7 +425,7 @@ const Mind = () => {
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}
       />
-      <Calendar
+      <DatePickers
         isOpen={openModal[1]}
         onClose={() => handleClose(1)}
         title={"날짜"}

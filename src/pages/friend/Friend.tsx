@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import axios from "axios";
+import DatePickers from "../../components/common/DatePickers";
 
 const Friend = () => {
     let navigate = useNavigate();
@@ -19,8 +20,8 @@ const Friend = () => {
     let now = new Date();
     let year= now.getFullYear();
     let month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1) : '0'+(now.getMonth() + 1);
-    let date = (now.getDate() + 1) > 9 ? (now.getDate() + 1) : '0'+(now.getDate() + 1);
-    let nowDate = `${year}-${month}-${date}`;
+    let date = (now.getDate() + 1) > 9 ? (now.getDate()) : '0'+(now.getDate());
+    let nowDate = `${year}년 ${month}월 ${date}일`;
 
     const relation = ["가족", "친구", "동료", "지인"];
     const [friendName, setFriendName] = useState<string[]>([""]);
@@ -28,7 +29,7 @@ const Friend = () => {
     const [friendMemo, setFriendMemo] = useState("");
     const [friendDirectInput, setFriendDirectInput] = useState("");
     const [isLunar, setIsLunar] = useState<boolean>(false);
-    const [birthUnKnown, setBirthUnknown] = useState<boolean>(false);
+    const [birthUnKnown, setBirthUnknown] = useState<boolean>(true);
 
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
@@ -261,7 +262,7 @@ const Friend = () => {
                 {!isValidation[2] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />
                 }
-                <Calendar
+                <DatePickers
                     isOpen={openModal[1]}
                     onClose={() => handleClose(1)}
                     title="생일"
