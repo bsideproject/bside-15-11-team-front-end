@@ -14,6 +14,7 @@ import SettingNickname from "./pages/setting/SettingNickname";
 import SettingOptIn from "./pages/setting/SettingOptIn";
 import SettingTerms from "./pages/setting/SettingTerms";
 import SettingWithdrawal from "./pages/setting/SettingWithdrawal";
+import DatePicker from "./components/common/DatePicker";
 
 function App() {
 
@@ -27,10 +28,10 @@ function App() {
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                const data = JSON.parse(event.data);
-
-                RootStore.userStore.setJwtKey(data.jwtKey);
-                RootStore.userStore.setServiceUserId(data.userData.sequence);
+                // const data = JSON.parse(event.data);
+                //
+                // RootStore.userStore.setJwtKey(data.jwtKey);
+                // RootStore.userStore.setServiceUserId(data.userData.sequence);
             }
         };
 
@@ -61,6 +62,8 @@ function App() {
                     <Route path="/page/setting/optin" element={<SettingOptIn />}></Route>
                     <Route path="/page/setting/terms" element={<SettingTerms />}></Route>
                     <Route path="/page/setting/withdrawal" element={<SettingWithdrawal />}></Route>
+
+                    <Route path="/page/date" element={<DatePicker />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
