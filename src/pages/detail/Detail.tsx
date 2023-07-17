@@ -8,12 +8,15 @@ import RootStore from "../../store/RootStore";
 import ExchangeWrap from "../../components/detail/ExchangeWrap";
 import Sheet, { type SheetProps } from "react-dynamic-bottom-sheet";
 import {useNavigate} from "react-router-dom";
+import MainRegister from "../../components/main/MainRegister";
+import IcPlusBtn from "../../assets/images/icon/ic_plus_btn_white.svg";
 
 const Detail = () => {
 
     const navigate = useNavigate();
     const getSequence = new URLSearchParams(window.location.search).get("sequence");
     const [detailInfo, setDetailInfo] = useState<any>();
+    const [registerBtn, setRegisterBtn] = useState<boolean>(false);
 
     const sheetProps: SheetProps = {
         isVisible: true,
@@ -29,6 +32,15 @@ const Detail = () => {
 
     const apiCallSet = async (sequence:any) => {
         await RootStore.friendStore.getFriendDetail(sequence, setDetailInfo);
+    }
+
+    // 추가 버튼
+    const handleRegisterBtn = () => {
+        if(registerBtn){
+            setRegisterBtn(false);
+        } else {
+            setRegisterBtn(true);
+        }
     }
 
     return(
@@ -57,7 +69,11 @@ const Detail = () => {
                     sequence={getSequence}
                 />
             </Sheet>
-
+            {registerBtn ? <MainRegister handleRegisterBtn={handleRegisterBtn}  /> :
+                <button type="button" className="add-btn" onClick={handleRegisterBtn}>
+                    <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn"/></span>
+                </button>
+            }
         </div>
     )
 }
