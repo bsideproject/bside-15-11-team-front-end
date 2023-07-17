@@ -43,6 +43,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                     <span>{sort === "DESC" ? "과거순" : "최신순"}</span>
                 </div>
             </div>
+            {exchangeData && exchangeData.length !== 0 ?
                 <ul className="exchange-wrap">
                     {exchangeData && exchangeData.relationships.map((item:any, key:any) => (
                         <li className="exchange-cont" key={key}>
@@ -65,7 +66,16 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                             }
                         </li>
                     ))}
-                </ul>
+                </ul> :
+                <div style={{
+                    color: "#818181",
+                    textAlign: "center",
+                    fontSize: "3.7vw",
+                    fontWeight: "400",
+                    paddingTop: "20%"
+                }}>아직 기록이 없어요.</div>
+            }
+
 
 
         </div>
