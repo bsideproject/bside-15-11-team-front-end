@@ -196,6 +196,30 @@
   .exchange-cont{
     position: relative;
     padding: 5px 0 24px 15px;
+    .exchanged-circle{
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      position: absolute;
+      left: -6.5px; top: 1.5vw;
+      &.giv{
+        background-color: #818181;
+      }
+      &.tak{
+        width: 14px; height: 14px;
+        left: -7.5px;
+        background-color: rgba(192, 192, 192, 0.2);
+        &::after{
+          display: block;
+          content: "";
+          width: 10px; height: 10px;
+          border-radius: 50%;
+          position: absolute;
+          left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #C0C0C0;
+        }
+      }
+    }
     h4{
       color: #fff;
       font-size: 3.7vw;

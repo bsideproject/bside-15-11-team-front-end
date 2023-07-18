@@ -28,10 +28,10 @@ function App() {
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                const data = JSON.parse(event.data);
-
-                RootStore.userStore.setJwtKey(data.jwtKey);
-                RootStore.userStore.setServiceUserId(data.userData.sequence);
+                // const data = JSON.parse(event.data);
+                //
+                // RootStore.userStore.setJwtKey(data.jwtKey);
+                // RootStore.userStore.setServiceUserId(data.userData.sequence);
             }
         };
 
@@ -63,6 +63,7 @@ function App() {
                     <Route path="/page/setting/terms" element={<SettingTerms />}></Route>
                     <Route path="/page/setting/withdrawal" element={<SettingWithdrawal />}></Route>
 
+                    {/*삭제 예정*/}
                     <Route path="/page/date" element={<DatePicker />}></Route>
                 </Routes>
             </BrowserRouter>

@@ -47,7 +47,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                 <ul className="exchange-wrap">
                     {exchangeData && exchangeData.relationships.map((item:any, key:any) => (
                         <li className="exchange-cont" key={key}>
-                            <i className="exchanged-circle"></i>
+                            <i className={item?.type === "TAKEN" ? "exchanged-circle tak" : item?.type === "GIVEN" ? "exchanged-circle giv" : "exchanged-circle giv"}></i>
                             <h4 className={item?.type === "TAKEN" ? "taken" : ""}>
                                 {item?.type === "GIVEN" ?
                                     `${detailInfo?.nickname}님` :
@@ -66,7 +66,8 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                             }
                         </li>
                     ))}
-                </ul> :
+                </ul>
+            :
                 <div style={{
                     color: "#818181",
                     textAlign: "center",
