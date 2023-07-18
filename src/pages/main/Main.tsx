@@ -33,7 +33,7 @@ const Main = () => {
         }
 
         // 친구 존재 여부 확인
-        if(mainFriendList){
+        if(!mainFriendList){
             setIsEmptyList(true);
         }else{
             setIsEmptyList(false);

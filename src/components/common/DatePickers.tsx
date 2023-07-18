@@ -136,7 +136,7 @@ const Calendar = ({
     }
 
     return (
-        <Sheet className='calendar-sheet'
+        <Sheet className={isOpen ? 'calendar-sheet open' : 'calendar-sheet'}
             isOpen={isOpen}
             onClose={function(){}}
             disableDrag={true}
