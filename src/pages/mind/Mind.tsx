@@ -29,7 +29,7 @@ const Mind = () => {
   const [validCheckArray, setValidCheckArray] = useState<boolean[]>([true, true, true, true]);
 
   const [eventType, setEventType] = useState<string>('give');
-  const [mindType, setMindType] = useState<string>('');
+  const [mindType, setMindType] = useState<string>('cash');
   const [money, setMoney] = useState<number>(0);
   const [memo, setMemo] = useState<string>('');
 
@@ -110,7 +110,8 @@ const Mind = () => {
 
   const addMoney = (add : number) => {
     let sum = add + money;
-    console.log(sum)
+    let reSum = sum.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+    console.log(reSum)
     setMoney(sum);
 
     if (moneyInputRef.current) {
@@ -311,7 +312,7 @@ const Mind = () => {
           setEventType={setEventType}
         />
         <InputTextBoxWithArrow
-          inputTitle='이름 (필수)'
+          inputTitle='이름'
           placeholder='기록할 친구들을 선택하세요.'
           id='friends'
           onClick={() => handleInputClick(0)}
@@ -323,7 +324,7 @@ const Mind = () => {
           />
         }
         <InputTextBoxWithArrow
-          inputTitle='날짜 (필수)'
+          inputTitle='날짜'
           id='date'
           onClick={() => handleInputClick(1)}
           value={inputArray[1]}
@@ -334,7 +335,7 @@ const Mind = () => {
           />
         }
         <InputTextBoxWithArrow
-          inputTitle='이벤트 (필수)'
+          inputTitle='이벤트'
           id='event'
           onClick={() => handleInputClick(2)}
           value={inputArray[2]}

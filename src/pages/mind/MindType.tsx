@@ -8,14 +8,15 @@ const MindType = (props : any) => {
             </label>
 
             <div className="mind-wrap">
-                <input type="radio" name='mind' 
+                <input type="radio" name='mind'
                     id='cash'
+                       checked={true}
                     onClick={() => props.onSelect('cash')}
                 />
                 <label htmlFor='cash'>
                     현금
                 </label>
-                <input type="radio" name='mind' 
+                <input type="radio" name='mind'
                     id='gift'
                     onClick={() => props.onSelect('gift')}
                 />
