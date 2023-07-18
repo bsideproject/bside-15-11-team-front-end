@@ -283,3 +283,9 @@
 .react-modal-sheet-container {
     padding-bottom: 5vw;
 }
+.react-modal-sheet-backdrop{
+    background-color: rgba(0,0,0,0.6) !important;
+}
+.calendar-sheet.open{
+    pointer-events: inherit !important;
+}

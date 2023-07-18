@@ -1,5 +1,4 @@
 import React from "react";
-import {LevelInformationProto} from "../../prototypes/common/LevelInformationProto";
 
 interface propType{
     count?: any,
