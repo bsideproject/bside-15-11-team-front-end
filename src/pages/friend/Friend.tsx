@@ -201,9 +201,8 @@ const Friend = () => {
             (friendRelation === "directInput" && friendDirectInput !== "")) &&
             (inputArray[1] !== "" || birthUnKnown)
         ){
-            console.log("okok")
-            // handleConfirm();
-            // setIsSaveOpen(true);
+            handleConfirm();
+            setIsSaveOpen(true);
         }
 
 

@@ -2,7 +2,13 @@
 @use '../abstracts/variable' as *;
 
 .Mind {
-
+    position: relative;
+    .exel-btn{
+        background: none;
+        position: absolute;
+        right: 20px; top: 20px;
+        padding: 0;
+    }
     .mind-register-wrap {
         margin-top : 30px;
 

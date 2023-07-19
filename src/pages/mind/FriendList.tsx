@@ -148,9 +148,11 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
               />
             </div>
           </div>
-          <div className="count-div">
-            <p id="friend-count">{`${checkCount} / ${totalCount}`}</p>
-          </div>
+          {checkCount !== 0 ?
+              <div className="count-div">
+                <p id="friend-count">{`${checkCount} / ${totalCount}`}</p>
+              </div> : null
+          }
           <div id='friend-list'>
             {friendList.map((obj) => (
               <FriendInfo
