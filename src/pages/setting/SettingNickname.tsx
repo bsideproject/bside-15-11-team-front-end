@@ -3,14 +3,16 @@ import TitleWrap from "../../components/common/TitleWrap";
 import InputTextBox from "../../components/common/InputTextBox";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import {useNavigate} from "react-router-dom";
+import ErrorMessage from "../../components/common/ErrorMessage";
 
 const SettingNickname = () => {
-
+    let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
     const getNick = new URLSearchParams(window.location.search).get("nick");
 
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isValidation, setIsValidation] = useState<boolean>(true);
 
     useEffect(() => {
         getNick && setNickname(getNick);
@@ -22,7 +24,12 @@ const SettingNickname = () => {
         }
     }
     const handleSubmit = () => {
-        setIsOpen(true);
+        if(regExp.test(nickname)){
+            setIsValidation(false);
+        }else{
+            setIsValidation(true);
+            setIsOpen(true);
+        }
     }
 
     return(
@@ -36,6 +43,9 @@ const SettingNickname = () => {
                 onChange={handleNick}
                 value={nickname || ""}
             />
+            {!isValidation &&
+                <ErrorMessage message='사용할 수 없는 문자가 포함되어 있습니다.' />
+            }
             <div className="save-button-wrap">
                 <button
                     className='save-button'

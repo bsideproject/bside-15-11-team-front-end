@@ -21,6 +21,8 @@ import { RelationshipTypeProto } from '../../prototypes/common/type/Relationship
 import { RelationshipPostRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
 import queryString from 'query-string';
 import DatePickers from "../../components/common/DatePickers";
+import ImgExelBtn from "../../assets/images/icon/ic_exel_btn.svg";
+import ModalConfirm from "../../components/common/ModalConfirm";
 
 const Mind = () => {
 
@@ -32,6 +34,7 @@ const Mind = () => {
   const [mindType, setMindType] = useState<string>('cash');
   const [money, setMoney] = useState<number>(0);
   const [memo, setMemo] = useState<string>('');
+  const [isReady, setIsReady] = useState(false);
 
   const [selectedSeq, setSelectedSeq] = useState("");
 
@@ -259,6 +262,10 @@ const Mind = () => {
 
   }
 
+  const handleExelBtn = () => {
+    setIsReady(true);
+  }
+
   const setEventInput = (event : string) => {
     if (!NullChecker.isEmpty(event)) {
       let inputList = inputArray;
@@ -305,6 +312,7 @@ const Mind = () => {
 
   return (
     <div className="Mind inner">
+      <button type="button" className="exel-btn" onClick={handleExelBtn}><img src={ImgExelBtn} alt="exel-btn" /></button>
       <TitleWrap title="마음 기록하기" />
       <form className='mind-register-wrap'>
         <EventType
@@ -440,6 +448,13 @@ const Mind = () => {
         inputArray={inputArray}
         setEventInput={setEventInput}
         setContainerHeight={setContainerHeight}
+      />
+      <ModalConfirm
+          isOpen={isReady}
+          modalChoice="type1"
+          mainText="엑셀 파일 불러오기는 아직 준비중이에요."
+          confirmAction={() => setIsReady(false)}
+          confirmText="확인"
       />
     </div>
   );
