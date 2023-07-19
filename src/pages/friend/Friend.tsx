@@ -308,7 +308,7 @@ const Friend = () => {
                     placeholder={nowDate}
                     id="birth"
                     onClick={() => handleInputClick(1)}
-                    value={inputArray[1]}
+                    value={isLunar ? `${inputArray[1]} (음력)` : `${inputArray[1]}`}
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
                 />
