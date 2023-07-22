@@ -1,15 +1,18 @@
 import TitleWrap from "../../components/common/TitleWrap";
 import React, {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import IcFrontBtn from '../../assets/images/icon/ic_front_btn.svg';
 import ModalConfirm from "../../components/common/ModalConfirm";
 
 const Setting = () => {
 
-    let navigate = useNavigate();
     const getNick = new URLSearchParams(window.location.search).get("nick");
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
+
+    const logOut = () => {
+        window.ReactNativeWebView.postMessage('logout');
+    }
 
     return(
         <div className="Setting inner">
@@ -35,7 +38,7 @@ const Setting = () => {
                 modalChoice="type2"
                 mainText="로그아웃 하시겠어요?"
                 subText=""
-                confirmAction={() => {setIsOpen(false); setIsOkOpen(true)}}
+                confirmAction={() => {setIsOpen(false); setIsOkOpen(true);}}
                 cancelAction={() => setIsOpen(false)}
                 confirmText="확인"
                 cancelText="취소"
@@ -44,7 +47,7 @@ const Setting = () => {
                 isOpen={isOkOpen}
                 modalChoice="type1"
                 mainText="로그아웃 되었습니다."
-                confirmAction={() => navigate("/page/main")}
+                confirmAction={() => logOut()}
                 confirmText="확인"
             />
         </div>

@@ -21,7 +21,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "global.d.ts"
   ],
   "rull": {
     "no-unused-vars": "off",

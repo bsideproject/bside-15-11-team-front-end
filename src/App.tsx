@@ -28,10 +28,10 @@ function App() {
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                const data = JSON.parse(event.data);
+                const data = event.data;
 
-                RootStore.userStore.setJwtKey(data.jwtKey);
-                RootStore.userStore.setServiceUserId(data.userData.sequence);
+                RootStore.userStore.setJwtKey(data);
+
             }
         };
 
