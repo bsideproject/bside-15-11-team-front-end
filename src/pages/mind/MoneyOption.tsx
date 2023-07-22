@@ -8,7 +8,7 @@ interface PropsType {
 const MoneyOption = ({options, onSelect} : PropsType) => {
     return (
         <div className="MoneyOptionWrap">
-            
+
             <div className="money-option-wrap">
                 {
                     options.map((option) => (

@@ -13,7 +13,7 @@
     display: block;
   }
   .title{
-    font-size: 6vw;
+    font-size: 5.5vw;
     margin-left: 6px;
   }
 
@@ -26,19 +26,18 @@
 // modal save btn
 .save-button-wrap{
   position: fixed;
-  bottom: 0;
-  background-color: #242424;
-  padding: 15px 10px;
+  bottom: 0; left: 0;
+  padding: 32px 20px;
   width: 100%;
   .save-button {
     border : none;
-    width: 90%;
+    width: 100%;
     display: inline-block;
     font-weight: 500;
     font-size: 3.7vw;
     color: #fff;
     border-radius: 12px;
-    padding: 15px 0;
+    padding: 4.7vw 0;
     background-color: #FA7F64;
     transition: .3s;
     &:disabled{
@@ -52,7 +51,7 @@
 .InputTextBox{
   .input-title{
     font-weight: 500;
-    font-size: 4.5vw;
+    font-size: 4vw;
     display: block;
   }
   .input-text-box{
@@ -70,6 +69,8 @@
       overflow-y: scroll;
       white-space: pre;
       resize: none;
+      text-wrap: inherit;
+      line-height: 1.3;
     }
     &::placeholder{
       color: #818181;
@@ -181,7 +182,7 @@
   .modal-wrap{
     border-radius: 12px;
     background: #242424;
-    padding: 5vw;
+    padding: 6vw 5vw;
     width: 90%;
     position: absolute;
     left: 50%; top: 50%;
@@ -218,6 +219,9 @@
         border-radius: 12px;
         padding: 12px 0;
         margin: 0 4px;
+        &.mrg-0{
+          margin: 0;
+        }
       }
       .confirm-btn{
         background: #FA7F64;
@@ -237,3 +241,37 @@
     transform: translateY(0%);
   }
 }
+
+.DatePicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 20px 0;
+  padding: 10px;
+  .swiper-container {
+    width: 32%;
+    height: 150px;
+    overflow: hidden;
+    .swiper-slide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 50px;
+      font-size: 4.5vw;
+      color: #818181;
+      border-radius: 8px;
+    }
+    .swiper-slide-active {
+      background-color: #383838;
+      color: #fff;
+    }
+  }
+}
+
+
+
+
+
+

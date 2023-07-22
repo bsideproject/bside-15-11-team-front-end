@@ -9,12 +9,9 @@ import Event from './Event';
 import EventType from './EventType';
 import MindType from './MindType';
 import MoneyOption from './MoneyOption';
-import InputTextBox from '../../components/common/InputTextBox';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
 import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
-import IcPhotoUploadBtn from '../../assets/images/icon/ic_photo_upload_btn.png';
-import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import NullChecker from '../../utils/NullChecker';
 import { ItemProto } from '../../prototypes/common/ItemProto';
@@ -23,6 +20,9 @@ import { DateProto } from '../../prototypes/common/DateProto';
 import { RelationshipTypeProto } from '../../prototypes/common/type/RelationshipTypeProto';
 import { RelationshipPostRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
 import queryString from 'query-string';
+import DatePickers from "../../components/common/DatePickers";
+import ImgExelBtn from "../../assets/images/icon/ic_exel_btn.svg";
+import ModalConfirm from "../../components/common/ModalConfirm";
 
 const Mind = () => {
 
@@ -31,9 +31,10 @@ const Mind = () => {
   const [validCheckArray, setValidCheckArray] = useState<boolean[]>([true, true, true, true]);
 
   const [eventType, setEventType] = useState<string>('give');
-  const [mindType, setMindType] = useState<string>('');
+  const [mindType, setMindType] = useState<string>('cash');
   const [money, setMoney] = useState<number>(0);
   const [memo, setMemo] = useState<string>('');
+  const [isReady, setIsReady] = useState(false);
 
   const [selectedSeq, setSelectedSeq] = useState("");
 
@@ -112,7 +113,8 @@ const Mind = () => {
 
   const addMoney = (add : number) => {
     let sum = add + money;
-    console.log(sum)
+    let reSum = sum.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+    console.log(reSum)
     setMoney(sum);
 
     if (moneyInputRef.current) {
@@ -260,6 +262,10 @@ const Mind = () => {
 
   }
 
+  const handleExelBtn = () => {
+    setIsReady(true);
+  }
+
   const setEventInput = (event : string) => {
     if (!NullChecker.isEmpty(event)) {
       let inputList = inputArray;
@@ -306,6 +312,7 @@ const Mind = () => {
 
   return (
     <div className="Mind inner">
+      <button type="button" className="exel-btn" onClick={handleExelBtn}><img src={ImgExelBtn} alt="exel-btn" /></button>
       <TitleWrap title="마음 기록하기" />
       <form className='mind-register-wrap'>
         <EventType
@@ -313,8 +320,8 @@ const Mind = () => {
           setEventType={setEventType}
         />
         <InputTextBoxWithArrow
-          inputTitle='이름 (필수)'
-          placeholder='기록할 친구들을 선택하세요.'
+          inputTitle='이름'
+          placeholder='이름을 선택하세요.'
           id='friends'
           onClick={() => handleInputClick(0)}
           value={inputArray[0]}
@@ -325,7 +332,7 @@ const Mind = () => {
           />
         }
         <InputTextBoxWithArrow
-          inputTitle='날짜 (필수)'
+          inputTitle='날짜'
           id='date'
           onClick={() => handleInputClick(1)}
           value={inputArray[1]}
@@ -336,7 +343,7 @@ const Mind = () => {
           />
         }
         <InputTextBoxWithArrow
-          inputTitle='이벤트 (필수)'
+          inputTitle='이벤트'
           id='event'
           onClick={() => handleInputClick(2)}
           value={inputArray[2]}
@@ -427,7 +434,7 @@ const Mind = () => {
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}
       />
-      <Calendar
+      <DatePickers
         isOpen={openModal[1]}
         onClose={() => handleClose(1)}
         title={"날짜"}
@@ -441,6 +448,13 @@ const Mind = () => {
         inputArray={inputArray}
         setEventInput={setEventInput}
         setContainerHeight={setContainerHeight}
+      />
+      <ModalConfirm
+          isOpen={isReady}
+          modalChoice="type1"
+          mainText="엑셀 파일 불러오기는 아직 준비중이에요."
+          confirmAction={() => setIsReady(false)}
+          confirmText="확인"
       />
     </div>
   );

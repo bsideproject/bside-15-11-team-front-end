@@ -2,7 +2,13 @@
 @use '../abstracts/variable' as *;
 
 .Mind {
-
+    position: relative;
+    .exel-btn{
+        background: none;
+        position: absolute;
+        right: 20px; top: 20px;
+        padding: 0;
+    }
     .mind-register-wrap {
         margin-top : 30px;
 
@@ -118,6 +124,7 @@
                 &::placeholder {
                     color: #818181;
                 }
+
             }
         }
 
@@ -132,13 +139,13 @@
                   color: #C0C0C0;
                   padding: 3.5vw;
                   border: 1px solid #C0C0C0;
-                  border-radius: 8px;
+                  border-radius: 12px;
                   margin-right: 2vw;
                   display: inline-block;
                     transition: .3s;
                   &:last-child{margin: 0;}
                 }
-                input[type="radio"]:checked + label{
+                input[type="radio"] + label:active{
                     border: 1px solid $btn-active-color;
                     color: $btn-active-color;
                 }
@@ -282,4 +289,10 @@
 }
 .react-modal-sheet-container {
     padding-bottom: 5vw;
+}
+.react-modal-sheet-backdrop{
+    background-color: rgba(0,0,0,0.6) !important;
+}
+.calendar-sheet.open{
+    pointer-events: inherit !important;
 }

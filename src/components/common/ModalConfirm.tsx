@@ -29,7 +29,7 @@ const ModalConfirm = ({
                         <p className="modal-sub-text">{subText}</p>
                         <div className="modal-btn-wrap">
                             {modalChoice === "type1"?
-                                <button className="confirm-btn" type="button" onClick={confirmAction}>{confirmText}</button>
+                                <button className="confirm-btn mrg-0" type="button" onClick={confirmAction}>{confirmText}</button>
                                 :null
                             }
                             {modalChoice === "type2"?

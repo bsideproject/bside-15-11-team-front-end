@@ -10,8 +10,10 @@ import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import axios from "axios";
+import DatePickers from "../../components/common/DatePickers";
 
 const Friend = () => {
+    let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
     let navigate = useNavigate();
     const getSequence:string|null = new URLSearchParams(window.location.search).get("sequence");
     const getEdit:string|null = new URLSearchParams(window.location.search).get("edit");
@@ -19,7 +21,7 @@ const Friend = () => {
     let now = new Date();
     let year= now.getFullYear();
     let month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1) : '0'+(now.getMonth() + 1);
-    let date = (now.getDate() + 1) > 9 ? (now.getDate() + 1) : '0'+(now.getDate() + 1);
+    let date = (now.getDate() + 1) > 9 ? (now.getDate()) : '0'+(now.getDate());
     let nowDate = `${year}-${month}-${date}`;
 
     const relation = ["가족", "친구", "동료", "지인"];
@@ -28,12 +30,12 @@ const Friend = () => {
     const [friendMemo, setFriendMemo] = useState("");
     const [friendDirectInput, setFriendDirectInput] = useState("");
     const [isLunar, setIsLunar] = useState<boolean>(false);
-    const [birthUnKnown, setBirthUnknown] = useState<boolean>(false);
+    const [birthUnKnown, setBirthUnknown] = useState<boolean>(true);
 
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
     const [inputArray, setInputArray] = useState<string[]>(['','','']);
 
-    const [isValidation, setIsValidation] = useState<boolean[]>([true, true, true]);
+    const [isValidation, setIsValidation] = useState<boolean[]>([true, true, true, true, true]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
     const [isSaveOpen, setIsSaveOpen] = useState<boolean>(false);
@@ -139,26 +141,71 @@ const Friend = () => {
 
     // 등록 버튼
     const handleSubmit = () => {
-
+        // name check
         if(friendName[0] === ""){
             let copy = isValidation;
             copy[0] = false;
             setIsValidation([...copy]);
-        }else if(
+        }else{
+            let copy = isValidation;
+            copy[0] = true;
+            setIsValidation([...copy]);
+        }
+        friendName.map((name) => {
+            if(regExp.test(name)){
+                let copy = isValidation;
+                copy[3] = false;
+                setIsValidation([...copy]);
+            }else{
+                let copy = isValidation;
+                copy[3] = true;
+                setIsValidation([...copy]);
+            }
+        })
+        // relation check
+        if(
             (friendRelation === "" && friendDirectInput === "") ||
             (friendRelation === "directInput" && friendDirectInput === "")
         ){
             let copy = isValidation;
             copy[1] = false;
             setIsValidation([...copy]);
-        }else if(inputArray[1] === "" && !birthUnKnown){
+        }else{
+            let copy = isValidation;
+            copy[1] = true;
+            setIsValidation([...copy]);
+        }
+        if(friendRelation === "directInput" && regExp.test(friendDirectInput)){
+            let copy = isValidation;
+            copy[4] = false;
+            setIsValidation([...copy]);
+        }else{
+            let copy = isValidation;
+            copy[4] = true;
+            setIsValidation([...copy]);
+        }
+        // birth check
+        if(inputArray[1] === "" && !birthUnKnown){
             let copy = isValidation;
             copy[2] = false;
             setIsValidation([...copy]);
         }else{
+            let copy = isValidation;
+            copy[2] = true;
+            setIsValidation([...copy]);
+        }
+        // success
+        if(
+            friendName[0] !== "" &&
+            ((friendRelation !== "" && friendDirectInput === "") ||
+            (friendRelation === "directInput" && friendDirectInput !== "")) &&
+            (inputArray[1] !== "" || birthUnKnown)
+        ){
             handleConfirm();
             setIsSaveOpen(true);
         }
+
+
     }
 
     const baseUrl = process.env.REACT_APP_SERVICE_URI
@@ -196,6 +243,9 @@ const Friend = () => {
                 />
                 {!isValidation[0] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />
+                }
+                {!isValidation[3] &&
+                    <ErrorMessage message='사용할 수 없는 문자가 포함되어 있습니다.' />
                 }
                 <RadioWrap
                     inputTitle='관계'
@@ -238,6 +288,9 @@ const Friend = () => {
                 {!isValidation[1] &&
                     <ErrorMessage message='필수 선택 사항입니다.' />
                 }
+                {!isValidation[4] &&
+                    <ErrorMessage message='사용할 수 없는 문자가 포함되어 있습니다.' />
+                }
                 {
                     friendRelation === "directInput" ?
                         <InputTextBox
@@ -254,14 +307,14 @@ const Friend = () => {
                     placeholder={nowDate}
                     id="birth"
                     onClick={() => handleInputClick(1)}
-                    value={inputArray[1]}
+                    value={isLunar ? `${inputArray[1]} (음력)` : `${inputArray[1]}`}
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
                 />
                 {!isValidation[2] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />
                 }
-                <Calendar
+                <DatePickers
                     isOpen={openModal[1]}
                     onClose={() => handleClose(1)}
                     title="생일"
@@ -275,6 +328,7 @@ const Friend = () => {
                 <div className="InputTextBox">
                     <label className="input-title">메모 (선택)</label>
                     <textarea
+                        wrap="hard"
                         className="input-text-box memo"
                         placeholder="입력하세요 (최대 40자)"
                         id="friendMemo"
@@ -290,9 +344,9 @@ const Friend = () => {
                         <button type="button" className="register-btn edit" onClick={handleSubmit}>저장하기</button>
                     </div> :
                     <div className="register-btn-wrap">
-                        <button type="button" className="register-btn" onClick={handleSubmit}>등록하기</button>
+                        <button type="button" className="register-btn" onClick={handleSubmit}>저장하기</button>
                         <button type="button" className="register-btn" onClick={() => {setGoRegister(true); handleSubmit()}
-                        }>등록 후 마음 기록하기</button>
+                        }>바로 마음 기록하기</button>
                     </div>
                 }
 

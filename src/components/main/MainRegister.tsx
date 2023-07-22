@@ -7,7 +7,7 @@ import IcClsBtn from "../../assets/images/icon/ic_close_btn.svg";
 
 interface PropsType{
     handleRegisterBtn: () => void,
-    isEmptyList: boolean
+    isEmptyList?: boolean
 }
 
 const MainRegister = ({handleRegisterBtn, isEmptyList}:PropsType) => {
@@ -23,7 +23,7 @@ const MainRegister = ({handleRegisterBtn, isEmptyList}:PropsType) => {
                 </button>
                 <button type="button" className="resgister-btn" onClick={() => navigate("/page/friend")}>
                     <img src={IcFriendRegister} alt="friend-icon" />
-                    <span className="sm-text">사람 등록하기</span>
+                    <span className="sm-text">관계 등록하기</span>
                 </button>
                 <button type="button" className="cls-btn" onClick={handleRegisterBtn}>
                     <span className="add-btn-plus"><img src={IcClsBtn} alt="ic_plus_btn"/></span>

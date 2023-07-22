@@ -1,4 +1,3 @@
-import {useState} from "react";
 import ImgLevel1 from "../../assets/images/level/level_1.svg";
 import ImgLevel2 from "../../assets/images/level/level_2.svg";
 import ImgLevel3 from "../../assets/images/level/level_3.svg";
@@ -13,9 +12,9 @@ import IcText5 from "../../assets/images/level/text_icon_5.svg";
 import IcText6 from "../../assets/images/level/text_icon_6.svg";
 
 const LevelCard = (detailInfo:any) => {
+    const levelCount = 34
+    // const levelCount = detailInfo ? detailInfo?.detailInfo?.levelInformation?.total || 0 : 0;
 
-    const levelCount = detailInfo ? detailInfo?.detailInfo?.levelInformation?.total || 0 : 0;
-//detailInfo ? detailInfo?.detailInfo?.levelInformation?.level : 0;
     let calculate;
     let element: string = ""
     let mainText: string = "";
@@ -66,7 +65,7 @@ const LevelCard = (detailInfo:any) => {
             return "5";
         }else if(num >= 20){
             mainText = "넌 나의 우주야!";
-            subText = "내 우주도 줄 수 있는 소중한 사람이에요\n함께 쌓은 신뢰와 애정을 잊지 마세요";
+            subText = "내 우주도 줄 수 있는 소중한 사람이에요";
             element = "우주";
             imgUrl = ImgLevel6;
             imgIcUrl = IcText6;
