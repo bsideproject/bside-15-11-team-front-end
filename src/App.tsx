@@ -23,20 +23,18 @@ function App() {
     useEffect(() => {
 
         const handleMessage = (event : any) => {
-            
+            if(!isMessageReceived) {
 
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                let data : string = event.data;
-
-                data = data.replaceAll('"','');
+                const data = event.data;
 
                 console.log("jwtKey from webview : " + data);
 
                 RootStore.userStore.setJwtKey(data);
 
-            
+            }
         };
 
         window.addEventListener('message', handleMessage);
