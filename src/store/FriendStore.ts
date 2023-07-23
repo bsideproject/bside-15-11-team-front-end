@@ -61,7 +61,7 @@ class FriendStore {
         };
 
         console.log("friend request : " + JSON.stringify(request));
-        console.log("friend request : " + this.rootStore.userStore.getJwtKey);
+        console.log("friend request jwtkey : " + this.rootStore.userStore.getJwtKey);
 
         try{
             if(getEdit === "edit"){
@@ -77,10 +77,10 @@ class FriendStore {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
                 });
-                console.log(res);
+                console.log("res : " + JSON.stringify(res));
             }
         }catch (err){
-            console.log(err);
+            console.log("error : " + JSON.stringify(err));
         }
     }
 
