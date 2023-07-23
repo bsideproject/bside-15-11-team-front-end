@@ -23,7 +23,7 @@ function App() {
     useEffect(() => {
 
         const handleMessage = (event : any) => {
-            if(!isMessageReceived) {
+            
 
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
@@ -36,7 +36,7 @@ function App() {
 
                 RootStore.userStore.setJwtKey(data);
 
-            }
+            
         };
 
         window.addEventListener('message', handleMessage);
