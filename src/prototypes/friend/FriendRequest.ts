@@ -8,7 +8,7 @@ export interface FriendGetCriteriaProto {
 export interface FriendPostProto {
   nicknames?: string[];
   relationship?: string;
-  birth?: BirthProto;
+  birth?: BirthProto | null;
   memo?: string;
 }
 export interface FriendPutProto {
