@@ -28,7 +28,9 @@ function App() {
                 setMessageReceived(true);
                 window.removeEventListener('message', handleMessage);
 
-                const data = event.data;
+                let data : string = event.data;
+
+                data = data.replaceAll('"','');
 
                 console.log("jwtKey from webview : " + data);
 
