@@ -62,6 +62,9 @@ class FriendStore {
             },
             memo: friendMemo
         };
+
+        console.log("friend request : " + JSON.stringify(request));
+
         try{
             if(getEdit === "edit"){
                 const res = await put(`${this.baseUrl}/api/friend/${getSequence}`, request,{
