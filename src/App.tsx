@@ -30,6 +30,8 @@ function App() {
 
                 const data = event.data;
 
+                console.log("jwtKey from webview : " + data);
+
                 RootStore.userStore.setJwtKey(data);
 
             }
