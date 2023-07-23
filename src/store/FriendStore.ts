@@ -7,6 +7,7 @@ import {BirthProto} from "../prototypes/common/BirthProto";
 import React, {useEffect} from "react";
 import {RelationshipGetRequestProto} from "../prototypes/relationship/RelationshipRequestProto";
 import { YnTypeProto } from "../prototypes/common/type/YnTypeProto";
+import { DateProto } from "../prototypes/common/DateProto";
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -50,17 +51,22 @@ class FriendStore {
         getEdit?: string|null,
         getSequence?: string|null
     ){
-        const request : FriendPostProto  = {
+
+        const birthday : DateProto = {
+            year: parseInt(birth.split("-")[0]),
+            month: parseInt(birth.split("-")[1]),
+            day: parseInt(birth.split("-")[2])
+        }
+
+        const birthInfo : BirthProto = {
+            date : birthday,
+            isLunar : isLunar ? YnTypeProto.Y : YnTypeProto.N
+        }
+
+        const request : FriendPostProto = {
             nicknames: friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
-            birth: birthUnKnown ? null : {
-                isLunar: isLunar ? YnTypeProto.Y : YnTypeProto.N,
-                date: {
-                    year: parseInt(birth.split("-")[0]),
-                    month: parseInt(birth.split("-")[1]),
-                    day: parseInt(birth.split("-")[2])
-                }
-            },
+            birth: birthUnKnown ? null : birthInfo,
             memo: friendMemo
         };
 
