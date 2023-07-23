@@ -50,7 +50,7 @@ class FriendStore {
             nicknames: friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
             birth: birthUnKnown ? null : {
-                isLunar: isLunar ? YnTypeProto.Y : YnTypeProto.N,
+                isLunar: isLunar ? "Y" : "N",
                 date: {
                     year: parseInt(birth.split("-")[0]),
                     month: parseInt(birth.split("-")[1]),
