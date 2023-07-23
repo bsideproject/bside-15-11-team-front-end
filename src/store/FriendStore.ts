@@ -50,7 +50,7 @@ class FriendStore {
         getEdit?: string|null,
         getSequence?: string|null
     ){
-        const request  = {
+        const request : FriendPostProto  = {
             nicknames: friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
             birth: birthUnKnown ? null : {
