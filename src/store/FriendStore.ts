@@ -65,6 +65,7 @@ class FriendStore {
         };
 
         console.log("friend request : " + JSON.stringify(request));
+        console.log("friend request : " + RootStore.userStore.getJwtKey);
 
         try{
             if(getEdit === "edit"){
