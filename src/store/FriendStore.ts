@@ -2,12 +2,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import {get, patch, post, put} from "../apis/RestApis";
 import { FriendResponseProto } from "../prototypes/friend/FriendResponse";
 import RootStore from "./RootStore";
-import {FriendPostProto} from "../prototypes/friend/FriendRequest";
-import {BirthProto} from "../prototypes/common/BirthProto";
-import React, {useEffect} from "react";
-import {RelationshipGetRequestProto} from "../prototypes/relationship/RelationshipRequestProto";
 import { YnTypeProto } from "../prototypes/common/type/YnTypeProto";
-import { DateProto } from "../prototypes/common/DateProto";
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -51,27 +46,22 @@ class FriendStore {
         getEdit?: string|null,
         getSequence?: string|null
     ){
-
-        const birthday : DateProto = {
-            year: parseInt(birth.split("-")[0]),
-            month: parseInt(birth.split("-")[1]),
-            day: parseInt(birth.split("-")[2])
-        }
-
-        const birthInfo : BirthProto = {
-            date : birthday,
-            isLunar : isLunar ? YnTypeProto.Y : YnTypeProto.N
-        }
-
-        const request : FriendPostProto = {
+        const request  = {
             nicknames: friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
-            birth: birthUnKnown ? null : birthInfo,
+            birth: birthUnKnown ? null : {
+                isLunar: isLunar ? YnTypeProto.Y : YnTypeProto.N,
+                date: {
+                    year: parseInt(birth.split("-")[0]),
+                    month: parseInt(birth.split("-")[1]),
+                    day: parseInt(birth.split("-")[2])
+                }
+            },
             memo: friendMemo
         };
 
         console.log("friend request : " + JSON.stringify(request));
-        console.log("friend request : " + this.rootStore.userStore.getJwtKey);
+        console.log("friend request : " + JSON.stringify(this.rootStore.userStore.getJwtKey));
 
         try{
             if(getEdit === "edit"){
