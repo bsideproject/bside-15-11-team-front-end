@@ -61,20 +61,20 @@ class FriendStore {
         };
 
         console.log("friend request : " + JSON.stringify(request));
-        console.log("friend request jwtkey : " + this.rootStore.userStore.getJwtKey);
+        console.log("friend request jwtkey : " + RootStore.userStore.getJwtKey);
 
         try{
             if(getEdit === "edit"){
                 const res = await put(`${this.baseUrl}/api/friend/${getSequence}`, request,{
                     headers : {
-                        Authorization : this.rootStore.userStore.getJwtKey
+                        Authorization : RootStore.userStore.getJwtKey
                     },
                 });
                 console.log(res);
             }else{
                 const res = await post(`${this.baseUrl}/api/friend`, request,{
                     headers : {
-                        Authorization : this.rootStore.userStore.getJwtKey
+                        Authorization : RootStore.userStore.getJwtKey
                     },
                 });
                 console.log("res : " + JSON.stringify(res));
