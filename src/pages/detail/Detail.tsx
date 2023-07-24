@@ -69,11 +69,10 @@ const Detail = () => {
                     sequence={getSequence}
                 />
             </Sheet>
-            {registerBtn ? <MainRegister handleRegisterBtn={handleRegisterBtn}  /> :
-                <button type="button" className="add-btn" onClick={handleRegisterBtn}>
-                    <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn"/></span>
-                </button>
-            }
+            <button type="button" className="add-btn" onClick={() => navigate(`/page/relationship`)}>
+                <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn"/></span>
+            </button>
+            
         </div>
     )
 }

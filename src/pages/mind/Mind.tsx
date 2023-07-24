@@ -36,7 +36,7 @@ const Mind = () => {
   const [memo, setMemo] = useState<string>('');
   const [isReady, setIsReady] = useState(false);
 
-  const [selectedSeq, setSelectedSeq] = useState("");
+  const [selectedSeq, setSelectedSeq] = useState<string[]>([]);
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -84,13 +84,20 @@ const Mind = () => {
     }
   }
 
+  const pushFriendSeq = (id : string) => {
+    let temp = selectedSeq;
+    temp.push(id);
+    setSelectedSeq([...temp]);
+  }
+
   const appendFriendList = (friendList : FriendCheck[]) => {
     let text = '';
 
     friendList.forEach(obj => {
       if (obj.check) {
         text+=`${obj.friend.name}, `
-        setSelectedSeq(obj.friend.id);
+        // setSelectedSeq(obj.friend.id);
+        pushFriendSeq(obj.friend.id);
       }
     })
 
@@ -218,14 +225,18 @@ const Mind = () => {
       day : parseInt(eventDate.split("-")[2])
     }
 
-    saveList.push({
-      friendSequence : friendSequence,
-      type : type,
-      event : event,
-      date : dateProto,
-      item : itemProto,
-      memo : memoTxt
-    });
+    for (const seq of friendSequence) {
+      saveList.push({
+        friendSequence : seq,
+        type : type,
+        event : event,
+        date : dateProto,
+        item : itemProto,
+        memo : memoTxt
+      });
+    }
+
+    
 
     const relationshipPostRequestProto : RelationshipPostRequestProto = {
       relationships : saveList

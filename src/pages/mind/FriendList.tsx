@@ -27,6 +27,8 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
   const [checkCount, setCheckCount] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
+  const [isEmptyResult, setEmptyResult] = useState<boolean>(false);
+
   useEffect(() => {
     setContainerHeight(containerRef, '100vh');
 
@@ -70,16 +72,21 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
 
     let list : FriendCheck[] = [];
 
+    let existDisplayResult = false;
+
     friendList.forEach(friendCheck => {
       const name = friendCheck.friend.name;
       if (!name.startsWith(text)) {
         friendCheck.display = false;
       } else {
         friendCheck.display = true;
+        existDisplayResult = true;
       }
 
       list.push(friendCheck);
     });
+
+    setEmptyResult(!existDisplayResult);
 
     setFriendList(list);
   }
@@ -148,19 +155,16 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
               />
             </div>
           </div>
-          {checkCount !== 0 ?
-              <div className="count-div">
-                <p id="friend-count">{`${checkCount} / ${totalCount}`}</p>
-              </div> : null
-          }
           <div id='friend-list'>
-            {friendList.map((obj) => (
+            {!isEmptyResult ? friendList.map((obj) => (
               <FriendInfo
                 friendCheck={obj}
                 key={obj.friend.id}
                 updateCheckCount={updateCheckCount}
               />
-            ))}
+            )) : 
+              <p className="no-result">검색 결과가 없어요</p>
+            }
           </div>
           <div className="save-button-wrap">
             <button disabled={checkCount === 0} className='save-button' onClick={

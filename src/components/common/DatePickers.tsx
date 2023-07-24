@@ -93,6 +93,10 @@ const Calendar = ({
                 },
             },
         });
+
+        // 오늘 날짜로 세팅하는 부분
+        swiperMonthInstance.activeIndex = parseInt(inputArray[1].split('-')[1]) - 1;
+        swiperDayInstance.activeIndex = parseInt(inputArray[1].split('-')[2]) - 1;
     };
 
     useEffect(() => {

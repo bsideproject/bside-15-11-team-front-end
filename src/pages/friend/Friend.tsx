@@ -141,71 +141,60 @@ const Friend = () => {
 
     // 등록 버튼
     const handleSubmit = () => {
+
+        let copy = isValidation;
+
         // name check
-        if(friendName[0] === ""){
-            let copy = isValidation;
-            copy[0] = false;
-            setIsValidation([...copy]);
-        }else{
-            let copy = isValidation;
-            copy[0] = true;
-            setIsValidation([...copy]);
-        }
-        friendName.map((name) => {
-            if(regExp.test(name)){
-                let copy = isValidation;
+        for (const name of friendName) {
+            if(name === ""){
+                copy[0] = false;
+                setIsValidation([...copy]);
+                break;
+            } else if (regExp.test(name)) {
                 copy[3] = false;
                 setIsValidation([...copy]);
-            }else{
-                let copy = isValidation;
+                break;
+            } else{
                 copy[3] = true;
                 setIsValidation([...copy]);
             }
-        })
+        }
         // relation check
         if(
             (friendRelation === "" && friendDirectInput === "") ||
             (friendRelation === "directInput" && friendDirectInput === "")
         ){
-            let copy = isValidation;
             copy[1] = false;
             setIsValidation([...copy]);
         }else{
-            let copy = isValidation;
             copy[1] = true;
             setIsValidation([...copy]);
         }
         if(friendRelation === "directInput" && regExp.test(friendDirectInput)){
-            let copy = isValidation;
             copy[4] = false;
             setIsValidation([...copy]);
         }else{
-            let copy = isValidation;
             copy[4] = true;
             setIsValidation([...copy]);
         }
         // birth check
         if(inputArray[1] === "" && !birthUnKnown){
-            let copy = isValidation;
             copy[2] = false;
             setIsValidation([...copy]);
         }else{
-            let copy = isValidation;
             copy[2] = true;
             setIsValidation([...copy]);
         }
-        // success
-        if(
-            friendName[0] !== "" &&
-            ((friendRelation !== "" && friendDirectInput === "") ||
-            (friendRelation === "directInput" && friendDirectInput !== "")) &&
-            (inputArray[1] !== "" || birthUnKnown)
-        ){
-            handleConfirm();
-            setIsSaveOpen(true);
+
+        for (const check of copy) {
+            if (!check) {
+                return;
+            }
         }
 
-
+        // success
+        handleConfirm();
+        setIsSaveOpen(true);
     }
 
     const baseUrl = process.env.REACT_APP_SERVICE_URI
@@ -250,7 +239,7 @@ const Friend = () => {
                 <RadioWrap
                     inputTitle='관계'
                     handleRegister={handleRegister}
-                    friendRelation={friendRelation && friendRelation}
+                    friendRelation={friendRelation}
                     options={
                         [{
                             name : 'relation',
@@ -310,6 +299,7 @@ const Friend = () => {
                     value={isLunar ? `${inputArray[1]} (음력)` : `${inputArray[1]}`}
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
+                    inactive={friendName.length > 1}
                 />
                 {!isValidation[2] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />

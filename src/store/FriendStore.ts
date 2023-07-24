@@ -3,6 +3,7 @@ import {get, patch, post, put} from "../apis/RestApis";
 import { FriendResponseProto } from "../prototypes/friend/FriendResponse";
 import RootStore from "./RootStore";
 import { YnTypeProto } from "../prototypes/common/type/YnTypeProto";
+import { BirthProto } from "../prototypes/common/BirthProto";
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -59,9 +60,6 @@ class FriendStore {
             },
             memo: friendMemo
         };
-
-        console.log("friend request : " + JSON.stringify(request));
-        console.log("friend request jwtkey : " + this.rootStore.userStore.getJwtKey);
 
         try{
             if(getEdit === "edit"){
