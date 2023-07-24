@@ -13,7 +13,7 @@ interface PropsType{
     removeFriend?: any,
     friendName?: any,
     maxLength?: number,
-    ref?: any,
+    inputRef?: any,
     onKeyUp?: any,
     style?: any,
     getEdit?: any
@@ -29,7 +29,7 @@ const InputTextBox = ({
                           removeFriend,
                           friendName,
                           maxLength,
-                          ref,
+                          inputRef,
                           onKeyUp,
                           style,
                           getEdit
@@ -60,7 +60,7 @@ const InputTextBox = ({
                     value={value}
                     onChange={onChange}
                     maxLength={maxLength}
-                    ref={ref}
+                    ref={inputRef}
                     onKeyUp={onKeyUp}
                     style={style}
                 />

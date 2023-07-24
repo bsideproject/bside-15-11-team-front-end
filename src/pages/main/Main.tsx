@@ -32,14 +32,16 @@ const Main = () => {
             apiCallSet();
         }
 
+    }, [key]);
+
+    useEffect(() => {
         // 친구 존재 여부 확인
         if(!mainFriendList){
             setIsEmptyList(true);
         }else{
             setIsEmptyList(false);
         }
-
-    }, [key]);
+    }, [mainFriendList]);
 
     const apiCallSet = async () => {
         await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");

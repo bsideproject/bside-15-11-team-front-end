@@ -216,6 +216,14 @@
             }
         }
 
+        .no-result {
+            text-align: center;
+            font-size: 14;
+            font-weight: 400;
+            line-height: 20;
+            word-wrap: 'break-word';
+        }
+
         .close-button {
             @include arrowBtn(5vw);
             position: absolute;

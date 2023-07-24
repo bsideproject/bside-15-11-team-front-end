@@ -111,7 +111,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                         }}
                         inputTitle=""
                         placeholder="입력하세요 (최대 6자)"
-                        ref={textAreaRef}
+                        inputRef={textAreaRef}
                         onKeyUp={() => checkValidation()}
                         maxLength={6}
                     />

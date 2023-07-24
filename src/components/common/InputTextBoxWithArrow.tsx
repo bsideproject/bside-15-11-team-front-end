@@ -12,7 +12,8 @@ interface PropsType {
     placeholder?: string,
     value?: string,
     onChange?: any,
-    checked?: any
+    checked?: any,
+    inactive?: boolean,
 }
 
 const InputTextBoxWithArrow = ({
@@ -21,16 +22,16 @@ const InputTextBoxWithArrow = ({
                                    onClick,
                                    id, value,
                                    onChange,
-                                   checked
+                                   checked, inactive
 } : PropsType) => {
 
   return (
     <div className='InputTextBoxWithArrow' >
-      <div className="InputTextBox" onClick={id === "birth" && checked ? null : onClick}>
+      <div className="InputTextBox" onClick={id === "birth" && (checked || inactive) ? null : onClick}>
         <label className="input-title">{inputTitle}</label>
         <input
           type="text"
-          className={checked ? "input-text-box on" : `input-text-box ${id}`}
+          className={checked || inactive ? "input-text-box on" : `input-text-box ${id}`}
           id={id}
           placeholder={placeholder}
           value={NullChecker.isEmpty(value) ? '' : value}
