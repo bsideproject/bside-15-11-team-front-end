@@ -146,19 +146,41 @@
   }
 
 }
+// dev
 .sc-gEvEer.kzfFMm{
   background-color: #242424;
   border-top: 1px solid #383838;
 }
+// prod
+.sc-gEvEer.gBtkQB{
+  background-color: #242424;
+  border-top: 1px solid #383838;
+}
+// dev
 .sc-fqkvVR.gDWucW{
   background-color: inherit;
 }
+// prod
+.sc-fqkvVR.SRknK{
+  background-color: inherit;
+}
+// dev
 .sc-eqUAAy.ejOydj{
+  background-color: inherit;
+}
+// prod
+.sc-eqUAAy.JqVif{
   background-color: inherit;
 }
 .sheet-header{
   padding: 10px 0;
 }
+// dev
+.SRknK::before{
+  top: 15px !important;
+  background-color: #818181 !important;
+}
+// prod
 .gDWucW::before{
   top: 15px !important;
   background-color: #818181 !important;
