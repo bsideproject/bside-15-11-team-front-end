@@ -15,7 +15,7 @@ import {useNavigate} from "react-router-dom";
 const Main = () => {
     let key = RootStore.userStore.getJwtKey;
     let navigate = useNavigate();
-    let testNick = "test";
+
     // 리스트 비었을 때 분기처리
     const [isEmptyList, setIsEmptyList] = useState<boolean>(true);
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
@@ -26,17 +26,12 @@ const Main = () => {
 
     // 친구 목록 불러오기 api
     useEffect(() => {
-        sessionStorage.setItem("jwt", key);
-
-        if(key){
-            apiCallSet();
-        }
-
-    }, [key]);
+        apiCallSet();
+    }, []);
 
     useEffect(() => {
         // 친구 존재 여부 확인
-        if(!mainFriendList){
+        if(mainFriendList?.length === 0 || mainFriendList?.length === undefined){
             setIsEmptyList(true);
         }else{
             setIsEmptyList(false);
