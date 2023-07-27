@@ -26,8 +26,6 @@ class FriendStore {
             }
         });
 
-        console.log("friend List : " + JSON.stringify(response));
-
         this.friendList = response;
     };
 
@@ -45,7 +43,8 @@ class FriendStore {
         isLunar: boolean,
         birthUnKnown: boolean,
         getEdit?: string|null,
-        getSequence?: string|null
+        getSequence?: string|null,
+        setRegisterResponse? : any
     ){
         const request  = {
             nicknames: friendName,
@@ -68,14 +67,15 @@ class FriendStore {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
                 });
-                console.log(res);
+
+                setRegisterResponse(res);
             }else{
                 const res = await post(`${this.baseUrl}/api/friend`, request,{
                     headers : {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
                 });
-                console.log("res : " + JSON.stringify(res));
+                setRegisterResponse(res);
             }
         }catch (err){
             console.log("error : " + JSON.stringify(err));
@@ -90,7 +90,9 @@ class FriendStore {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
             })
-            if(res) setMainFriendList(res);
+            if(res) {
+                setMainFriendList(res);
+            }
 
         }catch (err){
             console.log(err);

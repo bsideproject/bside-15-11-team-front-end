@@ -6,9 +6,6 @@ import RootStore from './store/RootStore';
 import Friend from "./pages/friend/Friend";
 import Mind from './pages/mind/Mind';
 import Detail from "./pages/detail/Detail";
-import Login from './pages/login/Login';
-import Agreement from './pages/login/Agreement';
-import KakaoAuth from './pages/login/KakaoAuth';
 import Setting from "./pages/setting/Setting";
 import SettingNickname from "./pages/setting/SettingNickname";
 import SettingOptIn from "./pages/setting/SettingOptIn";
@@ -29,8 +26,6 @@ function App() {
                 window.removeEventListener('message', handleMessage);
 
                 const data = event.data;
-
-                console.log("jwtKey from webview : " + data);
 
                 RootStore.userStore.setJwtKey(data);
 
@@ -53,11 +48,9 @@ function App() {
                     <Route path='/' element={<Main />}></Route>
                     <Route path='/page/main' element={<Main />}></Route>
                     <Route path="/page/friend" element={<Friend />}></Route>
-                    <Route path="/page/relationship" element={<Mind />}></Route>
+                    <Route path="/page/relationship/" element={<Mind />}></Route>
+                    <Route path="/page/relationship/:nickname/:sequence" element={<Mind />}></Route>
                     <Route path="/page/detail" element={<Detail />}></Route>
-                    <Route path="/page/login" element={<Login />}></Route>
-                    <Route path="/page/agreement" element={<Agreement />}></Route>
-                    <Route path="/page/auth/kakao" element={<KakaoAuth/>}></Route>
 
                     <Route path="/page/setting" element={<Setting />}></Route>
                     <Route path="/page/setting/nickname" element={<SettingNickname />}></Route>

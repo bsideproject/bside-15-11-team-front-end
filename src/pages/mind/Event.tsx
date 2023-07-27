@@ -114,6 +114,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                         inputRef={textAreaRef}
                         onKeyUp={() => checkValidation()}
                         maxLength={6}
+                        disabled={selectEvent !== '기타'}
                     />
                     <div className="save-button-wrap">
                         <button

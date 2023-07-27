@@ -4,12 +4,11 @@ import InputTextBoxWithArrow from '../../components/common/InputTextBoxWithArrow
 import FriendList from './FriendList';
 import { FriendCheck } from '../../models/FriendCheck';
 import DateUtil from '../../utils/DateUtil';
-import Calendar from '../../components/common/Calendar';
 import Event from './Event';
 import EventType from './EventType';
 import MindType from './MindType';
 import MoneyOption from './MoneyOption';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
 import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
 import ErrorMessage from '../../components/common/ErrorMessage';
@@ -18,11 +17,12 @@ import { ItemProto } from '../../prototypes/common/ItemProto';
 import { ItemTypeProto } from '../../prototypes/common/type/ItemTypeProto';
 import { DateProto } from '../../prototypes/common/DateProto';
 import { RelationshipTypeProto } from '../../prototypes/common/type/RelationshipTypeProto';
-import { RelationshipPostRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
-import queryString from 'query-string';
+import { RelationshipPostRequestProto, RelationshipPutRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
 import DatePickers from "../../components/common/DatePickers";
 import ImgExelBtn from "../../assets/images/icon/ic_exel_btn.svg";
 import ModalConfirm from "../../components/common/ModalConfirm";
+import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
+import axios from 'axios';
 
 const Mind = () => {
 
@@ -33,10 +33,19 @@ const Mind = () => {
   const [eventType, setEventType] = useState<string>('give');
   const [mindType, setMindType] = useState<string>('cash');
   const [money, setMoney] = useState<number>(0);
+  const [gift, setGift] = useState<string>('');
   const [memo, setMemo] = useState<string>('');
   const [isReady, setIsReady] = useState(false);
 
   const [selectedSeq, setSelectedSeq] = useState<string[]>([]);
+
+  // 마음 수정하기에 필요한 값
+  const [mindSeq, setMindSeq] = useState<string>('');
+  const [isEditMode, setEditMode] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
+  const [isSaveOpen, setIsSaveOpen] = useState<boolean>(false);
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,6 +55,8 @@ const Mind = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const pathParams = useParams();
+
   useEffect(() => {
     const todayString : string = DateUtil.getTodayString();
 
@@ -53,18 +64,109 @@ const Mind = () => {
     // 날짜 default값 : 오늘 날짜
     list[1] = todayString;
 
-    if (location.search) {
-      const params = location.search;
-      const query = queryString.parse(params);
+    // 관계 등록 후 넘어왔을 경우
+    if (location.state && location.state.friendData) {
+      const friendData = location.state.friendData;
 
-      if (query.friendName) {
-        list[0] = query.friendName as string;
+      let text = '';
+      let friendSeqList : string[] = [];
+      if (Array.isArray(friendData)) {
+        friendData.forEach((obj : any) => {
+          
+          text+=`${obj.nickname}, `
+          friendSeqList.push(obj.sequence);
+          
+        });
+
+        setSelectedSeq(friendSeqList);
+      } else {
+        text+=friendData.nickname;
+        pushFriendSeq(friendData.sequence);
+      }
+
+      // 마지막 comma 제거
+      text = text.trim();
+      text = text.slice(0, -1);
+
+      list[0] = text;
+
+      if (!NullChecker.isEmpty(text)) {
+        let array = validCheckArray;
+        array[0] = true;
+        setValidCheckArray([...array]);
       }
     }
+
+    // 마음 수정하기에서 넘어왔을 경우
+
+    if (pathParams.sequence && pathParams.nickname) {
+      const mindSeq : string = pathParams.sequence;
+      const nickname : string = pathParams.nickname;
+      const friendSeq : string = pathParams.friendSequence as string;
+
+      setMindSeq(mindSeq);
+      setEditMode(true);
+
+      const fetchRelationshipDetail = async () => {
+        try {
+          const response = await RootStore.mindStore.getMind(mindSeq);
+          
+          if (response?.sequence) {
+            pushFriendSeq(friendSeq);
+            list[0] = nickname;
+            if (response.date) {
+              list[1] = DateUtil.getDateString(response.date);
+            }
+
+            if (response.event) {
+              list[2] = response.event;
+            }
+
+            if (response.type) {
+              
+              setEventType('TAKEN' === response.type ? 'take' : 'give');
+            }
+
+            if (response.item) {
+              const itemType = response.item.type as string;
+              const itemName = response.item.name as string;
+
+              setMindType(itemType === "PRESENT" ? 'gift' : 'cash');
+
+              if (itemType === "PRESENT") {
+                if (giftRef.current) {
+                  giftRef.current.value = itemName;
+                }
+                setGift(itemName);
+              } else {
+                if (moneyInputRef.current) {
+                  moneyInputRef.current.value = itemName;
+                  setMoney(parseInt(itemName));
+                }
+              }
+
+              if (response.memo) {
+                setMemo(response.memo);
+              }
+            }
+          }
+
+        } catch (error) {
+          // Handle any errors that might occur during the API call
+          console.error("Error fetching relationship detail:", error);
+        }
+      };
+
+      fetchRelationshipDetail();
+    }
+
     setInputArray(list);
 
+    // FriendList에 뜰 친구 리스트 미리 세팅
     RootStore.friendStore.setFriendList();
   }, []);
+
+  
 
   const handleInputClick = (index : number) => {
     let list : boolean[] = [...openModal];
@@ -92,12 +194,11 @@ const Mind = () => {
 
   const appendFriendList = (friendList : FriendCheck[]) => {
     let text = '';
-
+    let friendSeqList : string[] = [];
     friendList.forEach(obj => {
       if (obj.check) {
         text+=`${obj.friend.name}, `
-        // setSelectedSeq(obj.friend.id);
-        pushFriendSeq(obj.friend.id);
+        friendSeqList.push(obj.friend.id);
       }
     })
 
@@ -109,6 +210,7 @@ const Mind = () => {
     list[0] = text;
 
     setInputArray(list);
+    setSelectedSeq(friendSeqList);
 
     if (!NullChecker.isEmpty(text)) {
       let array = validCheckArray;
@@ -120,12 +222,22 @@ const Mind = () => {
 
   const addMoney = (add : number) => {
     let sum = add + money;
+
     let reSum = sum.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
-    console.log(reSum)
+    
     setMoney(sum);
 
     if (moneyInputRef.current) {
       moneyInputRef.current.valueAsNumber = sum;
+    }
+  }
+
+  const onChangeMoneyInput = () => {
+    let inputNumber : number = 0;
+    if (moneyInputRef.current) {
+      inputNumber = moneyInputRef.current.valueAsNumber;
+
+      setMoney(inputNumber);
     }
   }
 
@@ -238,13 +350,26 @@ const Mind = () => {
 
     
 
-    const relationshipPostRequestProto : RelationshipPostRequestProto = {
-      relationships : saveList
-    };
+    if (isEditMode) {
+      const relationshipPutRequestProto : RelationshipPutRequestProto = {
+        sequence : mindSeq,
+        type : type,
+        event : event,
+        date : dateProto,
+        item : itemProto,
+        memo : memoTxt
+      };
+      
+      // await RootStore.mindStore.putMind(relationshipPutRequestProto);
+    } else {
+      const relationshipPostRequestProto : RelationshipPostRequestProto = {
+        relationships : saveList
+      };
 
-    await RootStore.mindStore.postMind(relationshipPostRequestProto);
+      await RootStore.mindStore.postMind(relationshipPostRequestProto);
+    }
 
-    navigate("/page/main");
+    setIsSaveOpen(true);
   }
 
   const handleFileInput = () => {
@@ -321,6 +446,34 @@ const Mind = () => {
 
   }
 
+  const handleDeleteTrue = async () => {
+
+    const baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
+
+    try {
+      const response = await axios.delete(`${baseUrl}/api/relationships/${mindSeq}`, {
+        headers : {
+          Authorization : RootStore.userStore.getJwtKey
+        }
+      });
+
+      if(response.status === 200){
+        setIsOpen(false);
+        setIsOkOpen(true);
+      }
+    }catch (err){
+        console.log(err);
+    }
+  }
+
+  const confirmNavigation = () => {
+    if (isEditMode) {
+      navigate(-1);
+    } else {
+      navigate('/page/main');
+    }
+  }
+
   return (
     <div className="Mind inner">
       <button type="button" className="exel-btn" onClick={handleExelBtn}><img src={ImgExelBtn} alt="exel-btn" /></button>
@@ -366,6 +519,7 @@ const Mind = () => {
           />
         }
         <MindType
+          defaultSelect={mindType}
           onSelect={setMindType}
         />
         { mindType === 'cash' &&
@@ -377,7 +531,8 @@ const Mind = () => {
                 id='cash-input'
                 placeholder='금액을 입력하세요'
                 ref={moneyInputRef}
-                onKeyUp={() => onChangeMindContent("cash")}
+                defaultValue={money}
+                onKeyUp={() => {onChangeMindContent("cash");onChangeMoneyInput();}}
               />
             </div>
             <MoneyOption
@@ -395,6 +550,7 @@ const Mind = () => {
                 className="input-text-box"
                 id='gift-input'
                 placeholder='선물을 입력하세요'
+                defaultValue={gift}
                 ref={giftRef}
                 onKeyUp={() => onChangeMindContent("gift")}
               />
@@ -433,11 +589,26 @@ const Mind = () => {
               id="memo"
           />
         </div>
-        <div className="register-btn-wrap">
-          <button type="button"
-            className="register-btn"
-            onClick={() => save()}>등록하기</button>
-        </div>
+        
+          {
+            isEditMode ? (
+              <div className="register-btn-wrap edit">
+                <button type="button" className="register-btn remove"
+                  onClick={() => setIsOpen(true)}>
+                  <img src={ImgDelBtn} alt="delete-btn" />
+                </button>
+                <button type="button"
+                className="register-btn edit"
+                onClick={() => save()}>등록하기</button>
+              </div>
+            ) : (
+              <div className="register-btn-wrap">
+                <button type="button"
+                  className="register-btn"
+                  onClick={() => save()}>등록하기</button>
+              </div>
+            )
+          }
       </form>
       <FriendList
         isOpen={openModal[0]}
@@ -466,6 +637,29 @@ const Mind = () => {
           mainText="엑셀 파일 불러오기는 아직 준비중이에요."
           confirmAction={() => setIsReady(false)}
           confirmText="확인"
+      />
+      <ModalConfirm
+        isOpen={isOpen}
+        modalChoice="type2"
+        mainText="마음을 삭제하시겠어요?"
+        confirmAction={handleDeleteTrue}
+        cancelAction={() => setIsOpen(false)}
+        confirmText="삭제"
+        cancelText="취소"
+      />
+      <ModalConfirm
+        isOpen={isOkOpen}
+        modalChoice="type1"
+        mainText="삭제가 완료되었습니다."
+        confirmAction={() => navigate(-1)}
+        confirmText="확인"
+      />
+      <ModalConfirm
+        isOpen={isSaveOpen}
+        modalChoice="type1"
+        mainText="등록이 완료되었습니다."
+        confirmAction={() => confirmNavigation()}
+        confirmText="확인"
       />
     </div>
   );

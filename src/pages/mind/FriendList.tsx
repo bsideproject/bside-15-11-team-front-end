@@ -36,8 +36,6 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
 
     let friendList : FriendResponseProto[] = RootStore.friendStore.getFriendList;
 
-    console.log("friend List : " + JSON.stringify(friendList));
-
     friendList.forEach(friend => {
       if (friend.sequence && friend.nickname && friend.relationship) {
         friendCheckList.push({

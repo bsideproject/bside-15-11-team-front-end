@@ -2,11 +2,13 @@ import axios from "axios";
 import { UserGetRequestProto, UserPatchRequestProto } from "../prototypes/user/UserRequestProto";
 import { UserResponseProto } from "../prototypes/user/UserResponseProto";
 import RootStore from "./RootStore";
-import { UserInformationProto } from "../prototypes/common/UserInformationProto";
 import { action, computed, makeObservable, observable } from "mobx";
 import { get, post } from "../apis/RestApis";
 import { patch } from "../apis/RestApis";
-import { SexTypeProto } from "../prototypes/common/type/SexTypeProto";
+import { UserInformationProto } from "../prototypes/common/UserInformationProto";
+import { AllowInformationProto } from './../prototypes/common/AllowInformation';
+import SettingWithdrawal from './../pages/setting/SettingWithdrawal';
+import { SignWithdrawlRequestProto } from "../prototypes/sign/SignRequestProto";
 
 class UserStore {
 
@@ -14,6 +16,9 @@ class UserStore {
   baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
   jwtKey : string = '';
   serviceUserId : string = '';
+  userName : string = '';
+  userInformation : UserInformationProto = {};
+  allowInformation : AllowInformationProto = {};
 
   constructor(rootStore : typeof RootStore) {
     this.rootStore = rootStore;
@@ -22,7 +27,22 @@ class UserStore {
       jwtKey : observable,
       setJwtKey : action,
       getJwtKey : computed,
+
       serviceUserId : observable,
+      setServiceUserId : action,
+      getServiceUserId : computed,
+
+      userName : observable,
+      setUserName : action,
+      getUserName : computed,
+
+      userInformation : observable,
+      setUserInformation : action,
+      getUserInformation : computed,
+
+      allowInformation : observable,
+      setAllowInformation : action,
+      getAllowInformation : computed,
     });
   }
 
@@ -42,12 +62,46 @@ class UserStore {
     return this.serviceUserId;
   }
 
-  async getUser(request : UserGetRequestProto) : Promise<UserResponseProto> {
-    const response : UserResponseProto = await get(`${this.baseUrl}/api/users?oauthServiceType=${request.oauthServiceType}&serviceUserId=${request.serviceUserId}`);
-    console.log(JSON.stringify(request));
+  setUserName = (name : string) => {
+    this.userName = name;
+  }
 
-    if (response.sequence) {
-      this.setServiceUserId(response.sequence);
+  get getUserName() : string {
+    return this.userName;
+  }
+
+  setUserInformation = (data : UserInformationProto) => {
+    this.userInformation = data;
+  }
+
+  get getUserInformation() : UserInformationProto {
+    return this.userInformation;
+  }
+
+  setAllowInformation = (data : AllowInformationProto) => {
+    this.allowInformation = data;
+  }
+
+  get getAllowInformation() : AllowInformationProto {
+    return this.allowInformation;
+  }
+
+  async getUser() : Promise<UserResponseProto> {
+    const response : UserResponseProto = await get(`${this.baseUrl}/api/users`, {
+      headers : {
+        Authorization : this.jwtKey
+      }
+    });
+    
+
+    if (response.userInformation) {
+      this.setUserName(response?.userInformation?.profileNickname as string);
+
+      this.setUserInformation(response.userInformation);
+    }
+
+    if (response.allowInformation) {
+      this.setAllowInformation(response.allowInformation);
     }
     
     return response;
@@ -75,9 +129,43 @@ class UserStore {
       }
     });
 
-    console.log("response body : " + JSON.stringify(response));
-
     this.setJwtKey(response);
+  }
+
+  async editNickname(nickname : string) {
+    let userInfo : UserInformationProto = this.getUserInformation;
+
+    userInfo.profileNickname = nickname;
+
+    const allowInfo : AllowInformationProto = this.getAllowInformation;
+
+    const userPatchRequest : UserPatchRequestProto = {
+      userInformation : userInfo,
+      allowInformation : allowInfo
+    };
+
+    const response = await patch(`${this.baseUrl}/api/users`, userPatchRequest, {
+      headers : {
+        Authorization : this.getJwtKey
+      }
+    });
+
+    return response;
+  }
+
+
+  async deleteUser(reason : string) {
+    const withdrawRequest : SignWithdrawlRequestProto = {
+      withdrawlReason : reason
+    };
+
+    const response = await post(`${this.baseUrl}/api/sign/withdrawl`, withdrawRequest, {
+      headers : {
+        Authorization : this.getJwtKey
+      }
+    });
+
+    return response;
   }
 
 }

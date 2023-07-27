@@ -88,7 +88,6 @@ const Calendar = ({
             on: {
                 slideChange: () => {
                     const dayList = createDay();
-                    console.log(dayList)
                     setDay(dayList[swiperDayInstance?.activeIndex || 0]);
                 },
             },

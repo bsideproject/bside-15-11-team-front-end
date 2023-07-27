@@ -1,3 +1,4 @@
+import { AllowInformationProto } from "../common/AllowInformation";
 import { UserInformationProto } from "../common/UserInformationProto";
 import { OauthServiceTypeProto } from "../common/type/OauthServiceTypeProto";
 
@@ -7,7 +8,6 @@ export interface UserGetRequestProto {
 }
 
 export interface UserPatchRequestProto {
-  oauthServiceType?: OauthServiceTypeProto;
-  serviceUserId?: string;
+  allowInformation : AllowInformationProto;
   userInformation?: UserInformationProto;
 }

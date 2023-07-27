@@ -16,7 +16,8 @@ interface PropsType{
     inputRef?: any,
     onKeyUp?: any,
     style?: any,
-    getEdit?: any
+    getEdit?: any,
+    disabled? : boolean
 }
 
 const InputTextBox = ({
@@ -32,7 +33,8 @@ const InputTextBox = ({
                           inputRef,
                           onKeyUp,
                           style,
-                          getEdit
+                          getEdit,
+                          disabled
 }:PropsType) => {
     return (
         <div className="InputTextBox">
@@ -63,6 +65,7 @@ const InputTextBox = ({
                     ref={inputRef}
                     onKeyUp={onKeyUp}
                     style={style}
+                    disabled={disabled}
                 />
             }
             {!getEdit && id === "friendName" ?

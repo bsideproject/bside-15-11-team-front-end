@@ -16,7 +16,6 @@ const DatePicker = () => {
     const [month, setMonth] = useState<number>(6);
     const [day, setDay] = useState<number>(30);
 
-    console.log(`${year}년 ${month}월 ${day}일`);
     const createYear = (): number[] => {
         const startYear = 1900;
         const endYear = 2023;

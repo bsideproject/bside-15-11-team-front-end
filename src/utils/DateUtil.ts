@@ -1,3 +1,5 @@
+import { DateProto } from "../prototypes/common/DateProto";
+
 class DateUtil {
 
     getTodayString = () : string => {
@@ -6,16 +8,24 @@ class DateUtil {
         return this.getDateString(date);
     }
 
-    getDateString = (date : string | Date) : string => {
+    getDateString = (date : string | Date | DateProto) : string => {
         if (date instanceof Date) {
             const year : number = date.getFullYear();
             const month : number = date.getMonth() + 1;
             const day : number = date.getDate();
 
             return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        } else {
+        } else if (date && typeof date === 'object' && ('year' in date || 'month' in date || 'day' in date)) {
+            const year : number = date.year === undefined ? 0 : date.year;
+            const month : number = date.month === undefined ? 0 : date.month;
+            const day : number = date.day === undefined ? 0 : date.day;
+
+            return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        } else if (typeof date === 'string') {
             return date;
         }
+
+        return '';
     }
 
     getNumberOfDays = (year : number, month : number) : number => {

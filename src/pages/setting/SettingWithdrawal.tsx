@@ -1,7 +1,8 @@
 import TitleWrap from "../../components/common/TitleWrap";
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import {useNavigate} from "react-router-dom";
+import RootStore from "../../store/RootStore";
 
 const SettingWithdrawal = () => {
 
@@ -11,7 +12,10 @@ const SettingWithdrawal = () => {
     const [reason, setReason] = useState<any>("");
     const [etcReason, setEctReason] = useState<any>("");
 
+    const etcRef = useRef<HTMLInputElement>(null);
+
     const handleReason = (event:any) => {
+
         if(event.target.name === "withdrawal"){
             setReason(event.target.id);
         }else if(event.target.id === "etc"){
@@ -21,6 +25,16 @@ const SettingWithdrawal = () => {
 
     const handleWithdrawal = () => {
         setIsOpen(true);
+    }
+
+    const withdrawalConfirm = async() => {
+        setIsOpen(false); 
+        setIsOkOpen(true);
+
+        await RootStore.userStore.deleteUser(reason);
+
+        // 앱 화면으로 나가는 함수
+        window.ReactNativeWebView.postMessage('logout');
     }
 
     return(
@@ -53,13 +67,14 @@ const SettingWithdrawal = () => {
                     사용 빈도가 너무 낮아요.
                 </label>
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="f" onChange={handleReason} />
+                    <input type="radio" name="withdrawal" id="f" onChange={handleReason} ref={etcRef}/>
                     <label htmlFor="f"></label>
                     기타
                     <textarea
                         className="etc-input"
                         placeholder="입력하세요 (최대 40자)"
                         id="etc"
+                        disabled={!etcRef.current?.checked}
                         onChange={handleReason}
                         value={etcReason}
                     />
@@ -77,7 +92,7 @@ const SettingWithdrawal = () => {
                 modalChoice="type2"
                 mainText="회원을 탈퇴하시겠어요?"
                 subText="탈퇴하면 등록된 모든 정보가 영구적으로 삭제되며 다시 복구할 수 없습니다."
-                confirmAction={() => {setIsOpen(false); setIsOkOpen(true)}}
+                confirmAction={() => {withdrawalConfirm()}}
                 cancelAction={() => setIsOpen(false)}
                 confirmText="탈퇴"
                 cancelText="취소"
