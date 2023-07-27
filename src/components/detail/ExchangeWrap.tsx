@@ -1,6 +1,7 @@
 import IcFilter from "../../assets/images/icon/ic_detail_filter.svg"
 import {useEffect, useState} from "react";
 import RootStore from "../../store/RootStore";
+import { useNavigate } from "react-router-dom";
 
 interface params{
     detailInfo?: any,
@@ -12,12 +13,11 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
     const [sort, setSort] = useState("ASC");
     const [exchangeData, setExchangeData] = useState<any>();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         handleApiCall("DESC");
     }, []);
-    // useEffect(() => {
-    //     console.log(exchangeData && exchangeData.relationships)
-    // }, [exchangeData]);
 
     const handleFilter = async () => {
 
@@ -46,7 +46,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
             {exchangeData && exchangeData.length !== 0 ?
                 <ul className="exchange-wrap">
                     {exchangeData && exchangeData.relationships.map((item:any, key:any) => (
-                        <li className="exchange-cont" key={key}>
+                        <li className="exchange-cont" key={key} onClick={() => navigate(`/page/relationship/${detailInfo?.nickname}/${item?.sequence}`)}>
                             <i className={item?.type === "TAKEN" ? "exchanged-circle tak" : item?.type === "GIVEN" ? "exchanged-circle giv" : "exchanged-circle giv"}></i>
                             <h4 className={item?.type === "TAKEN" ? "taken" : ""}>
                                 {item?.type === "GIVEN" ?

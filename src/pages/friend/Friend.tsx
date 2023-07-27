@@ -11,6 +11,7 @@ import ErrorMessage from "../../components/common/ErrorMessage";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import axios from "axios";
 import DatePickers from "../../components/common/DatePickers";
+import { FriendResponseProto } from '../../prototypes/friend/FriendResponse';
 
 const Friend = () => {
     let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -42,6 +43,8 @@ const Friend = () => {
     const [goRegister, setGoRegister] = useState<boolean>(false);
     // edit
     const [detailInfo, setDetailInfo] = useState<any>();
+
+    const [registerResponse, setRegisterResponse] = useState<FriendResponseProto>();
 
     useEffect(() => {
         if(getEdit && getEdit === "edit"){
@@ -135,7 +138,8 @@ const Friend = () => {
             friendName, friendRelation,
             friendDirectInput, friendMemo,
             inputArray[1], isLunar, birthUnKnown,
-            getEdit && getEdit,getSequence && getSequence
+            getEdit && getEdit,getSequence && getSequence,
+            setRegisterResponse
         );
     }
 
@@ -212,6 +216,23 @@ const Friend = () => {
             }
         }catch (err){
             console.log(err);
+        }
+    }
+
+    const confirmNavigation = () => {
+        if (getEdit === "edit") {
+            navigate(`/page/detail?sequence=${getSequence}`);
+        } else {
+            if (goRegister) {
+                navigate('/page/relationship', 
+                {state : 
+                    {   
+                        friendData : registerResponse
+                    }
+                });
+            } else {
+                navigate('/page/main');
+            }
         }
     }
 
@@ -363,10 +384,7 @@ const Friend = () => {
                 isOpen={isSaveOpen}
                 modalChoice="type1"
                 mainText="등록이 완료되었습니다."
-                confirmAction={() => navigate(getEdit === "edit" ?
-                    `/page/detail?sequence=${getSequence}` : goRegister ?
-                        `/page/relationship?friendName=${friendName}` :
-                        "/page/main")}
+                confirmAction={() => confirmNavigation()}
                 confirmText="확인"
             />
         </div>

@@ -25,7 +25,7 @@ const Detail = () => {
         sheetLimit: [37, 50],
         defaultHeight: .37
     };
-    console.log(detailInfo)
+
     useEffect(() => {
         apiCallSet(getSequence);
     }, []);
@@ -69,7 +69,7 @@ const Detail = () => {
                     sequence={getSequence}
                 />
             </Sheet>
-            <button type="button" className="add-btn" onClick={() => navigate(`/page/relationship`)}>
+            <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', {state : {friendData : detailInfo}})}>
                 <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn"/></span>
             </button>
             

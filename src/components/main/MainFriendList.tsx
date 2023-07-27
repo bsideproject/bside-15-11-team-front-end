@@ -10,7 +10,7 @@ interface PropsType{
 const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
 
     let navigate = useNavigate();
-    console.log("searchList: ",searchList)
+
     const handleFriendClick = (sequence:any) => {
         navigate(`/page/detail?sequence=${sequence}`);
     }

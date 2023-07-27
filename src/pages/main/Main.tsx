@@ -44,6 +44,7 @@ const Main = () => {
     }, [mainFriendList]);
 
     const apiCallSet = async () => {
+        await RootStore.userStore.getUser();
         await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
         await RootStore.mindStore.setMindCount(setCount);
     }
@@ -81,13 +82,13 @@ const Main = () => {
     return (
         <div className="Main inner">
             <div className="main-header">
-                <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${testNick}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
+                <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
             </div>
             <MainText
                 isEmptyList={isEmptyList}
                 length={mainFriendList? mainFriendList.length : null}
                 count={count? count : ""}
-                nickname={testNick}
+                nickname={RootStore.userStore.getUserName}
             />
             <MainExchangedCount
                 count={count? count : ""}

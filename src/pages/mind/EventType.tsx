@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const EventType = ({selected, setEventType} : any) => {
     return (
@@ -7,7 +7,7 @@ const EventType = ({selected, setEventType} : any) => {
                 type='radio'
                 className={selected === 'give' ? 'event-type-btn on' : 'event-type-btn'}
                 name='event'
-                defaultChecked={selected === 'give'}
+                checked={selected === 'give'}
                 onClick = {() => setEventType('give')}
                 id='give' />
             <label htmlFor='give'>준 마음</label>
@@ -15,7 +15,7 @@ const EventType = ({selected, setEventType} : any) => {
                 type='radio'
                 className={selected === 'take' ? 'event-type-btn on' : 'event-type-btn'}
                 name='event'
-                defaultChecked={selected === 'take'}
+                checked={selected === 'take'}
                 onClick={() => setEventType('take')}
                 id='take' />
             <label htmlFor='take'>받은 마음</label>

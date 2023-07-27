@@ -155,7 +155,19 @@
         .register-btn-wrap{
             @include center;
             justify-content: space-between;
-            margin-top: 35vw;
+            margin-top: 20vw;
+            &.edit{
+              .register-btn.remove{
+                width: 20%;
+                padding: 3.7vw 0;
+                background-color: transparent;
+                border: 1px solid #818181;
+                img{width: 24px;}
+              }
+              .register-btn.edit{
+                width: 76%;
+              }
+            }
             .register-btn{
               display: block;
               width: 100%;
@@ -164,7 +176,7 @@
               color: #fff;
               background: $btn-active-color;
               border-radius: 8px;
-              padding: 4.3vw 0;
+              padding: 5.3vw 0;
             }
         }
 
@@ -180,15 +192,9 @@
 
     .friend-list-content {
 
-        .count-div {
-            margin: 5vw 0;
-
-            #friend-count {
-                text-align: right;
-                font-weight: 500;
-                font-size: 4vw;
-                color: $inactive-gray-color;
-            }
+        #friend-list {
+            overflow-y: scroll;
+            height : 110vw;
         }
 
         .select-friend {

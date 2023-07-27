@@ -4,6 +4,9 @@ import InputTextBox from "../../components/common/InputTextBox";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../../components/common/ErrorMessage";
+import { UserPatchRequestProto } from "../../prototypes/user/UserRequestProto";
+import UserStore from './../../store/UserStore';
+import RootStore from "../../store/RootStore";
 
 const SettingNickname = () => {
     let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -23,13 +26,19 @@ const SettingNickname = () => {
             setNickname(event.target.value);
         }
     }
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if(regExp.test(nickname)){
             setIsValidation(false);
         }else{
             setIsValidation(true);
             setIsOpen(true);
+
+            await editUserNickName();
         }
+    }
+
+    const editUserNickName = async() => {
+        await RootStore.userStore.editNickname(nickname);
     }
 
     return(
