@@ -33,8 +33,7 @@ const SettingWithdrawal = () => {
 
         await RootStore.userStore.deleteUser(reason);
 
-        // 앱 화면으로 나가는 함수
-        window.ReactNativeWebView.postMessage('logout');
+        
     }
 
     return(
@@ -101,7 +100,7 @@ const SettingWithdrawal = () => {
                 isOpen={isOkOpen}
                 modalChoice="type1"
                 mainText="회원이 탈퇴되었습니다."
-                confirmAction={() => navigate("/page/main")}
+                confirmAction={() => window.ReactNativeWebView.postMessage('logout')}
                 confirmText="확인"
             />
         </div>
