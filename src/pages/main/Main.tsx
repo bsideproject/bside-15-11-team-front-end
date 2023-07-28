@@ -12,11 +12,10 @@ import IcSearch from "../../assets/images/icon/ic_search.svg";
 import {useNavigate} from "react-router-dom";
 import Spinner from "../../components/common/Spinner";
 
-const Main = () => {
+const Main = (key:any) => {
     // let key = RootStore.userStore.getJwtKey;
     let navigate = useNavigate();
 
-    const [key, setKey] = useState<string>();
     // 리스트 비었을 때 분기처리
     const [isEmptyList, setIsEmptyList] = useState<boolean>(true);
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
@@ -27,7 +26,6 @@ const Main = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        setKey(RootStore.userStore.getJwtKey);
 
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
         if (isFirstVisit !== null) {
@@ -45,8 +43,8 @@ const Main = () => {
     useEffect(() => {
         if (key) {
             RootStore.userStore.getUser();
-            setMainFriendList(RootStore.friendStore.getFriendListMain("nickname"));
-            setCount(RootStore.mindStore.setMindCount());
+            RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
+            RootStore.mindStore.setMindCount(setCount);
         }
     }, [key]);
 
@@ -59,14 +57,17 @@ const Main = () => {
         }
     }, [mainFriendList]);
 
+    const apiCallSet = () => {
+
+    }
     // 필터링
     const handleFilter = async () => {
         if(filterParams === "level"){
             setFilterParams("nickname");
-            await RootStore.friendStore.getFriendListMain(filterParams);
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
         } else if (filterParams === "nickname"){
             setFilterParams("level");
-            await RootStore.friendStore.getFriendListMain(filterParams);
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
         }
     }
 
