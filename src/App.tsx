@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from './pages/main/Main';
 import { Provider } from 'mobx-react';
@@ -15,31 +15,6 @@ import DatePicker from "./components/common/DatePicker";
 import SettingTermDetail from './pages/setting/SettingTermDetail';
 
 function App() {
-
-    const [isMessageReceived, setMessageReceived] = useState<boolean>(false);
-
-    useEffect(() => {
-
-        const handleMessage = (event : any) => {
-            if(!isMessageReceived) {
-
-                setMessageReceived(true);
-                window.removeEventListener('message', handleMessage);
-
-                const data = event.data;
-
-                RootStore.userStore.setJwtKey(data);
-
-            }
-        };
-
-        window.addEventListener('message', handleMessage);
-
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        }
-
-    }, [isMessageReceived]);
 
     return (
     <Provider RootStore={RootStore}>
