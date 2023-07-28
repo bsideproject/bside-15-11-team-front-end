@@ -148,4 +148,24 @@
     }
   }
 }
-
+.terms-detail{
+  padding: 0 20px;
+  .title-wrap{
+    margin-bottom: 20px;
+  }
+  .page-title{
+    font-size: 22px;
+  }
+  article{
+    font-size: 14px;
+    h2{
+      font-size: 20px;
+    }
+    p{
+      line-height: 1.2;
+    }
+    li{
+      line-height: 1.2;
+    }
+  }
+}
