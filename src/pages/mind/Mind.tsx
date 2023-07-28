@@ -142,7 +142,7 @@ const Mind = () => {
                 setGift(itemName);
               } else {
                 if (moneyInputRef.current) {
-                  moneyInputRef.current.value = itemName;
+                  moneyInputRef.current.value = displayMoneyForm(parseInt(itemName));
                   setMoney(parseInt(itemName));
                 }
               }
@@ -171,6 +171,10 @@ const Mind = () => {
   useEffect(() => {
     console.log("seq : " + JSON.stringify(selectedSeq));
   }, [selectedSeq]);
+
+  const displayMoneyForm = (money : number) : string => {
+    return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원';
+  }
 
   const handleInputClick = (index : number) => {
 
@@ -231,20 +235,22 @@ const Mind = () => {
 
   const addMoney = (add : number) => {
     let sum = add + money;
-
-    let reSum = sum.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
     
     setMoney(sum);
 
     if (moneyInputRef.current) {
-      moneyInputRef.current.valueAsNumber = sum;
+      moneyInputRef.current.value = displayMoneyForm(sum);
     }
   }
 
   const onChangeMoneyInput = () => {
     let inputNumber : number = 0;
+
     if (moneyInputRef.current) {
-      inputNumber = moneyInputRef.current.valueAsNumber;
+
+      let inputText = moneyInputRef.current.value;
+
+      inputNumber = parseInt(inputText.replaceAll(',','').replace('원',''));
 
       setMoney(inputNumber);
     }
@@ -277,7 +283,7 @@ const Mind = () => {
       setValidCheckArray([...array]);
       valid = false;
     } else if (mindType === 'cash') {
-      if (moneyInputRef && moneyInputRef.current) {
+      if (moneyInputRef?.current) {
         const input = moneyInputRef.current.value;
 
         if (NullChecker.isEmpty(input)) {
@@ -288,7 +294,7 @@ const Mind = () => {
         }
       }
     } else if (mindType === 'gift') {
-      if (giftRef && giftRef.current) {
+      if (giftRef?.current) {
         const input = giftRef.current.value;
 
         if (NullChecker.isEmpty(input)) {
@@ -322,6 +328,10 @@ const Mind = () => {
 
     if (mindType === 'cash' && moneyInputRef.current) {
       item = moneyInputRef.current.value;
+
+      item = item.replace('원','');
+      item = item.replace(',','');
+
       itemType = ItemTypeProto.CASH;
     }
 
@@ -488,6 +498,19 @@ const Mind = () => {
     }
   }
 
+  const onBlurMoneyInput = () => {
+    if (moneyInputRef.current) {
+      let moneyText = moneyInputRef.current.value;
+
+      moneyText = moneyText.replaceAll(',','').replace('원','');
+
+      moneyText = displayMoneyForm(parseInt(moneyText));
+
+      moneyInputRef.current.value = moneyText;
+
+    }
+  }
+
   return (
     <div className="Mind inner">
       <button type="button" className="exel-btn" onClick={handleExelBtn}><img src={ImgExelBtn} alt="exel-btn" /></button>
@@ -540,12 +563,13 @@ const Mind = () => {
           <Fragment>
             <div className="InputTextBox">
               <input
-                type="number"
+                type="text"
                 className="input-text-box"
                 id='cash-input'
                 placeholder='금액을 입력하세요'
                 ref={moneyInputRef}
-                defaultValue={money}
+                defaultValue={money+'원'}
+                onBlur={() => onBlurMoneyInput()}
                 onKeyUp={() => {onChangeMindContent("cash");onChangeMoneyInput();}}
               />
             </div>
