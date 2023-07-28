@@ -4,13 +4,11 @@ import InputTextBox from "../../components/common/InputTextBox";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../../components/common/ErrorMessage";
-import { UserPatchRequestProto } from "../../prototypes/user/UserRequestProto";
-import UserStore from './../../store/UserStore';
 import RootStore from "../../store/RootStore";
 
 const SettingNickname = () => {
     let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
-    const getNick = new URLSearchParams(window.location.search).get("nick");
+    const getNick = RootStore.userStore.getUserName;
 
     const navigate = useNavigate();
     const [nickname, setNickname] = useState("");

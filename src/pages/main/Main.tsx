@@ -11,15 +11,11 @@ import RootStore from "../../store/RootStore";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
 import {useNavigate} from "react-router-dom";
 import Spinner from "../../components/common/Spinner";
-import {FriendResponseProto} from "../../prototypes/friend/FriendResponse";
-import {get} from "../../apis/RestApis";
 
 const Main = () => {
-    let baseUrl : string = process.env.REACT_APP_SERVICE_URI as string
-    // let key = RootStore.userStore.getJwtKey;
+    let key = RootStore.userStore.getJwtKey;
     let navigate = useNavigate();
 
-    const [key, setKey] = useState<string>();
     // 리스트 비었을 때 분기처리
     const [isEmptyList, setIsEmptyList] = useState<boolean>(true);
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
@@ -30,9 +26,8 @@ const Main = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        setKey(RootStore.userStore.getJwtKey);
-
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
+
         if (isFirstVisit !== null) {
             setIsLoading(false);
         }else{
@@ -47,9 +42,7 @@ const Main = () => {
     // 친구 목록 불러오기 api
     useEffect(() => {
         if (key) {
-            RootStore.userStore.getUser();
-            getFriendListMain("nickname");
-            setMindCount();
+            apiCallSet();
         }
     }, [key]);
 
@@ -62,35 +55,19 @@ const Main = () => {
         }
     }, [mainFriendList]);
 
-    const getFriendListMain = async (filterParams: any) => {
-        try{
-            const res: FriendResponseProto[] = await get(`${baseUrl}/api/friend?&sort=${filterParams}`,{
-                headers : {
-                    Authorization : RootStore.userStore.getJwtKey
-                },
-            })
-            if(res)  return setMainFriendList(res);
-
-        }catch (err){
-            console.log(err);
-        }
-    }
-    const setMindCount = async () => {
-        const response = await get(`${baseUrl}/api/relationships/count`, {
-            headers : {
-                Authorization : RootStore.userStore.getJwtKey
-            }
-        });
-        if(response) return setCount(response);
+    const apiCallSet = () => {
+        RootStore.userStore.getUser();
+        RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
+        RootStore.mindStore.setMindCount(setCount);
     }
     // 필터링
     const handleFilter = async () => {
         if(filterParams === "level"){
             setFilterParams("nickname");
-            getFriendListMain(filterParams);
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
         } else if (filterParams === "nickname"){
             setFilterParams("level");
-            getFriendListMain(filterParams);
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
         }
     }
 

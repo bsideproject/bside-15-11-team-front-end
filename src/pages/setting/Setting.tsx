@@ -3,10 +3,11 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import IcFrontBtn from '../../assets/images/icon/ic_front_btn.svg';
 import ModalConfirm from "../../components/common/ModalConfirm";
+import RootStore from "../../store/RootStore";
 
 const Setting = () => {
 
-    const getNick = new URLSearchParams(window.location.search).get("nick");
+    const getNick = RootStore.userStore.getUserName;
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
 
