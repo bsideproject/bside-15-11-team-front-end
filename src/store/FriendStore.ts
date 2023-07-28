@@ -83,17 +83,16 @@ class FriendStore {
     }
 
     // 친구 목록 불러오기 - main
-    async getFriendListMain(filterParams:string){
+    async getFriendListMain(setMainFriendList:any, filterParams:string){
         try{
             const res: FriendResponseProto[] = await get(`${this.baseUrl}/api/friend?&sort=${filterParams}`,{
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
             })
-            return res;
-            // if(res) {
-            //     setMainFriendList(res);
-            // }
+            if(res) {
+                setMainFriendList(res);
+            }
 
         }catch (err){
             console.log(err);
