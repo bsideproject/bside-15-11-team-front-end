@@ -9,7 +9,9 @@ const EventType = ({selected, setEventType} : any) => {
                 name='event'
                 checked={selected === 'give'}
                 onClick = {() => setEventType('give')}
-                id='give' />
+                id='give' 
+                readOnly
+            />
             <label htmlFor='give'>준 마음</label>
             <input
                 type='radio'
@@ -17,7 +19,9 @@ const EventType = ({selected, setEventType} : any) => {
                 name='event'
                 checked={selected === 'take'}
                 onClick={() => setEventType('take')}
-                id='take' />
+                id='take' 
+                readOnly
+            />
             <label htmlFor='take'>받은 마음</label>
         </div>
     );
