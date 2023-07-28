@@ -65,7 +65,6 @@ class MindStore {
         Authorization : RootStore.userStore.getJwtKey
       }
     });
-    if(response) setCount(response);
 
     return response;
   }
