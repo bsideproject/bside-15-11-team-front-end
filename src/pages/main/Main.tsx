@@ -43,6 +43,7 @@ const Main = () => {
 
     // 친구 목록 불러오기 api
     useEffect(() => {
+        console.log(key)
         if (key) {
             apiCallSet();
         }
@@ -95,7 +96,7 @@ const Main = () => {
 
     return (
         <>
-            {isLoading ? <Spinner /> :
+            {isLoading && <Spinner />}
                 <div className="Main inner">
                         <div className="main-header">
                             <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
@@ -133,7 +134,6 @@ const Main = () => {
                             </button>
                         }
                     </div>
-            }
         </>
     );
 };
