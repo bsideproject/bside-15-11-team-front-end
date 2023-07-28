@@ -12,6 +12,7 @@ const MindType = (props : any) => {
                     id='cash'
                     checked={props.defaultSelect === 'cash'}
                     onClick={() => props.onSelect('cash')}
+                    readOnly
                 />
                 <label htmlFor='cash'>
                     현금
@@ -20,6 +21,7 @@ const MindType = (props : any) => {
                     id='gift'
                     checked={props.defaultSelect === 'gift'}
                     onClick={() => props.onSelect('gift')}
+                    readOnly
                 />
                 <label htmlFor='gift'>
                     선물

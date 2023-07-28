@@ -26,8 +26,9 @@ const Main = () => {
 
     // 친구 목록 불러오기 api
     useEffect(() => {
-        apiCallSet();
-    }, []);
+        if (key)
+            apiCallSet();
+    }, [key]);
 
     useEffect(() => {
         // 친구 존재 여부 확인
