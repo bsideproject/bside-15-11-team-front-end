@@ -65,7 +65,7 @@ const Mind = () => {
     list[1] = todayString;
 
     // 관계 등록 후 넘어왔을 경우
-    if (location.state && location.state.friendData) {
+    if (location.state?.friendData) {
       const friendData = location.state.friendData;
 
       let text = '';
@@ -79,14 +79,15 @@ const Mind = () => {
         });
 
         setSelectedSeq(friendSeqList);
+
+        text = text.trim();
+        text = text.slice(0, -1);
       } else {
         text+=friendData.nickname;
         pushFriendSeq(friendData.sequence);
-      }
 
-      // 마지막 comma 제거
-      text = text.trim();
-      text = text.slice(0, -1);
+        text =text.trim();
+      }
 
       list[0] = text;
 
@@ -106,6 +107,7 @@ const Mind = () => {
 
       setMindSeq(mindSeq);
       setEditMode(true);
+      setSelectedSeq([friendSeq]);
 
       const fetchRelationshipDetail = async () => {
         try {
@@ -166,9 +168,16 @@ const Mind = () => {
     RootStore.friendStore.setFriendList();
   }, []);
 
-  
+  useEffect(() => {
+    console.log("seq : " + JSON.stringify(selectedSeq));
+  }, [selectedSeq]);
 
   const handleInputClick = (index : number) => {
+
+    if (index === 0 && (isEditMode || (location.state?.friendData))) {
+      return;
+    }
+
     let list : boolean[] = [...openModal];
     list[index] = true;
     setOpenModal(list);
@@ -353,14 +362,19 @@ const Mind = () => {
     if (isEditMode) {
       const relationshipPutRequestProto : RelationshipPutRequestProto = {
         sequence : mindSeq,
+        friendSequence : friendSequence[0],
         type : type,
         event : event,
         date : dateProto,
         item : itemProto,
         memo : memoTxt
       };
+
+      console.log("friendSeq : " + JSON.stringify(friendSequence));
+
+      console.log("relationshipPutRequest : " + JSON.stringify(relationshipPutRequestProto));
       
-      // await RootStore.mindStore.putMind(relationshipPutRequestProto);
+      await RootStore.mindStore.putMind(relationshipPutRequestProto);
     } else {
       const relationshipPostRequestProto : RelationshipPostRequestProto = {
         relationships : saveList
