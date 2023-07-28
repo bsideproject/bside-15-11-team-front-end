@@ -46,7 +46,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
             {exchangeData && exchangeData.length !== 0 ?
                 <ul className="exchange-wrap">
                     {exchangeData && exchangeData.relationships.map((item:any, key:any) => (
-                        <li className="exchange-cont" key={key} onClick={() => navigate(`/page/relationship/${detailInfo?.nickname}/${item?.sequence}`)}>
+                        <li className="exchange-cont" key={key} onClick={() => navigate(`/page/relationship/${sequence}/${detailInfo?.nickname}/${item?.sequence}`)}>
                             <i className={item?.type === "TAKEN" ? "exchanged-circle tak" : item?.type === "GIVEN" ? "exchanged-circle giv" : "exchanged-circle giv"}></i>
                             <h4 className={item?.type === "TAKEN" ? "taken" : ""}>
                                 {item?.type === "GIVEN" ?

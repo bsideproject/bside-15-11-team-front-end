@@ -50,7 +50,7 @@ function App() {
                     <Route path='/page/main' element={<Main />}></Route>
                     <Route path="/page/friend" element={<Friend />}></Route>
                     <Route path="/page/relationship/" element={<Mind />}></Route>
-                    <Route path="/page/relationship/:nickname/:sequence" element={<Mind />}></Route>
+                    <Route path="/page/relationship/:friendSequence/:nickname/:sequence" element={<Mind />}></Route>
                     <Route path="/page/detail" element={<Detail />}></Route>
 
                     <Route path="/page/setting" element={<Setting />}></Route>

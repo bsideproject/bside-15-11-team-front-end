@@ -14,7 +14,8 @@ export interface RelationshipPostRequestProto {
 }
 
 export interface RelationshipPutRequestProto {
-  sequence?: string;
+  sequence: string;
+  friendSequence : string;
   type?: RelationshipTypeProto;
   event?: string;
   date?: DateProto;

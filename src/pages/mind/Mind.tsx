@@ -65,7 +65,7 @@ const Mind = () => {
     list[1] = todayString;
 
     // 관계 등록 후 넘어왔을 경우
-    if (location.state && location.state.friendData) {
+    if (location.state?.friendData) {
       const friendData = location.state.friendData;
 
       let text = '';
@@ -79,14 +79,15 @@ const Mind = () => {
         });
 
         setSelectedSeq(friendSeqList);
+
+        text = text.trim();
+        text = text.slice(0, -1);
       } else {
         text+=friendData.nickname;
         pushFriendSeq(friendData.sequence);
-      }
 
-      // 마지막 comma 제거
-      text = text.trim();
-      text = text.slice(0, -1);
+        text =text.trim();
+      }
 
       list[0] = text;
 
@@ -106,6 +107,7 @@ const Mind = () => {
 
       setMindSeq(mindSeq);
       setEditMode(true);
+      setSelectedSeq([friendSeq]);
 
       const fetchRelationshipDetail = async () => {
         try {
@@ -140,7 +142,7 @@ const Mind = () => {
                 setGift(itemName);
               } else {
                 if (moneyInputRef.current) {
-                  moneyInputRef.current.value = itemName;
+                  moneyInputRef.current.value = displayMoneyForm(parseInt(itemName));
                   setMoney(parseInt(itemName));
                 }
               }
@@ -166,9 +168,20 @@ const Mind = () => {
     RootStore.friendStore.setFriendList();
   }, []);
 
-  
+  useEffect(() => {
+    console.log("seq : " + JSON.stringify(selectedSeq));
+  }, [selectedSeq]);
+
+  const displayMoneyForm = (money : number) : string => {
+    return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원';
+  }
 
   const handleInputClick = (index : number) => {
+
+    if (index === 0 && (isEditMode || (location.state?.friendData))) {
+      return;
+    }
+
     let list : boolean[] = [...openModal];
     list[index] = true;
     setOpenModal(list);
@@ -222,20 +235,22 @@ const Mind = () => {
 
   const addMoney = (add : number) => {
     let sum = add + money;
-
-    let reSum = sum.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
     
     setMoney(sum);
 
     if (moneyInputRef.current) {
-      moneyInputRef.current.valueAsNumber = sum;
+      moneyInputRef.current.value = displayMoneyForm(sum);
     }
   }
 
   const onChangeMoneyInput = () => {
     let inputNumber : number = 0;
+
     if (moneyInputRef.current) {
-      inputNumber = moneyInputRef.current.valueAsNumber;
+
+      let inputText = moneyInputRef.current.value;
+
+      inputNumber = parseInt(inputText.replaceAll(',','').replace('원',''));
 
       setMoney(inputNumber);
     }
@@ -268,7 +283,7 @@ const Mind = () => {
       setValidCheckArray([...array]);
       valid = false;
     } else if (mindType === 'cash') {
-      if (moneyInputRef && moneyInputRef.current) {
+      if (moneyInputRef?.current) {
         const input = moneyInputRef.current.value;
 
         if (NullChecker.isEmpty(input)) {
@@ -279,7 +294,7 @@ const Mind = () => {
         }
       }
     } else if (mindType === 'gift') {
-      if (giftRef && giftRef.current) {
+      if (giftRef?.current) {
         const input = giftRef.current.value;
 
         if (NullChecker.isEmpty(input)) {
@@ -313,6 +328,10 @@ const Mind = () => {
 
     if (mindType === 'cash' && moneyInputRef.current) {
       item = moneyInputRef.current.value;
+
+      item = item.replace('원','');
+      item = item.replace(',','');
+
       itemType = ItemTypeProto.CASH;
     }
 
@@ -353,14 +372,19 @@ const Mind = () => {
     if (isEditMode) {
       const relationshipPutRequestProto : RelationshipPutRequestProto = {
         sequence : mindSeq,
+        friendSequence : friendSequence[0],
         type : type,
         event : event,
         date : dateProto,
         item : itemProto,
         memo : memoTxt
       };
+
+      console.log("friendSeq : " + JSON.stringify(friendSequence));
+
+      console.log("relationshipPutRequest : " + JSON.stringify(relationshipPutRequestProto));
       
-      // await RootStore.mindStore.putMind(relationshipPutRequestProto);
+      await RootStore.mindStore.putMind(relationshipPutRequestProto);
     } else {
       const relationshipPostRequestProto : RelationshipPostRequestProto = {
         relationships : saveList
@@ -474,6 +498,19 @@ const Mind = () => {
     }
   }
 
+  const onBlurMoneyInput = () => {
+    if (moneyInputRef.current) {
+      let moneyText = moneyInputRef.current.value;
+
+      moneyText = moneyText.replaceAll(',','').replace('원','');
+
+      moneyText = displayMoneyForm(parseInt(moneyText));
+
+      moneyInputRef.current.value = moneyText;
+
+    }
+  }
+
   return (
     <div className="Mind inner">
       <button type="button" className="exel-btn" onClick={handleExelBtn}><img src={ImgExelBtn} alt="exel-btn" /></button>
@@ -526,12 +563,13 @@ const Mind = () => {
           <Fragment>
             <div className="InputTextBox">
               <input
-                type="number"
+                type="text"
                 className="input-text-box"
                 id='cash-input'
                 placeholder='금액을 입력하세요'
                 ref={moneyInputRef}
-                defaultValue={money}
+                defaultValue={money+'원'}
+                onBlur={() => onBlurMoneyInput()}
                 onKeyUp={() => {onChangeMindContent("cash");onChangeMoneyInput();}}
               />
             </div>
