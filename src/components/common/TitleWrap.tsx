@@ -3,7 +3,7 @@ import IcBackBtn from "../../assets/images/icon/ic_back_btn.svg";
 import { useNavigate } from "react-router-dom";
 
 interface PropsType{
-    title: string,
+    title?: string,
     relation?: string
 }
 

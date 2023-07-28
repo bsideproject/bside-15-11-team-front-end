@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import terms from '../../assets/terms.json';
 import { useParams } from 'react-router-dom';
+import TitleWrap from "../../components/common/TitleWrap";
 
 const SettingTermDetail = () => {
 
@@ -19,7 +20,8 @@ const SettingTermDetail = () => {
     }, []);
 
     return (
-        <div>
+        <div className="terms-detail">
+            <TitleWrap title=""  />
             <div dangerouslySetInnerHTML={{__html : html}}></div>
         </div>
     );
