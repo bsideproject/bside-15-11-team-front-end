@@ -43,9 +43,10 @@ const Main = () => {
 
     // 친구 목록 불러오기 api
     useEffect(() => {
-        console.log(key)
         if (key) {
-            apiCallSet();
+            RootStore.userStore.getUser();
+            setMainFriendList(RootStore.friendStore.getFriendListMain("nickname"));
+            setCount(RootStore.mindStore.setMindCount());
         }
     }, [key]);
 
@@ -58,19 +59,14 @@ const Main = () => {
         }
     }, [mainFriendList]);
 
-    const apiCallSet = async () => {
-        await RootStore.userStore.getUser();
-        await RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
-        await RootStore.mindStore.setMindCount(setCount);
-    }
     // 필터링
     const handleFilter = async () => {
         if(filterParams === "level"){
             setFilterParams("nickname");
-            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
+            await RootStore.friendStore.getFriendListMain(filterParams);
         } else if (filterParams === "nickname"){
             setFilterParams("level");
-            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
+            await RootStore.friendStore.getFriendListMain(filterParams);
         }
     }
 
