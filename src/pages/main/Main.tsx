@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 
 
 const Main = () => {
-    
+    let key = RootStore.userStore.getJwtKey;
     let navigate = useNavigate();
 
     // 리스트 비었을 때 분기처리
@@ -24,32 +24,11 @@ const Main = () => {
     const [searchText, setSearchText] = useState<string>("");
     const [filterParams, setFilterParams] = useState<string>("level");
 
-    const [isMessageReceived, setMessageReceived] = useState<boolean>(false);
-
     // 친구 목록 불러오기 api
     useEffect(() => {
-
-        const handleMessage = async(event : any) => {
-            if(!isMessageReceived) {
-
-                setMessageReceived(true);
-                window.removeEventListener('message', handleMessage);
-
-                const data = event.data;
-
-                RootStore.userStore.setJwtKey(data);
-
-                await apiCallSet();
-            }
-        };
-
-        window.addEventListener('message', handleMessage);
-
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        }
-
-    }, [isMessageReceived]);
+        if (key)
+            apiCallSet();
+    }, [key]);
 
     useEffect(() => {
         // 친구 존재 여부 확인
