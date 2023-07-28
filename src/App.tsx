@@ -17,7 +17,6 @@ import SettingTermDetail from './pages/setting/SettingTermDetail';
 function App() {
 
     const [isMessageReceived, setMessageReceived] = useState<boolean>(false);
-    const [key, setKey] = useState<any>();
 
     useEffect(() => {
 
@@ -38,7 +37,6 @@ function App() {
 
         return () => {
             window.removeEventListener('message', handleMessage);
-            setKey(RootStore.userStore.getJwtKey);
         }
 
     }, [isMessageReceived]);
@@ -49,7 +47,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Main />}></Route>
-                    <Route path='/page/main' element={<Main key={key} />}></Route>
+                    <Route path='/page/main' element={<Main />}></Route>
                     <Route path="/page/friend" element={<Friend />}></Route>
                     <Route path="/page/relationship/" element={<Mind />}></Route>
                     <Route path="/page/relationship/:friendSequence/:nickname/:sequence" element={<Mind />}></Route>
