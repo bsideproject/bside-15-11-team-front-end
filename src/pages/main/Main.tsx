@@ -10,7 +10,7 @@ import MainRegister from "../../components/main/MainRegister";
 import RootStore from "../../store/RootStore";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
 import {useNavigate} from "react-router-dom";
-
+import Spinner from "../../components/common/Spinner";
 
 const Main = () => {
     let key = RootStore.userStore.getJwtKey;
@@ -23,11 +23,28 @@ const Main = () => {
     const [mainFriendList, setMainFriendList] = useState<any>(null);
     const [searchText, setSearchText] = useState<string>("");
     const [filterParams, setFilterParams] = useState<string>("level");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        const isFirstVisit = sessionStorage.getItem('isFirstVisit');
+
+        if (isFirstVisit !== null) {
+            setIsLoading(false);
+        } else {
+            setIsLoading(true)
+            sessionStorage.setItem('isFirstVisit', 'true');
+        }
+    }, []);
 
     // 친구 목록 불러오기 api
     useEffect(() => {
-        if (key)
+        if (key) {
             apiCallSet();
+
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1500);
+        }
     }, [key]);
 
     useEffect(() => {
@@ -76,43 +93,48 @@ const Main = () => {
     }
 
     return (
-        <div className="Main inner">
-            <div className="main-header">
-                <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
-            </div>
-            <MainText
-                isEmptyList={isEmptyList}
-                length={mainFriendList? mainFriendList.length : null}
-                count={count? count : ""}
-                nickname={RootStore.userStore.getUserName}
-            />
-            <MainExchangedCount
-                count={count? count : ""}
-            />
-            <div className="MainSearch">
-                <span className="search-icon">
-                    <img src={IcSearch} alt="search-icon" />
-                </span>
-                <input
-                    type="text"
-                    id="searchText"
-                    className="search-text"
-                    value={searchText}
-                    onChange={handleSearchText}
-                    placeholder="찾으시는 이름이 있으신가요?"
-                />
-            </div>
-            <FilterBtn handleFilter={handleFilter} />
-            <MainFriendList
-                isEmptyList={isEmptyList}
-                searchList={searchList}
-            />
-            {registerBtn ? <MainRegister handleRegisterBtn={handleRegisterBtn} isEmptyList={isEmptyList}  /> :
-                <button type="button" className="add-btn" onClick={handleRegisterBtn}>
-                    <span className="add-btn-plus"><img src={IcPlusBtnOg} alt="ic_plus_btn"/></span>
-                </button>
+        <>
+            {isLoading ?
+                <Spinner /> :
+                <div className="Main inner">
+                        <div className="main-header">
+                            <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
+                        </div>
+                        <MainText
+                            isEmptyList={isEmptyList}
+                            length={mainFriendList? mainFriendList.length : null}
+                            count={count? count : ""}
+                            nickname={RootStore.userStore.getUserName}
+                        />
+                        <MainExchangedCount
+                            count={count? count : ""}
+                        />
+                        <div className="MainSearch">
+                    <span className="search-icon">
+                        <img src={IcSearch} alt="search-icon" />
+                    </span>
+                            <input
+                                type="text"
+                                id="searchText"
+                                className="search-text"
+                                value={searchText}
+                                onChange={handleSearchText}
+                                placeholder="찾으시는 이름이 있으신가요?"
+                            />
+                        </div>
+                        <FilterBtn handleFilter={handleFilter} />
+                        <MainFriendList
+                            isEmptyList={isEmptyList}
+                            searchList={searchList}
+                        />
+                        {registerBtn ? <MainRegister handleRegisterBtn={handleRegisterBtn} isEmptyList={isEmptyList}  /> :
+                            <button type="button" className="add-btn" onClick={handleRegisterBtn}>
+                                <span className="add-btn-plus"><img src={IcPlusBtnOg} alt="ic_plus_btn"/></span>
+                            </button>
+                        }
+                    </div>
             }
-        </div>
+        </>
     );
 };
 
