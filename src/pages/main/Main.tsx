@@ -26,14 +26,7 @@ const Main = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        const isFirstVisit = sessionStorage.getItem('isFirstVisit');
-
-        if (isFirstVisit !== null) {
-            setIsLoading(false);
-        } else {
-            setIsLoading(true)
-            sessionStorage.setItem('isFirstVisit', 'true');
-        }
+        setIsLoading(true);
     }, []);
 
     // 친구 목록 불러오기 api
