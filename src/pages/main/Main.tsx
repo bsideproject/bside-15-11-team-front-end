@@ -27,7 +27,6 @@ const Main = () => {
 
     useEffect(() => {
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
-
         if (isFirstVisit !== null) {
             setIsLoading(false);
         }else{
