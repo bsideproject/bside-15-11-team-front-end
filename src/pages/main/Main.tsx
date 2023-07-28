@@ -13,9 +13,10 @@ import {useNavigate} from "react-router-dom";
 import Spinner from "../../components/common/Spinner";
 
 const Main = () => {
-    let key = RootStore.userStore.getJwtKey;
+    // let key = RootStore.userStore.getJwtKey;
     let navigate = useNavigate();
 
+    const [key, setKey] = useState<string>();
     // 리스트 비었을 때 분기처리
     const [isEmptyList, setIsEmptyList] = useState<boolean>(true);
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
@@ -26,11 +27,13 @@ const Main = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        setKey(RootStore.userStore.getJwtKey);
+
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
         if (isFirstVisit !== null) {
             setIsLoading(false);
         }else{
-            setIsLoading(true)
+            setIsLoading(true);
             sessionStorage.setItem('isFirstVisit', 'true');
         }
         setTimeout(() => {
@@ -92,8 +95,7 @@ const Main = () => {
 
     return (
         <>
-            {isLoading ?
-                <Spinner /> :
+            {isLoading ? <Spinner /> :
                 <div className="Main inner">
                         <div className="main-header">
                             <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
