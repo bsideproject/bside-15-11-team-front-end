@@ -67,6 +67,7 @@
   }
 }
 .SettingOptIn{
+  position: relative;
   label {
     display: inline-flex;
     align-items: center;
@@ -105,6 +106,25 @@
     background-color: white;
     left: 20px;
   }
+  .optin-modal{
+    //width: 85vw;
+    border-radius: 12px;
+    background: #383838;
+    padding: 12px 14px;
+    font-size: 3vw;
+    font-weight: 400;
+    position: absolute;
+    left: 50%; bottom: -300%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: pre;
+    opacity: 0;
+    transition: .5s;
+    &.active{
+      opacity: 1;
+      bottom: -280%;
+    }
+  }
 }
 
 .SettingWithdrawal{
@@ -116,6 +136,7 @@
       display: block;
       width: 7vw; height: 7vw;
       background-image: url("../../assets/images/icon/ic_check_off2.svg");
+      background-repeat: no-repeat;
       margin-right: 2vw;
     }
     input[type="radio"]:checked + label{

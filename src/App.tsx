@@ -29,7 +29,7 @@ function App() {
                 const data = event.data;
 
                 RootStore.userStore.setJwtKey(data);
-
+                sessionStorage.setItem('jwt', data);
             }
         };
 
@@ -60,8 +60,6 @@ function App() {
                     <Route path="/page/setting/term/:index" element={<SettingTermDetail />}></Route>
                     <Route path="/page/setting/withdrawal" element={<SettingWithdrawal />}></Route>
 
-                    {/*삭제 예정*/}
-                    <Route path="/page/date" element={<DatePicker />}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
