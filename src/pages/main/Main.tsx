@@ -38,6 +38,9 @@ const Main = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1500);
+        setTimeout(() => {
+            handleRemount();
+        }, 3000);
     }, []);
 
     const handleRemount = () => {
@@ -49,9 +52,6 @@ const Main = () => {
     useEffect(() => {
         if (key) {
             apiCallSet();
-            setTimeout(() => {
-                handleRemount();
-            }, 500);
         }
     }, [key]);
 
