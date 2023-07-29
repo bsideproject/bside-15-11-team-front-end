@@ -34,8 +34,8 @@ const Main = () => {
             setIsLoading(true);
             sessionStorage.setItem('isFirstVisit', 'true');
             setTimeout(() => {
-                window.location.reload();
-            }, 3000);
+                apiCallSet();
+            }, 2000);
         }
         setTimeout(() => {
             setIsLoading(false);
