@@ -27,6 +27,7 @@ const Main = () => {
     const [remountKey, setRemountKey] = useState(0);
 
     useEffect(() => {
+        apiCallSet();
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
 
         if (isFirstVisit !== null) {
@@ -53,6 +54,7 @@ const Main = () => {
     useEffect(() => {
         if (key) {
             apiCallSet();
+            alert("jwt key confirm");
         }
     }, [key]);
 
