@@ -64,11 +64,15 @@ const Friend = () => {
             detailInfo && setFriendRelation(detailInfo?.relationship);
         }
         // 생일
-        if(detailInfo && Object.keys(detailInfo?.birth).length === 0){
-            setBirthUnknown(true);
-        }else{
+        if(detailInfo && Object.keys(detailInfo?.birth).length !== 0){
+            setBirthUnknown(false);
             let copy = [...inputArray];
             copy[1] = detailInfo && `${detailInfo?.birth?.date?.year}-${detailInfo?.birth?.date?.month < 10 ? "0"+detailInfo?.birth?.date?.month : detailInfo?.birth?.date?.month}-${detailInfo?.birth?.date?.day < 10 ? "0"+detailInfo?.birth?.date?.day : detailInfo?.birth?.date?.day}`;
+            detailInfo && setInputArray(copy);
+        }else{
+            setBirthUnknown(true);
+            let copy = [...inputArray];
+            copy[1] = detailInfo && ``;
             detailInfo && setInputArray(copy);
         }
         if(detailInfo && detailInfo?.birth?.isLunar === "N"){
@@ -223,9 +227,9 @@ const Friend = () => {
             navigate(`/page/detail?sequence=${getSequence}`);
         } else {
             if (goRegister) {
-                navigate('/page/relationship', 
-                {state : 
-                    {   
+                navigate('/page/relationship',
+                {state :
+                    {
                         friendData : registerResponse
                     }
                 });
@@ -316,7 +320,11 @@ const Friend = () => {
                     placeholder={nowDate}
                     id="birth"
                     onClick={() => handleInputClick(1)}
-                    value={isLunar ? `${inputArray[1]} (음력)` : `${inputArray[1]}`}
+                    value={
+                        !isLunar ? `${inputArray[1]}` :
+                        detailInfo && Object.keys(detailInfo?.birth).length === 0 ?
+                            `${inputArray[1]}` : `${inputArray[1]} (음력)`
+                    }
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
                     inactive={friendName.length > 1}
