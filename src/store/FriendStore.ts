@@ -20,7 +20,7 @@ class FriendStore {
     }
 
     setFriendList = async() => {
-        const response : FriendResponseProto[] = await get(`${this.baseUrl}/api/friend`, {
+        const response : FriendResponseProto[] = await get(`${this.baseUrl}/api/friends`, {
             headers : {
                 Authorization : RootStore.userStore.getJwtKey
             }
@@ -47,7 +47,7 @@ class FriendStore {
         setRegisterResponse? : any
     ){
         const request  = {
-            nicknames: friendName,
+            [getEdit === "edit" ? "nickname" : "nicknames"]: getEdit === "edit" ? friendName[0] : friendName,
             relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
             birth: birthUnKnown ? null : {
                 isLunar: isLunar ? "Y" : "N",
@@ -60,9 +60,11 @@ class FriendStore {
             memo: friendMemo
         };
 
+        console.log("friend request : " + JSON.stringify(request));
+
         try{
             if(getEdit === "edit"){
-                const res = await put(`${this.baseUrl}/api/friend/${getSequence}`, request,{
+                const res = await put(`${this.baseUrl}/api/friends/${getSequence}`, request,{
                     headers : {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
@@ -70,7 +72,7 @@ class FriendStore {
 
                 setRegisterResponse(res);
             }else{
-                const res = await post(`${this.baseUrl}/api/friend`, request,{
+                const res = await post(`${this.baseUrl}/api/friends`, request,{
                     headers : {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
@@ -85,7 +87,7 @@ class FriendStore {
     // 친구 목록 불러오기 - main
     async getFriendListMain(setMainFriendList:any, filterParams:string){
         try{
-            const res: FriendResponseProto[] = await get(`${this.baseUrl}/api/friend?&sort=${filterParams}`,{
+            const res: FriendResponseProto[] = await get(`${this.baseUrl}/api/friends?&sort=${filterParams}`,{
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
@@ -102,7 +104,7 @@ class FriendStore {
     // 친구 상세 조회
     async getFriendDetail(sequence:any, setDetailInfo: any){
         try{
-            const res = await get(`${this.baseUrl}/api/friend/${sequence}`,{
+            const res = await get(`${this.baseUrl}/api/friends/${sequence}`,{
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
