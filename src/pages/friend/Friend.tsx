@@ -3,7 +3,6 @@ import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
 import TitleWrap from "../../components/common/TitleWrap";
 import InputTextBox from "../../components/common/InputTextBox";
 import RadioWrap from "../../components/common/RadioWrap";
-import Calendar from "../../components/common/Calendar";
 import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow";
 import RootStore from "../../store/RootStore";
 import {useNavigate} from "react-router-dom";
@@ -205,7 +204,7 @@ const Friend = () => {
     // 삭제 확인 버튼
     const handleDeleteTrue = async () => {
         try {
-            const response = await axios.delete(`${baseUrl}/api/friend/${getSequence}`,{
+            const response = await axios.delete(`${baseUrl}/api/friends/${getSequence}`,{
                 headers : {
                     Authorization : RootStore.userStore.getJwtKey
                 },
