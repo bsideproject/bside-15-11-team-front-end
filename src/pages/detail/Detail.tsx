@@ -25,7 +25,7 @@ const Detail = () => {
         sheetLimit: [37, 50],
         defaultHeight: .37
     };
-
+    console.log(detailInfo)
     useEffect(() => {
         apiCallSet(getSequence);
     }, []);
@@ -45,7 +45,7 @@ const Detail = () => {
 
     return(
         <div className="Detail inner">
-            <TitleWrap title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
+            <TitleWrap detail={true} title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
             <span className="modify-icon" onClick={() => navigate(`/page/friend?sequence=${getSequence}&edit=edit`)}><img src={ImgModifyIcon} alt="modify-icon"/></span>
             <LevelCard detailInfo={detailInfo && detailInfo} />
             <div className="other-info-wrap">
@@ -72,7 +72,7 @@ const Detail = () => {
             <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', {state : {friendData : detailInfo}})}>
                 <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn"/></span>
             </button>
-            
+
         </div>
     )
 }

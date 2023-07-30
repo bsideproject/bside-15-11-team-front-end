@@ -24,11 +24,9 @@ const Main = () => {
     const [searchText, setSearchText] = useState<string>("");
     const [filterParams, setFilterParams] = useState<string>("level");
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [remountKey, setRemountKey] = useState(0);
 
     useEffect(() => {
         navigate("/page/main");
-        // apiCallSet();
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
 
         if (isFirstVisit !== null) {
@@ -36,20 +34,11 @@ const Main = () => {
         }else{
             setIsLoading(true);
             sessionStorage.setItem('isFirstVisit', 'true');
-            // setTimeout(() => {
-            //     apiCallSet();
-            //     handleRemount();
-            // }, 2500);
         }
         setTimeout(() => {
             setIsLoading(false);
         }, 1500);
     }, []);
-
-    const handleRemount = () => {
-        // 컴포넌트의 키를 변경하여 재마운트
-        setRemountKey(prevKey => prevKey + 1);
-    };
 
     // 친구 목록 불러오기 api
     useEffect(() => {
@@ -106,7 +95,7 @@ const Main = () => {
     return (
         <>
             {isLoading && <Spinner />}
-                <div className="Main inner" key={remountKey}>
+                <div className="Main inner">
                         <div className="main-header">
                             <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
                         </div>

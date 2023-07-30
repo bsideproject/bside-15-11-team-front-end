@@ -76,9 +76,6 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                     paddingTop: "20%"
                 }}>아직 기록이 없어요.</div>
             }
-
-
-
         </div>
     )
 }
