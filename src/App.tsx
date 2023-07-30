@@ -11,7 +11,6 @@ import SettingNickname from "./pages/setting/SettingNickname";
 import SettingOptIn from "./pages/setting/SettingOptIn";
 import SettingTerms from "./pages/setting/SettingTerms";
 import SettingWithdrawal from "./pages/setting/SettingWithdrawal";
-import DatePicker from "./components/common/DatePicker";
 import SettingTermDetail from './pages/setting/SettingTermDetail';
 
 function App() {
@@ -59,7 +58,6 @@ function App() {
                     <Route path="/page/setting/terms" element={<SettingTerms />}></Route>
                     <Route path="/page/setting/term/:index" element={<SettingTermDetail />}></Route>
                     <Route path="/page/setting/withdrawal" element={<SettingWithdrawal />}></Route>
-
                 </Routes>
             </BrowserRouter>
         </div>
