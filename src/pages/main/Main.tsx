@@ -28,7 +28,7 @@ const Main = () => {
 
     useEffect(() => {
         navigate("/page/main");
-        apiCallSet();
+        // apiCallSet();
         const isFirstVisit = sessionStorage.getItem('isFirstVisit');
 
         if (isFirstVisit !== null) {
@@ -36,10 +36,10 @@ const Main = () => {
         }else{
             setIsLoading(true);
             sessionStorage.setItem('isFirstVisit', 'true');
-            setTimeout(() => {
-                apiCallSet();
-                handleRemount();
-            }, 2500);
+            // setTimeout(() => {
+            //     apiCallSet();
+            //     handleRemount();
+            // }, 2500);
         }
         setTimeout(() => {
             setIsLoading(false);
