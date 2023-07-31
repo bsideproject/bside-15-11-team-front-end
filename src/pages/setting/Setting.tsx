@@ -26,7 +26,7 @@ const Setting = () => {
             </div>
             <div className="setting-cont">
                 <Link to="/page/setting/optin" className="setting-list">이벤트 및 마케팅 수신 동의<i><img src={IcFrontBtn} alt="arr-icon" /></i></Link>
-                <Link to="" className="setting-list">1:1 문의하기<i><img src={IcFrontBtn} alt="arr-icon" /></i></Link>
+                <Link target="_blank" to="https://forms.gle/C5oFucnYPGLV7Q1p9" className="setting-list">1:1 문의하기<i><img src={IcFrontBtn} alt="arr-icon" /></i></Link>
                 <span className="setting-list">버전<em>v1.0.0</em></span>
                 <Link to="/page/setting/terms" className="setting-list">이용약관<i><img src={IcFrontBtn} alt="arr-icon" /></i></Link>
             </div>
