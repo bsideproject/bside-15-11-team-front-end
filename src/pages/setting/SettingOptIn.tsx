@@ -14,9 +14,11 @@ const SettingOptIn = () => {
         getAgreeState()
     }, []);
 
-    const handleAgree = (event:any) => {
+    const handleAgree = async(event:any) => {
         const { checked } = event.target;
         setAgree(checked);
+
+        await RootStore.userStore.changeAllowInformation(checked);
     };
 
     const getAgreeState = async () => {
