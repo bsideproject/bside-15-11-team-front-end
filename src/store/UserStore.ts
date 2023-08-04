@@ -1,5 +1,4 @@
-import axios from "axios";
-import { UserGetRequestProto, UserPatchRequestProto } from "../prototypes/user/UserRequestProto";
+import { UserPatchRequestProto } from "../prototypes/user/UserRequestProto";
 import { UserResponseProto } from "../prototypes/user/UserResponseProto";
 import RootStore from "./RootStore";
 import { action, computed, makeObservable, observable } from "mobx";
@@ -7,8 +6,8 @@ import { get, post } from "../apis/RestApis";
 import { patch } from "../apis/RestApis";
 import { UserInformationProto } from "../prototypes/common/UserInformationProto";
 import { AllowInformationProto } from './../prototypes/common/AllowInformation';
-import SettingWithdrawal from './../pages/setting/SettingWithdrawal';
 import { SignWithdrawlRequestProto } from "../prototypes/sign/SignRequestProto";
+import { YnTypeProto } from "../prototypes/common/type/YnTypeProto";
 
 class UserStore {
 
@@ -142,6 +141,26 @@ class UserStore {
     const userPatchRequest : UserPatchRequestProto = {
       userInformation : userInfo,
       allowInformation : allowInfo
+    };
+
+    const response = await patch(`${this.baseUrl}/api/users`, userPatchRequest, {
+      headers : {
+        Authorization : this.getJwtKey
+      }
+    });
+
+    return response;
+  }
+
+  async changeAllowInformation(flag : boolean) {
+    let allowInformation : AllowInformationProto = this.getAllowInformation;
+    const userInformation : UserInformationProto = this.getUserInformation;
+
+    allowInformation.eventMarketingYn = flag ? YnTypeProto.Y : YnTypeProto.N;
+
+    const userPatchRequest : UserPatchRequestProto = {
+      userInformation : userInformation,
+      allowInformation : allowInformation
     };
 
     const response = await patch(`${this.baseUrl}/api/users`, userPatchRequest, {
