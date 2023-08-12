@@ -10,19 +10,18 @@ import MindType from './MindType';
 import MoneyOption from './MoneyOption';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import RootStore from '../../store/RootStore';
-import { RelationshipRequestProto } from '../../prototypes/common/RelationshipProto';
 import ErrorMessage from '../../components/common/ErrorMessage';
 import NullChecker from '../../utils/NullChecker';
 import { ItemProto } from '../../prototypes/common/ItemProto';
 import { ItemTypeProto } from '../../prototypes/common/type/ItemTypeProto';
 import { DateProto } from '../../prototypes/common/DateProto';
-import { RelationshipTypeProto } from '../../prototypes/common/type/RelationshipTypeProto';
-import { RelationshipPostRequestProto, RelationshipPutRequestProto } from '../../prototypes/relationship/RelationshipRequestProto';
 import DatePickers from "../../components/common/DatePickers";
 import ImgExelBtn from "../../assets/images/icon/ic_exel_btn.svg";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
 import axios from 'axios';
+import { MindPostRequestProto, MindPutRequestProto, MindRequestProto } from '../../prototypes/mind/MindRequestProto';
+import { MindTypeProto } from '../../prototypes/common/type/MindTypeProto';
 
 const Mind = () => {
 
@@ -109,7 +108,7 @@ const Mind = () => {
       setEditMode(true);
       setSelectedSeq([friendSeq]);
 
-      const fetchRelationshipDetail = async () => {
+      const fetchMindDetail = async () => {
         try {
           const response = await RootStore.mindStore.getMind(mindSeq);
           
@@ -159,7 +158,7 @@ const Mind = () => {
         }
       };
 
-      fetchRelationshipDetail();
+      fetchMindDetail();
     }
 
     setInputArray(list);
@@ -319,9 +318,9 @@ const Mind = () => {
       return;
     }
 
-    let saveList : RelationshipRequestProto[] = [];
+    let saveList : MindRequestProto[] = [];
     const friendSequence = selectedSeq;
-    const type : RelationshipTypeProto = eventType === 'give' ? RelationshipTypeProto.GIVEN : RelationshipTypeProto.TAKEN;
+    const type : MindTypeProto = eventType === 'give' ? MindTypeProto.GIVEN : MindTypeProto.TAKEN;
     const event = inputArray[2];
     let itemType : ItemTypeProto = ItemTypeProto.CASH;
     let item = '';
@@ -358,7 +357,7 @@ const Mind = () => {
 
     for (const seq of friendSequence) {
       saveList.push({
-        friendSequence : seq,
+        relationshipSequence : seq,
         type : type,
         event : event,
         date : dateProto,
@@ -370,9 +369,9 @@ const Mind = () => {
     
 
     if (isEditMode) {
-      const relationshipPutRequestProto : RelationshipPutRequestProto = {
+      const mindPutRequestProto : MindPutRequestProto = {
         sequence : mindSeq,
-        friendSequence : friendSequence[0],
+        relationshipSequence : friendSequence[0],
         type : type,
         event : event,
         date : dateProto,
@@ -382,15 +381,15 @@ const Mind = () => {
 
       console.log("friendSeq : " + JSON.stringify(friendSequence));
 
-      console.log("relationshipPutRequest : " + JSON.stringify(relationshipPutRequestProto));
+      console.log("relationshipPutRequest : " + JSON.stringify(mindPutRequestProto));
       
-      await RootStore.mindStore.putMind(relationshipPutRequestProto);
+      await RootStore.mindStore.putMind(mindPutRequestProto);
     } else {
-      const relationshipPostRequestProto : RelationshipPostRequestProto = {
-        relationships : saveList
+      const mindPostRequestProto : MindPostRequestProto = {
+        minds : saveList
       };
 
-      await RootStore.mindStore.postMind(relationshipPostRequestProto);
+      await RootStore.mindStore.postMind(mindPostRequestProto);
     }
 
     setIsSaveOpen(true);
@@ -475,7 +474,7 @@ const Mind = () => {
     const baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
 
     try {
-      const response = await axios.delete(`${baseUrl}/api/relationships/${mindSeq}`, {
+      const response = await axios.delete(`${baseUrl}/api/minds/${mindSeq}`, {
         headers : {
           Authorization : RootStore.userStore.getJwtKey
         }

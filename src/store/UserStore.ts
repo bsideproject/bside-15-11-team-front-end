@@ -178,7 +178,7 @@ class UserStore {
       withdrawlReason : reason
     };
 
-    const response = await post(`${this.baseUrl}/api/sign/withdrawl`, withdrawRequest, {
+    const response = await post(`${this.baseUrl}/api/sign/withdrawal`, withdrawRequest, {
       headers : {
         Authorization : this.getJwtKey
       }

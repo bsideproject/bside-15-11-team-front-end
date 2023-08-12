@@ -1,8 +1,8 @@
 import { computed, makeObservable, observable } from 'mobx';
 import RootStore from './RootStore';
 import { get, post, put } from '../apis/RestApis';
-import { RelationshipPostRequestProto, RelationshipPutRequestProto } from '../prototypes/relationship/RelationshipRequestProto';
-import { RelationshipGetDetailResponseProto, RelationshipPutResponseProto } from '../prototypes/relationship/RelationshipResponseProto';
+import { MindPostRequestProto, MindPutRequestProto } from '../prototypes/mind/MindRequestProto';
+import { MindGetDetailResponseProto, MindPutResponseProto } from '../prototypes/mind/MindResponseProto';
 
 interface Mind {
   sender : string,
@@ -60,7 +60,7 @@ class MindStore {
   }
 
   async setMindCount(setCount?:any) {
-    const response = await get(`${this.baseUrl}/api/relationships/count`, {
+    const response = await get(`${this.baseUrl}/api/minds/count`, {
       headers : {
         Authorization : RootStore.userStore.getJwtKey
       }
@@ -70,8 +70,8 @@ class MindStore {
     return response;
   }
 
-  async postMind(requestBody : RelationshipPostRequestProto) {
-    const response = await post(`${this.baseUrl}/api/relationships`, requestBody, {
+  async postMind(requestBody : MindPostRequestProto) {
+    const response = await post(`${this.baseUrl}/api/minds`, requestBody, {
       headers : {
         "Authorization" : RootStore.userStore.getJwtKey
       }
@@ -81,8 +81,8 @@ class MindStore {
     return response;
   }
 
-  async getMind(sequence : string) : Promise<RelationshipGetDetailResponseProto> {
-    const response : RelationshipGetDetailResponseProto = await get(`${this.baseUrl}/api/relationships/${sequence}`, {
+  async getMind(sequence : string) : Promise<MindGetDetailResponseProto> {
+    const response : MindGetDetailResponseProto = await get(`${this.baseUrl}/api/minds/${sequence}`, {
       headers : {
         "Authorization" : RootStore.userStore.getJwtKey
       }
@@ -91,8 +91,8 @@ class MindStore {
     return response;
   }
 
-  async putMind(request : RelationshipPutRequestProto) : Promise<RelationshipPutResponseProto> {
-    const response : RelationshipPutResponseProto = await put(`${this.baseUrl}/api/relationships`, request, {
+  async putMind(request : MindPutRequestProto) : Promise<MindPutResponseProto> {
+    const response : MindPutResponseProto = await put(`${this.baseUrl}/api/minds`, request, {
       headers : {
         Authorization : this.rootStore.userStore.getJwtKey
       }

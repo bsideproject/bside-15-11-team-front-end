@@ -4,9 +4,8 @@ import FriendInfo from "./FriendInfo";
 import { FriendCheck } from "../../models/FriendCheck";
 import IcCloseBtn from '../../assets/images/icon/ic_close_btn.png';
 import RootStore from "../../store/RootStore";
-import { FriendResponseProto } from './../../prototypes/friend/FriendResponse';
+import { RelationshipResponseProto } from './../../prototypes/relationship/RelationshipResponseProto';
 import IcBackBtn from "../../assets/images/icon/ic_back_btn.svg";
-import {useNavigate} from "react-router-dom";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
 
 interface PropsType {
@@ -34,7 +33,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
 
     let friendCheckList : FriendCheck[] = [];
 
-    let friendList : FriendResponseProto[] = RootStore.friendStore.getFriendList;
+    let friendList : RelationshipResponseProto[] = RootStore.friendStore.getFriendList;
 
     friendList.forEach(friend => {
       if (friend.sequence && friend.nickname && friend.relationship) {

@@ -58,17 +58,17 @@ const Main = () => {
 
     const apiCallSet = () => {
         RootStore.userStore.getUser();
-        RootStore.friendStore.getFriendListMain(setMainFriendList, "nickname");
+        RootStore.friendStore.getFriendListMain(setMainFriendList, "NICKNAME");
         RootStore.mindStore.setMindCount(setCount);
     }
     // 필터링
     const handleFilter = async () => {
         if(filterParams === "level"){
-            setFilterParams("nickname");
-            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
+            setFilterParams("NICKNAME");
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, "NICKNAME");
         } else if (filterParams === "nickname"){
-            setFilterParams("level");
-            await RootStore.friendStore.getFriendListMain(setMainFriendList, filterParams);
+            setFilterParams("LEVEL");
+            await RootStore.friendStore.getFriendListMain(setMainFriendList, "LEVEL");
         }
     }
 

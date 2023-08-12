@@ -10,7 +10,7 @@ import ErrorMessage from "../../components/common/ErrorMessage";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import axios from "axios";
 import DatePickers from "../../components/common/DatePickers";
-import { FriendResponseProto } from '../../prototypes/friend/FriendResponse';
+import { RelationshipResponseProto } from '../../prototypes/relationship/RelationshipResponseProto';
 
 const Friend = () => {
     let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -43,7 +43,7 @@ const Friend = () => {
     // edit
     const [detailInfo, setDetailInfo] = useState<any>();
 
-    const [registerResponse, setRegisterResponse] = useState<FriendResponseProto>();
+    const [registerResponse, setRegisterResponse] = useState<RelationshipResponseProto>();
 
     useEffect(() => {
         if(getEdit && getEdit === "edit"){
