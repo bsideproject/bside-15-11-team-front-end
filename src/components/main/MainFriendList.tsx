@@ -1,6 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import {FriendResponseProto} from "../../prototypes/friend/FriendResponse";
+import {RelationshipResponseProto} from "../../prototypes/relationship/RelationshipResponseProto";
 
 interface PropsType{
     isEmptyList: boolean,
@@ -37,7 +37,7 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
                 <p className="empty-message">아직 등록한 친구가 없어요.<br/>마음을 기록하려면 먼처 친구를 등록하세요.</p> :
                 (searchList?.length !== 0 ?
                     <ul className="friend-list-wrap">
-                        {searchList?.map((data:FriendResponseProto, key) => (
+                        {searchList?.map((data:RelationshipResponseProto, key) => (
                             <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
                                 <span className="friend-name">{data.nickname}</span>
                                 <span className="friend-relation">{data.relationship}</span>

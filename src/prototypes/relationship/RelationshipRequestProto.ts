@@ -1,24 +1,25 @@
-import { DateProto } from "../common/DateProto";
-import { ItemProto } from "../common/ItemProto";
-import { RelationshipRequestProto } from "../common/RelationshipProto";
-import { RelationshipTypeProto } from "../common/type/RelationshipTypeProto";
+import { BirthProto } from "../common/BirthProto";
 import { SortOrderTypeProto } from "../common/type/SortOrderTypeProto";
 
 export interface RelationshipGetRequestProto {
-  friendSequence?: string;
+  keyword?: string;
   sort?: SortOrderTypeProto;
 }
 
 export interface RelationshipPostRequestProto {
-  relationships?: RelationshipRequestProto[];
+  nicknames?: string[];
+  relationship? : string;
+  birth? : BirthProto;
+  memo? : string;
 }
 
 export interface RelationshipPutRequestProto {
-  sequence: string;
-  friendSequence : string;
-  type?: RelationshipTypeProto;
-  event?: string;
-  date?: DateProto;
-  item?: ItemProto;
-  memo?: string;
+  nickname? : string;
+  relationship? : string;
+  birth? : BirthProto;
+  memo? : string;
+}
+
+export enum SortTypeProto {
+  NICKNAME, LEVEL
 }

@@ -7,7 +7,6 @@ import { get, post } from "../apis/RestApis";
 import { patch } from "../apis/RestApis";
 import { UserInformationProto } from "../prototypes/common/UserInformationProto";
 import { AllowInformationProto } from './../prototypes/common/AllowInformation';
-import SettingWithdrawal from './../pages/setting/SettingWithdrawal';
 import { SignWithdrawlRequestProto } from "../prototypes/sign/SignRequestProto";
 
 class UserStore {
@@ -159,7 +158,7 @@ class UserStore {
       withdrawlReason : reason
     };
 
-    const response = await post(`${this.baseUrl}/api/sign/withdrawl`, withdrawRequest, {
+    const response = await post(`${this.baseUrl}/api/sign/withdrawal`, withdrawRequest, {
       headers : {
         Authorization : this.getJwtKey
       }
