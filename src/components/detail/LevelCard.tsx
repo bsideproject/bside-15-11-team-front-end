@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ImgLevel1 from "../../assets/images/level/level_1.svg";
 import ImgLevel2 from "../../assets/images/level/level_2.svg";
 import ImgLevel3 from "../../assets/images/level/level_3.svg";
@@ -13,7 +14,7 @@ import IcText6 from "../../assets/images/level/text_icon_6.svg";
 
 const LevelCard = (detailInfo:any) => {
     // const levelCount = 34
-    const levelCount = detailInfo ? detailInfo?.detailInfo?.levelInformation?.total || 0 : 0;
+    const totalCount = detailInfo ? detailInfo?.detailInfo?.levelInformation?.total || 0 : 0;
 
     let calculate;
     let element: string = ""
@@ -74,20 +75,20 @@ const LevelCard = (detailInfo:any) => {
     }
 
     return(
-        <div className={`LevelCard l${levelImgSwitch(detailInfo && levelCount)}`}>
+        <div className={`LevelCard l${levelImgSwitch(detailInfo && totalCount)}`}>
             <div className="level-text">
                 <img src={imgUrl} alt="level-img" />
                 <div>
                     <span className="level-text-top">총 마음</span>
-                    <span className="level-count">{levelCount}회</span>
+                    <span className="level-count">{totalCount}회</span>
                 </div>
             </div>
             <p className="level-description">{mainText}</p>
             <p className="sub-description">{subText} <i><img src={imgIcUrl} alt="text-icon"/></i></p>
-            {levelCount  < 20 ?
+            {totalCount  < 20 ?
                 <>
                     <div className="progress-bar-wrap">
-                        <div className={`progress l${levelImgSwitch(detailInfo && levelCount)}`}></div>
+                        <div className={`progress l${levelImgSwitch(detailInfo && totalCount)}`}></div>
                     </div>
                     <div className="level-bottom">
                         <span className="planet">{element}</span>

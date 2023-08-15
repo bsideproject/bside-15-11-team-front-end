@@ -2,6 +2,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import {get, patch, post, put} from "../apis/RestApis";
 import { RelationshipResponseProto } from "../prototypes/relationship/RelationshipResponseProto";
 import RootStore from "./RootStore";
+import { MindGetResponseProto } from "../prototypes/mind/MindResponseProto";
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -103,7 +104,7 @@ class FriendStore {
     // 친구 상세 조회
     async getFriendDetail(sequence:any, setDetailInfo: any){
         try{
-            const res = await get(`${this.baseUrl}/api/relationships/${sequence}`,{
+            const res : RelationshipResponseProto = await get(`${this.baseUrl}/api/relationships/${sequence}`,{
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
@@ -117,11 +118,14 @@ class FriendStore {
     // 친구 주고 받은 내역 조회
     async getFriendExchange(sequence:string, sort:string, setExchangeData?:any){
         try{
-            const res = await get(`${this.baseUrl}/api/minds?relationshipSequence=${sequence}&sortOrderType=${sort}`, {
+            const res : MindGetResponseProto = await get(`${this.baseUrl}/api/minds?relationshipSequence=${sequence}&sort=${sort}`, {
                 headers : {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
             });
+
+            console.log("res : " + JSON.stringify(res.minds));
+
             if(res) setExchangeData(res);
         }catch (err){
             console.log(err);
