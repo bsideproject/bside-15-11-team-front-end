@@ -41,7 +41,7 @@ const MainFriendList = ({ isEmptyList, searchList }:PropsType) => {
                             <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
                                 <span className="friend-name">{data.nickname}</span>
                                 <span className="friend-relation">{data.relationship}</span>
-                                <span className="friend-level"><img src={require("../../assets/images/level/level_"+levelImgSwitch(data.levelInformation?.level ? data.levelInformation?.level - 1 : 0 )+".svg")} alt="level"/><em className="level">{data.levelInformation?.level ? data.levelInformation?.level - 1 : 0 }</em></span>
+                                <span className="friend-level"><img src={require("../../assets/images/level/level_"+levelImgSwitch(data.levelInformation?.total || 0)+".svg")} alt="level"/><em className="level">{data.levelInformation?.total || 0}</em></span>
                             </li>
                         ))}
                     </ul>:<p className="empty-message">찾으시는 친구가 없어요.<br/>마음을 기록하려면 먼처 친구를 등록하세요.</p>
