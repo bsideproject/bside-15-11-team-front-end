@@ -13,7 +13,7 @@ import IcText5 from "../../assets/images/level/text_icon_5.svg";
 import IcText6 from "../../assets/images/level/text_icon_6.svg";
 
 const LevelCard = (detailInfo:any) => {
-    // const levelCount = 34
+    
     const totalCount = detailInfo ? detailInfo?.detailInfo?.levelInformation?.total || 0 : 0;
 
     let calculate;
