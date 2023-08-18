@@ -93,7 +93,7 @@ class FriendStore {
             console.log("main : " + JSON.stringify(res));
 
             if(res) {
-                setMainFriendList(res);
+                setMainFriendList([...res]);
             }
 
         }catch (err){
