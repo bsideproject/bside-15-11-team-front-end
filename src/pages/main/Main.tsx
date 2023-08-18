@@ -22,7 +22,7 @@ const Main = () => {
     const [count, setCount] = useState<any>(null);
     const [mainFriendList, setMainFriendList] = useState<any>(null);
     const [searchText, setSearchText] = useState<string>("");
-    const [filterParams, setFilterParams] = useState<string>("level");
+    const [filterParams, setFilterParams] = useState<string>("nickname");
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -63,11 +63,12 @@ const Main = () => {
     }
     // 필터링
     const handleFilter = async () => {
+        console.log(filterParams);
         if(filterParams === "level"){
-            setFilterParams("NICKNAME");
+            setFilterParams("nickname");
             await RootStore.friendStore.getFriendListMain(setMainFriendList, "NICKNAME");
-        } else if (filterParams === "nickname"){
-            setFilterParams("LEVEL");
+        } else {
+            setFilterParams("level");
             await RootStore.friendStore.getFriendListMain(setMainFriendList, "LEVEL");
         }
     }
