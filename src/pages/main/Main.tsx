@@ -100,29 +100,31 @@ const Main = () => {
                         <div className="main-header">
                             <span className="setting-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
                         </div>
-                        <MainText
-                            isEmptyList={isEmptyList}
-                            length={mainFriendList? mainFriendList.length : null}
-                            count={count? count : ""}
-                            nickname={RootStore.userStore.getUserName}
-                        />
-                        <MainExchangedCount
-                            count={count? count : ""}
-                        />
-                        <div className="MainSearch">
-                    <span className="search-icon">
-                        <img src={IcSearch} alt="search-icon" />
-                    </span>
-                            <input
-                                type="text"
-                                id="searchText"
-                                className="search-text"
-                                value={searchText}
-                                onChange={handleSearchText}
-                                placeholder="찾으시는 이름이 있으신가요?"
+                        <div className="main-filter-div">
+                            <MainText
+                                isEmptyList={isEmptyList}
+                                length={mainFriendList? mainFriendList.length : null}
+                                count={count? count : ""}
+                                nickname={RootStore.userStore.getUserName}
                             />
+                            <MainExchangedCount
+                                count={count? count : ""}
+                            />
+                            <div className="MainSearch">
+                                <span className="search-icon">
+                                    <img src={IcSearch} alt="search-icon" />
+                                </span>
+                                <input
+                                    type="text"
+                                    id="searchText"
+                                    className="search-text"
+                                    value={searchText}
+                                    onChange={handleSearchText}
+                                    placeholder="찾으시는 이름이 있으신가요?"
+                                />
+                            </div>
+                            <FilterBtn handleFilter={handleFilter} />
                         </div>
-                        <FilterBtn handleFilter={handleFilter} />
                         <MainFriendList
                             isEmptyList={isEmptyList}
                             searchList={searchList}
