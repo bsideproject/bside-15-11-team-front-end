@@ -29,14 +29,11 @@ const InputTextBoxWithArrow = ({
     <div className='InputTextBoxWithArrow' >
       <div className="InputTextBox" onClick={id === "birth" && (checked || inactive) ? null : onClick}>
         <label className="input-title">{inputTitle}</label>
-        <input
-          type="text"
+        <span
           className={checked || inactive ? "input-text-box on" : `input-text-box ${id}`}
           id={id}
           placeholder={placeholder}
-          value={NullChecker.isEmpty(value) ? '' : value}
-          disabled
-        />
+        >{NullChecker.isEmpty(value) ? '' : value}</span>
       </div>
         {id === "birth" ?
             <div className="friend-name-add" >
