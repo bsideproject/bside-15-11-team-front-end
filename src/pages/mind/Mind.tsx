@@ -22,6 +22,9 @@ import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
 import axios from 'axios';
 import { MindPostRequestProto, MindPutRequestProto, MindRequestProto } from '../../prototypes/mind/MindRequestProto';
 import { MindTypeProto } from '../../prototypes/common/type/MindTypeProto';
+import IcPhotoUploadBtn1 from '../../assets/images/icon/ic_photo_upload_btn1.png';
+import IcPhotoUploadBtn2 from '../../assets/images/icon/ic_photo_upload_btn2.png';
+import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 
 const Mind = () => {
 
@@ -45,6 +48,11 @@ const Mind = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
   const [isSaveOpen, setIsSaveOpen] = useState<boolean>(false);
+
+  // 사진 업로드 기능에 필요한 값
+  const [photoUpload, setPhotoUpload] = useState<boolean>(false);
+  const [imageFileName, setImageFileName] = useState<string>('');
+  const [imageFile, setImageFile] = useState<string>();
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -166,10 +174,6 @@ const Mind = () => {
     // FriendList에 뜰 친구 리스트 미리 세팅
     RootStore.friendStore.setFriendList();
   }, []);
-
-  useEffect(() => {
-    console.log("seq : " + JSON.stringify(selectedSeq));
-  }, [selectedSeq]);
 
   const displayMoneyForm = (money : number) : string => {
     return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원';
@@ -343,10 +347,21 @@ const Mind = () => {
 
     const memoTxt = memo;
 
+    let imageExtension = "";
+
+    if (!NullChecker.isEmpty(imageFileName)) {
+      if (imageFileName.includes(".")) {
+        const splited = imageFileName.split(".");
+        imageExtension = splited[splited.length - 1];
+      }
+    }
+
     const itemProto : ItemProto = {
       imageLink : "",
       name : item,
-      type : itemType
+      type : itemType,
+      imageExtension : imageExtension,
+      image : imageFile
     }
 
     const dateProto : DateProto = {
@@ -379,9 +394,7 @@ const Mind = () => {
         memo : memoTxt
       };
 
-      console.log("friendSeq : " + JSON.stringify(friendSequence));
-
-      console.log("relationshipPutRequest : " + JSON.stringify(mindPutRequestProto));
+      console.log("mind proto : " + JSON.stringify(mindPutRequestProto));
       
       await RootStore.mindStore.putMind(mindPutRequestProto);
     } else {
@@ -389,7 +402,11 @@ const Mind = () => {
         minds : saveList
       };
 
-      await RootStore.mindStore.postMind(mindPostRequestProto);
+      console.log("mind proto : " + JSON.stringify(mindPostRequestProto));
+
+      const response = await RootStore.mindStore.postMind(mindPostRequestProto);
+
+      console.log("res : " + JSON.stringify(response));
     }
 
     setIsSaveOpen(true);
@@ -403,19 +420,36 @@ const Mind = () => {
 
   const handleUploadPhoto = async(e : React.ChangeEvent<HTMLInputElement>) => {
     let file = undefined;
-    const reader : FileReader = new FileReader();
+    let base64String = '';
 
+    const reader : FileReader = new FileReader();
     if (e.target.files) {
       file = e.target.files[0];
+      
 
-      reader.onloadend = () => {
+      reader.onloadend = (e) => {
         if (imageRef.current) {
           imageRef.current.src = reader.result as string;
+        } 
+
+        base64String = reader.result?.toString() as string;
+
+        if (base64String) {
+          setImageFile(base64String);
+          console.log(base64String.split(",")[1]);
         }
+
       };
 
       if (file) {
         reader.readAsDataURL(file);
+        if (imageRef.current) {
+          imageRef.current.hidden = false;
+          setPhotoUpload(true);
+          setImageFileName(file.name);
+
+          
+        }
       }
     }
 
@@ -592,23 +626,23 @@ const Mind = () => {
                 onKeyUp={() => onChangeMindContent("gift")}
               />
             </div>
-            {/*<div style={{marginBottom : '5vw'}}>*/}
-            {/*  <button id="save-photo-button"*/}
-            {/*    onClick={(e) => {e.preventDefault();handleFileInput();}}*/}
-            {/*  >*/}
-            {/*    <img src={IcPhotoUploadBtn} alt='photo upload' />*/}
-            {/*  </button>*/}
-            {/*  <input*/}
-            {/*    type="file"*/}
-            {/*    accept='image/*'*/}
-            {/*    ref={fileInputRef}*/}
-            {/*    style={{display : 'none'}}*/}
-            {/*    onChange={handleUploadPhoto}*/}
-            {/*  />*/}
-            {/*  <img ref={imageRef} src={IcDefaultImage} alt='default image'*/}
-            {/*    className='upload-image'*/}
-            {/*  />*/}
-            {/*</div>*/}
+            <div style={{ marginBottom: '5vw' }}>
+              <button id="save-photo-button"
+                onClick={(e) => { e.preventDefault(); handleFileInput(); }}>
+                <img src={photoUpload ? IcPhotoUploadBtn1 : IcPhotoUploadBtn2} alt='photo upload' />
+              </button>
+              <input
+                type="file"
+                accept='image/*'
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleUploadPhoto}
+              />
+              <img ref={imageRef} src={IcDefaultImage} alt='default image'
+                className='upload-image'
+                hidden
+              />
+            </div>
           </Fragment>
         }
         { !validCheckArray[3] &&
