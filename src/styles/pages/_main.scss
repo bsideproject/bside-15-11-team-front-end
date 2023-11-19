@@ -31,10 +31,10 @@
     }
   }
 
-  .main-filter-div{
-    position: sticky;
-    top: 0;
-  }
+  // .main-filter-div{
+  //   position: sticky;
+  //   top: 0;
+  // }
 
   // main text
   .MainText{
@@ -121,12 +121,13 @@
 
     // list
     .friend-list-wrap{
+      margin-top: 25px;
       display: flex;
       align-content: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
-      height: calc(100vh - 78vw); /* Adjust the height accordingly */
-      overflow-y: auto;
+      // height: calc(100vh - 78vw); /* Adjust the height accordingly */
+      // overflow-y: auto;
       .friend-cont{
         border-radius: 12px;
         background-color: #383838;
