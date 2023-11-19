@@ -94,13 +94,14 @@
         .register-btn-wrap {
             @include center;
             justify-content: space-between;
-            // margin-top: 35vw;
-            position: fixed;
-            bottom: 0; left: 0;
-            width: 100vw;
+            position: sticky;
+            bottom: 0;left: 0;
+            width: 90vw;
             z-index: 99999;
             height : 100px;
-            background-color: $back-ground-color2;
+            // margin-top : calc(100vh - 80vh);
+            background-color: $back-ground-color3;
+            border : 1px solid $back-ground-color3;
 
             .register-btn {
                 display: block;
