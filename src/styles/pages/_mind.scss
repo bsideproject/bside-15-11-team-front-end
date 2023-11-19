@@ -94,7 +94,13 @@
         .register-btn-wrap {
             @include center;
             justify-content: space-between;
-            margin-top: 35vw;
+            // margin-top: 35vw;
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100vw;
+            z-index: 99999;
+            height : 100px;
+            background-color: $back-ground-color2;
 
             .register-btn {
                 display: block;
