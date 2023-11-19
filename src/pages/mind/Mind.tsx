@@ -29,7 +29,7 @@ import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 const Mind = () => {
 
   const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
-  const [inputArray, setInputArray] = useState<string[]>(['','','']);
+  const [inputArray, setInputArray] = useState<string[]>(['', '', '']);
   const [validCheckArray, setValidCheckArray] = useState<boolean[]>([true, true, true, true]);
 
   const [eventType, setEventType] = useState<string>('give');
@@ -65,9 +65,9 @@ const Mind = () => {
   const pathParams = useParams();
 
   useEffect(() => {
-    const todayString : string = DateUtil.getTodayString();
+    const todayString: string = DateUtil.getTodayString();
 
-    let list : string[] = [...inputArray];
+    let list: string[] = [...inputArray];
     // 날짜 default값 : 오늘 날짜
     list[1] = todayString;
 
@@ -76,13 +76,13 @@ const Mind = () => {
       const friendData = location.state.friendData;
 
       let text = '';
-      let friendSeqList : string[] = [];
+      let friendSeqList: string[] = [];
       if (Array.isArray(friendData)) {
-        friendData.forEach((obj : any) => {
-          
-          text+=`${obj.nickname}, `
+        friendData.forEach((obj: any) => {
+
+          text += `${obj.nickname}, `
           friendSeqList.push(obj.sequence);
-          
+
         });
 
         setSelectedSeq(friendSeqList);
@@ -90,10 +90,10 @@ const Mind = () => {
         text = text.trim();
         text = text.slice(0, -1);
       } else {
-        text+=friendData.nickname;
+        text += friendData.nickname;
         pushFriendSeq(friendData.sequence);
 
-        text =text.trim();
+        text = text.trim();
       }
 
       list[0] = text;
@@ -108,9 +108,9 @@ const Mind = () => {
     // 마음 수정하기에서 넘어왔을 경우
 
     if (pathParams.sequence && pathParams.nickname) {
-      const mindSeq : string = pathParams.sequence;
-      const nickname : string = pathParams.nickname;
-      const friendSeq : string = pathParams.friendSequence as string;
+      const mindSeq: string = pathParams.sequence;
+      const nickname: string = pathParams.nickname;
+      const friendSeq: string = pathParams.friendSequence as string;
 
       setMindSeq(mindSeq);
       setEditMode(true);
@@ -119,7 +119,7 @@ const Mind = () => {
       const fetchMindDetail = async () => {
         try {
           const response = await RootStore.mindStore.getMind(mindSeq);
-          
+
           if (response?.sequence) {
             pushFriendSeq(friendSeq);
             list[0] = nickname;
@@ -132,7 +132,7 @@ const Mind = () => {
             }
 
             if (response.type) {
-              
+
               setEventType('TAKEN' === response.type ? 'take' : 'give');
             }
 
@@ -175,45 +175,45 @@ const Mind = () => {
     RootStore.friendStore.setFriendList();
   }, []);
 
-  const displayMoneyForm = (money : number) : string => {
+  const displayMoneyForm = (money: number): string => {
     return money.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원';
   }
 
-  const handleInputClick = (index : number) => {
+  const handleInputClick = (index: number) => {
 
     if (index === 0 && (isEditMode || (location.state?.friendData))) {
       return;
     }
 
-    let list : boolean[] = [...openModal];
+    let list: boolean[] = [...openModal];
     list[index] = true;
     setOpenModal(list);
   }
 
-  const handleClose = (index : number) => {
-    let list : boolean[] = [...openModal];
+  const handleClose = (index: number) => {
+    let list: boolean[] = [...openModal];
     list[index] = false;
     setOpenModal(list);
   }
 
-  const setContainerHeight = (ref : any, height : string) => {
+  const setContainerHeight = (ref: any, height: string) => {
     if (ref.current) {
       ref.current.style.height = `${height}`;
     }
   }
 
-  const pushFriendSeq = (id : string) => {
+  const pushFriendSeq = (id: string) => {
     let temp = selectedSeq;
     temp.push(id);
     setSelectedSeq([...temp]);
   }
 
-  const appendFriendList = (friendList : FriendCheck[]) => {
+  const appendFriendList = (friendList: FriendCheck[]) => {
     let text = '';
-    let friendSeqList : string[] = [];
+    let friendSeqList: string[] = [];
     friendList.forEach(obj => {
       if (obj.check) {
-        text+=`${obj.friend.name}, `
+        text += `${obj.friend.name}, `
         friendSeqList.push(obj.friend.id);
       }
     })
@@ -222,7 +222,7 @@ const Mind = () => {
     text = text.trim();
     text = text.slice(0, -1);
 
-    let list : string[] = [...inputArray];
+    let list: string[] = [...inputArray];
     list[0] = text;
 
     setInputArray(list);
@@ -236,9 +236,9 @@ const Mind = () => {
 
   }
 
-  const addMoney = (add : number) => {
+  const addMoney = (add: number) => {
     let sum = add + money;
-    
+
     setMoney(sum);
 
     if (moneyInputRef.current) {
@@ -247,25 +247,25 @@ const Mind = () => {
   }
 
   const onChangeMoneyInput = () => {
-    let inputNumber : number = 0;
+    let inputNumber: number = 0;
 
     if (moneyInputRef.current) {
 
       let inputText = moneyInputRef.current.value;
 
-      inputNumber = parseInt(inputText.replaceAll(',','').replace('원',''));
+      inputNumber = parseInt(inputText.replaceAll(',', '').replace('원', ''));
 
       setMoney(inputNumber);
     }
   }
 
-  const memoHandler = (e : any) : void => {
+  const memoHandler = (e: any): void => {
     const text = e.target.value;
     setMemo(text);
 
   }
 
-  const checkValidation = () : boolean => {
+  const checkValidation = (): boolean => {
 
     let valid = true;
 
@@ -312,7 +312,7 @@ const Mind = () => {
     return valid;
   }
 
-  const save = async() => {
+  const save = async () => {
 
     /*
       API 로 작성된 데이터 전송.
@@ -322,18 +322,18 @@ const Mind = () => {
       return;
     }
 
-    let saveList : MindRequestProto[] = [];
+    let saveList: MindRequestProto[] = [];
     const friendSequence = selectedSeq;
-    const type : MindTypeProto = eventType === 'give' ? MindTypeProto.GIVEN : MindTypeProto.TAKEN;
+    const type: MindTypeProto = eventType === 'give' ? MindTypeProto.GIVEN : MindTypeProto.TAKEN;
     const event = inputArray[2];
-    let itemType : ItemTypeProto = ItemTypeProto.CASH;
+    let itemType: ItemTypeProto = ItemTypeProto.CASH;
     let item = '';
 
     if (mindType === 'cash' && moneyInputRef.current) {
       item = moneyInputRef.current.value;
 
-      item = item.replace('원','');
-      item = item.replace(',','');
+      item = item.replace('원', '');
+      item = item.replace(',', '');
 
       itemType = ItemTypeProto.CASH;
     }
@@ -343,7 +343,7 @@ const Mind = () => {
       itemType = ItemTypeProto.PRESENT;
     }
 
-    const eventDate : string = inputArray[1];
+    const eventDate: string = inputArray[1];
 
     const memoTxt = memo;
 
@@ -356,50 +356,50 @@ const Mind = () => {
       }
     }
 
-    const itemProto : ItemProto = {
-      imageLink : "",
-      name : item,
-      type : itemType,
-      imageExtension : imageExtension,
-      image : imageFile
+    const itemProto: ItemProto = {
+      imageLink: "",
+      name: item,
+      type: itemType,
+      imageExtension: imageExtension,
+      image: imageFile
     }
 
-    const dateProto : DateProto = {
-      year : parseInt(eventDate.split("-")[0]),
-      month : parseInt(eventDate.split("-")[1]),
-      day : parseInt(eventDate.split("-")[2])
+    const dateProto: DateProto = {
+      year: parseInt(eventDate.split("-")[0]),
+      month: parseInt(eventDate.split("-")[1]),
+      day: parseInt(eventDate.split("-")[2])
     }
 
     for (const seq of friendSequence) {
       saveList.push({
-        relationshipSequence : seq,
-        type : type,
-        event : event,
-        date : dateProto,
-        item : itemProto,
-        memo : memoTxt
+        relationshipSequence: seq,
+        type: type,
+        event: event,
+        date: dateProto,
+        item: itemProto,
+        memo: memoTxt
       });
     }
 
-    
+
 
     if (isEditMode) {
-      const mindPutRequestProto : MindPutRequestProto = {
-        sequence : mindSeq,
-        relationshipSequence : friendSequence[0],
-        type : type,
-        event : event,
-        date : dateProto,
-        item : itemProto,
-        memo : memoTxt
+      const mindPutRequestProto: MindPutRequestProto = {
+        sequence: mindSeq,
+        relationshipSequence: friendSequence[0],
+        type: type,
+        event: event,
+        date: dateProto,
+        item: itemProto,
+        memo: memoTxt
       };
 
       console.log("mind proto : " + JSON.stringify(mindPutRequestProto));
-      
+
       await RootStore.mindStore.putMind(mindPutRequestProto);
     } else {
-      const mindPostRequestProto : MindPostRequestProto = {
-        minds : saveList
+      const mindPostRequestProto: MindPostRequestProto = {
+        minds: saveList
       };
 
       console.log("mind proto : " + JSON.stringify(mindPostRequestProto));
@@ -418,19 +418,19 @@ const Mind = () => {
     }
   }
 
-  const handleUploadPhoto = async(e : React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let file = undefined;
     let base64String = '';
 
-    const reader : FileReader = new FileReader();
+    const reader: FileReader = new FileReader();
     if (e.target.files) {
       file = e.target.files[0];
-      
+
 
       reader.onloadend = (e) => {
         if (imageRef.current) {
           imageRef.current.src = reader.result as string;
-        } 
+        }
 
         base64String = reader.result?.toString() as string;
 
@@ -448,7 +448,7 @@ const Mind = () => {
           setPhotoUpload(true);
           setImageFileName(file.name);
 
-          
+
         }
       }
     }
@@ -459,7 +459,7 @@ const Mind = () => {
     setIsReady(true);
   }
 
-  const setEventInput = (event : string) => {
+  const setEventInput = (event: string) => {
     if (!NullChecker.isEmpty(event)) {
       let inputList = inputArray;
       inputList[2] = event;
@@ -472,11 +472,11 @@ const Mind = () => {
   }
 
   // 3자리 콤마 함수
-  function formatNumberWithCommas(number:any) {
+  function formatNumberWithCommas(number: any) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  const onChangeMindContent = (type : string) : void => {
+  const onChangeMindContent = (type: string): void => {
 
     if (type === "cash") {
       let text = "";
@@ -505,21 +505,21 @@ const Mind = () => {
 
   const handleDeleteTrue = async () => {
 
-    const baseUrl : string = process.env.REACT_APP_SERVICE_URI as string;
+    const baseUrl: string = process.env.REACT_APP_SERVICE_URI as string;
 
     try {
       const response = await axios.delete(`${baseUrl}/api/minds/${mindSeq}`, {
-        headers : {
-          Authorization : RootStore.userStore.getJwtKey
+        headers: {
+          Authorization: RootStore.userStore.getJwtKey
         }
       });
 
-      if(response.status === 200){
+      if (response.status === 200) {
         setIsOpen(false);
         setIsOkOpen(true);
       }
-    }catch (err){
-        console.log(err);
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -535,7 +535,7 @@ const Mind = () => {
     if (moneyInputRef.current) {
       let moneyText = moneyInputRef.current.value;
 
-      moneyText = moneyText.replaceAll(',','').replace('원','');
+      moneyText = moneyText.replaceAll(',', '').replace('원', '');
 
       moneyText = displayMoneyForm(parseInt(moneyText));
 
@@ -560,7 +560,7 @@ const Mind = () => {
           onClick={() => handleInputClick(0)}
           value={inputArray[0]}
         />
-        { !validCheckArray[0] &&
+        {!validCheckArray[0] &&
           <ErrorMessage
             message='필수 입력 사항입니다.'
           />
@@ -571,7 +571,7 @@ const Mind = () => {
           onClick={() => handleInputClick(1)}
           value={inputArray[1]}
         />
-        { !validCheckArray[1] &&
+        {!validCheckArray[1] &&
           <ErrorMessage
             message='필수 입력 사항입니다.'
           />
@@ -583,7 +583,7 @@ const Mind = () => {
           value={inputArray[2]}
           placeholder={`${eventType === 'give' ? '준' : '받은'} 이유를 선택하세요.`}
         />
-        { !validCheckArray[2] &&
+        {!validCheckArray[2] &&
           <ErrorMessage
             message='필수 입력 사항입니다.'
           />
@@ -592,7 +592,7 @@ const Mind = () => {
           defaultSelect={mindType}
           onSelect={setMindType}
         />
-        { mindType === 'cash' &&
+        {mindType === 'cash' &&
           <Fragment>
             <div className="InputTextBox">
               <input
@@ -601,9 +601,9 @@ const Mind = () => {
                 id='cash-input'
                 placeholder='금액을 입력하세요'
                 ref={moneyInputRef}
-                defaultValue={money+'원'}
+                defaultValue={money + '원'}
                 onBlur={() => onBlurMoneyInput()}
-                onKeyUp={() => {onChangeMindContent("cash");onChangeMoneyInput();}}
+                onKeyUp={() => { onChangeMindContent("cash"); onChangeMoneyInput(); }}
               />
             </div>
             <MoneyOption
@@ -626,7 +626,7 @@ const Mind = () => {
                 onKeyUp={() => onChangeMindContent("gift")}
               />
             </div>
-            <div style={{ marginBottom: '5vw' }}>
+            {/* <div style={{ marginBottom: '5vw' }}>
               <button id="save-photo-button"
                 onClick={(e) => { e.preventDefault(); handleFileInput(); }}>
                 <img src={photoUpload ? IcPhotoUploadBtn1 : IcPhotoUploadBtn2} alt='photo upload' />
@@ -642,10 +642,10 @@ const Mind = () => {
                 className='upload-image'
                 hidden
               />
-            </div>
+            </div> */}
           </Fragment>
         }
-        { !validCheckArray[3] &&
+        {!validCheckArray[3] &&
           <ErrorMessage
             message='필수 입력 사항입니다.'
           />
@@ -653,33 +653,33 @@ const Mind = () => {
         <div className="InputTextBox">
           <label className="input-title">메모 (선택)</label>
           <textarea
-              className="input-text-box memo"
-              placeholder="입력하세요 (최대 40자)"
-              value={memo}
-              onChange={memoHandler}
-              id="memo"
+            className="input-text-box memo"
+            placeholder="입력하세요 (최대 40자)"
+            value={memo}
+            onChange={memoHandler}
+            id="memo"
           />
         </div>
-        
-          {
-            isEditMode ? (
-              <div className="register-btn-wrap edit">
-                <button type="button" className="register-btn remove"
-                  onClick={() => setIsOpen(true)}>
-                  <img src={ImgDelBtn} alt="delete-btn" />
-                </button>
-                <button type="button"
+
+        {
+          isEditMode ? (
+            <div className="register-btn-wrap edit">
+              <button type="button" className="register-btn remove"
+                onClick={() => setIsOpen(true)}>
+                <img src={ImgDelBtn} alt="delete-btn" />
+              </button>
+              <button type="button"
                 className="register-btn edit"
                 onClick={() => save()}>등록하기</button>
-              </div>
-            ) : (
-              <div className="register-btn-wrap">
-                <button type="button"
-                  className="register-btn"
-                  onClick={() => save()}>등록하기</button>
-              </div>
-            )
-          }
+            </div>
+          ) : (
+            <div className="register-btn-wrap">
+              <button type="button"
+                className="register-btn"
+                onClick={() => save()}>등록하기</button>
+            </div>
+          )
+        }
       </form>
       <FriendList
         isOpen={openModal[0]}
@@ -703,11 +703,11 @@ const Mind = () => {
         setContainerHeight={setContainerHeight}
       />
       <ModalConfirm
-          isOpen={isReady}
-          modalChoice="type1"
-          mainText="엑셀 파일 불러오기는 아직 준비중이에요."
-          confirmAction={() => setIsReady(false)}
-          confirmText="확인"
+        isOpen={isReady}
+        modalChoice="type1"
+        mainText="엑셀 파일 불러오기는 아직 준비중이에요."
+        confirmAction={() => setIsReady(false)}
+        confirmText="확인"
       />
       <ModalConfirm
         isOpen={isOpen}
