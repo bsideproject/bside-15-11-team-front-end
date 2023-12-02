@@ -11,6 +11,7 @@ const SettingWithdrawal = () => {
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
     const [reason, setReason] = useState<any>("");
     const [etcReason, setEctReason] = useState<string>("");
+    const [activeSubmit, setActiveSubmit] = useState<boolean>(false);
 
     const [checkList, setCheckList] = useState<boolean[]>([false, false, false, false, false, false]);
 
@@ -20,13 +21,45 @@ const SettingWithdrawal = () => {
 
         tempList[index] = !tempList[index];
 
-        console.log("check : " + index, tempList[index]);
+        let flag : boolean = false;
+
+        // 기타를 제외하고 체크가 있는지 
+        for (let i = 0;i<5;i++) {
+            if (tempList[i] === true) {
+                flag = true;
+                break;
+            }
+        }
+
+        // 기타에 체크되어 있고 내용이 입력되어 있는지
+        if (flag === false && tempList[5] === true && etcReason.length > 0) {
+            flag = true;
+        }
+
+        setActiveSubmit(flag);
 
         setCheckList(tempList);
     }
 
     const handleEtcReason = (e : any) => {
-        setEctReason(e.target.value);
+
+        const etc : string = e.target.value;
+
+        setEctReason(etc);
+        
+        if (etc.length === 0) {
+            let flag = false;
+            for (let i = 0;i<5;i++) {
+                if (checkList[i] === true) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            setActiveSubmit(flag);
+        } else {
+            setActiveSubmit(true);
+        }
     }
 
     const handleWithdrawal = () => {
@@ -104,7 +137,7 @@ const SettingWithdrawal = () => {
                 <button
                     className="save-button"
                     onClick={handleWithdrawal}
-                    disabled={reason === ""}
+                    disabled={!activeSubmit}
                 >탈퇴하기</button>
             </div>
             <ModalConfirm
