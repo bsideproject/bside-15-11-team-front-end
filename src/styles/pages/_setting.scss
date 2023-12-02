@@ -158,6 +158,8 @@
     overflow-y: scroll;
     white-space: pre;
     resize: none;
+    text-wrap: inherit;
+    line-height: 1.3;
   }
   .save-button-wrap{
     background-color: transparent;
