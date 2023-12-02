@@ -10,17 +10,23 @@ const SettingWithdrawal = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOkOpen, setIsOkOpen] = useState<boolean>(false);
     const [reason, setReason] = useState<any>("");
-    const [etcReason, setEctReason] = useState<any>("");
+    const [etcReason, setEctReason] = useState<string>("");
 
-    const etcRef = useRef<HTMLInputElement>(null);
+    const [checkList, setCheckList] = useState<boolean[]>([false, false, false, false, false, false]);
 
-    const handleReason = (event:any) => {
+    const handleReason = (index : number) => {
 
-        if(event.target.name === "withdrawal"){
-            setReason(event.target.id);
-        }else if(event.target.id === "etc"){
-            setEctReason(event.target.value);
-        }
+        let tempList = [...checkList];
+
+        tempList[index] = !tempList[index];
+
+        console.log("check : " + index, tempList[index]);
+
+        setCheckList(tempList);
+    }
+
+    const handleEtcReason = (e : any) => {
+        setEctReason(e.target.value);
     }
 
     const handleWithdrawal = () => {
@@ -31,6 +37,7 @@ const SettingWithdrawal = () => {
         setIsOpen(false); 
         setIsOkOpen(true);
 
+        // 별자취 db에서 내용 삭제
         await RootStore.userStore.deleteUser(reason);
     }
 
@@ -43,40 +50,52 @@ const SettingWithdrawal = () => {
             <TitleWrap title="회원 탈퇴" />
             <div className="setting-cont">
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="a" onChange={handleReason} />
+                    <input type="radio" name="withdrawal" id="a" onClick={()=> handleReason(0)}
+                        checked={checkList[0]} readOnly
+                    />
                     <label htmlFor="a"></label>
                     이용이 불편하고 장애가 많아요.
                 </label>
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="b" onChange={handleReason} />
+                    <input type="radio" name="withdrawalB" id="b" onClick={()=> handleReason(1)} 
+                        checked={checkList[1]} readOnly
+                    />
                     <label htmlFor="b"></label>
                     삭제하고 싶은 내용이 있어요.
                 </label>
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="c" onChange={handleReason} />
+                    <input type="radio" name="withdrawalC" id="c" onClick={()=> handleReason(2)} 
+                        checked={checkList[2]} readOnly
+                    />
                     <label htmlFor="c"></label>
                     나에게 필요한 기능이 없어요.
                 </label>
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="d" onChange={handleReason} />
+                    <input type="radio" name="withdrawalD" id="d" onClick={()=> handleReason(3)} 
+                        checked={checkList[3]} readOnly
+                    />
                     <label htmlFor="d"></label>
                     다른 서비스를 대신 사용하게 되었어요.
                 </label>
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="e" onChange={handleReason} />
+                    <input type="radio" name="withdrawalE" id="e" onClick={()=> handleReason(4)} 
+                        checked={checkList[4]} readOnly
+                    />
                     <label htmlFor="e"></label>
                     사용 빈도가 너무 낮아요.
                 </label>
                 <label className="setting-list">
-                    <input type="radio" name="withdrawal" id="f" onChange={handleReason} ref={etcRef}/>
+                    <input type="radio" name="withdrawalF" id="f"
+                        onClick={()=> handleReason(5)} checked={checkList[5]} readOnly
+                    />
                     <label htmlFor="f"></label>
                     기타
                     <textarea
                         className="etc-input"
                         placeholder="입력하세요 (최대 40자)"
                         id="etc"
-                        disabled={!etcRef.current?.checked}
-                        onChange={handleReason}
+                        disabled={!checkList[5]}
+                        onChange={handleEtcReason}
                         value={etcReason}
                     />
                 </label>

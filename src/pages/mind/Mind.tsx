@@ -555,7 +555,7 @@ const Mind = () => {
         />
         <InputTextBoxWithArrow
           inputTitle='이름'
-          placeholder='이름을 선택하세요.'
+          placeholder='기록할 친구들을 선택하세요.'
           id='friends'
           onClick={() => handleInputClick(0)}
           value={inputArray[0]}

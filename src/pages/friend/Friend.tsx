@@ -164,13 +164,16 @@ const Friend = () => {
         for (const name of friendName) {
             if(name === ""){
                 copy[0] = false;
+                copy[3] = true;
                 setIsValidation([...copy]);
                 break;
             } else if (regExp.test(name)) {
+                copy[0] = true;
                 copy[3] = false;
                 setIsValidation([...copy]);
                 break;
             } else{
+                copy[0] = true;
                 copy[3] = true;
                 setIsValidation([...copy]);
             }
