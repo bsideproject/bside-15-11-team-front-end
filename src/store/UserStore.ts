@@ -173,9 +173,9 @@ class UserStore {
   }
 
 
-  async deleteUser(reason : string) {
+  async deleteUser(reasonList : string[]) {
     const withdrawRequest : SignWithdrawlRequestProto = {
-      withdrawlReason : reason
+      withdrawalReason : reasonList
     };
 
     const response = await post(`${this.baseUrl}/api/sign/withdrawal`, withdrawRequest, {

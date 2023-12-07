@@ -3,5 +3,5 @@ export interface SignRequestProto {
 }
 
 export interface SignWithdrawlRequestProto {
-  withdrawlReason? : string
+  withdrawalReason? : string[]
 }
