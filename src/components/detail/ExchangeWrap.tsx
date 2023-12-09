@@ -1,15 +1,15 @@
 import IcFilter from "../../assets/images/icon/ic_detail_filter.svg"
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import RootStore from "../../store/RootStore";
 import { useNavigate } from "react-router-dom";
 import { MindGetResponseProto, MindResponseProto } from "../../prototypes/mind/MindResponseProto";
 
-interface params{
+interface params {
     detailInfo?: any,
     sequence?: any
 }
 
-const ExchangeWrap = ({detailInfo, sequence}:params) => {
+const ExchangeWrap = ({ detailInfo, sequence }: params) => {
 
     const [sort, setSort] = useState("ASC");
     const [exchangeData, setExchangeData] = useState<MindGetResponseProto>();
@@ -20,16 +20,16 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
         handleApiCall("DESC");
     }, []);
 
-    useEffect(() => {
-        console.log("exchangeData : " + JSON.stringify(exchangeData));
-    }, [exchangeData])
+    // useEffect(() => {
+    //     console.log("exchangeData : " + JSON.stringify(exchangeData));
+    // }, [exchangeData])
 
     const handleFilter = async () => {
 
-        if(sort === "ASC"){
+        if (sort === "ASC") {
             setSort("DESC");
             await handleApiCall(sort);
-        }else if(sort === "DESC"){
+        } else if (sort === "DESC") {
             setSort("ASC");
             await handleApiCall(sort);
         }
@@ -39,7 +39,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
         await RootStore.friendStore.getFriendExchange(sequence, sort, setExchangeData);
     }
 
-    return(
+    return (
         <div className="ExchangeWrap">
             <div className="exchange-title">
                 <h3>마음 히스토리</h3>
@@ -50,7 +50,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
             </div>
             {exchangeData ?
                 <ul className="exchange-wrap">
-                    {exchangeData.minds && exchangeData.minds.map((item:MindResponseProto, key:any) => (
+                    {exchangeData.minds && exchangeData.minds.map((item: MindResponseProto, key: any) => (
                         <li className="exchange-cont" key={key} onClick={() => navigate(`/page/relationship/${sequence}/${detailInfo?.nickname}/${item?.sequence}`)}>
                             <i className={item?.type === "TAKEN" ? "exchanged-circle tak" : item?.type === "GIVEN" ? "exchanged-circle giv" : "exchanged-circle giv"}></i>
                             <h4 className={item?.type === "TAKEN" ? "taken" : ""}>
@@ -59,7 +59,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                                     item?.type === "TAKEN" ?
                                         "나" : null}의 {item?.event}</h4>
                             <span className="exchanged-item">
-                                {item?.item?.type === "CASH" ? item?.item?.name?.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","):item?.item?.name}
+                                {item?.item?.type === "CASH" ? item?.item?.name?.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : item?.item?.name}
                                 {item?.item?.type === "CASH" && "원"}
                             </span>
                             <span className="exchanged-date">{item?.date?.year}년 {item?.date?.month}월 {item?.date?.day}일</span>
@@ -72,7 +72,7 @@ const ExchangeWrap = ({detailInfo, sequence}:params) => {
                         </li>
                     ))}
                 </ul>
-            :
+                :
                 <div style={{
                     color: "#818181",
                     textAlign: "center",

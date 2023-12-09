@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import TitleWrap from "../../components/common/TitleWrap";
 import ImgModifyIcon from "../../assets/images/icon/ic_modify_btn.png";
 import LevelCard from "../../components/detail/LevelCard";
@@ -7,7 +7,7 @@ import ImgMemo from "../../assets/images/icon/ic_memo.png";
 import RootStore from "../../store/RootStore";
 import ExchangeWrap from "../../components/detail/ExchangeWrap";
 import Sheet, { type SheetProps } from "react-dynamic-bottom-sheet";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MainRegister from "../../components/main/MainRegister";
 import IcPlusBtn from "../../assets/images/icon/ic_plus_btn_white.svg";
 
@@ -25,33 +25,32 @@ const Detail = () => {
         sheetLimit: [37, 50],
         defaultHeight: .37
     };
-    console.log(detailInfo)
     useEffect(() => {
         apiCallSet(getSequence);
     }, []);
 
-    const apiCallSet = async (sequence:any) => {
+    const apiCallSet = async (sequence: any) => {
         await RootStore.friendStore.getFriendDetail(sequence, setDetailInfo);
     }
 
     // 추가 버튼
     const handleRegisterBtn = () => {
-        if(registerBtn){
+        if (registerBtn) {
             setRegisterBtn(false);
         } else {
             setRegisterBtn(true);
         }
     }
 
-    return(
+    return (
         <div className="Detail inner">
             <TitleWrap detail={true} title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
-            <span className="modify-icon" onClick={() => navigate(`/page/friend?sequence=${getSequence}&edit=edit`)}><img src={ImgModifyIcon} alt="modify-icon"/></span>
+            <span className="modify-icon" onClick={() => navigate(`/page/friend?sequence=${getSequence}&edit=edit`)}><img src={ImgModifyIcon} alt="modify-icon" /></span>
             <LevelCard detailInfo={detailInfo && detailInfo} />
             <div className="other-info-wrap">
                 <div className="other-info">
-                    <div className="other-info-tit"><img src={ImgBirth} alt="birth-icon"/>&nbsp;생일</div>
-                    {detailInfo  ?
+                    <div className="other-info-tit"><img src={ImgBirth} alt="birth-icon" />&nbsp;생일</div>
+                    {detailInfo ?
                         <div className="other-info-cont">{detailInfo && detailInfo.birth?.date?.year}{detailInfo.birth?.date?.year && "년"}&nbsp;
                             {detailInfo && detailInfo.birth?.date?.month}{detailInfo.birth?.date?.month && "월"}&nbsp;
                             {detailInfo && detailInfo.birth?.date?.day}{detailInfo.birth?.date?.day && "일"}&nbsp;
@@ -59,7 +58,7 @@ const Detail = () => {
                     }
                 </div>
                 <div className="other-info">
-                    <div className="other-info-tit"><img src={ImgMemo} alt="birth-icon"/>&nbsp;메모</div>
+                    <div className="other-info-tit"><img src={ImgMemo} alt="birth-icon" />&nbsp;메모</div>
                     {detailInfo && <div className="other-info-cont">{detailInfo && detailInfo.memo}</div>}
                 </div>
             </div>
@@ -69,8 +68,8 @@ const Detail = () => {
                     sequence={getSequence}
                 />
             </Sheet>
-            <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', {state : {friendData : detailInfo}})}>
-                <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn"/></span>
+            <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', { state: { friendData: detailInfo } })}>
+                <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn" /></span>
             </button>
 
         </div>

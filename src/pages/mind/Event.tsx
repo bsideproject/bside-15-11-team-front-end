@@ -6,14 +6,14 @@ import IcCheckOff from '../../assets/images/icon/ic_check_off2.svg';
 import InputTextBox from "../../components/common/InputTextBox";
 
 interface PropsType {
-    isOpen : boolean,
-    onClose : any,
-    inputArray : string[],
-    setEventInput : (arg0 : string) => void,
-    setContainerHeight : (arg0 : any, arg1 : string) => void
+    isOpen: boolean,
+    onClose: any,
+    inputArray: string[],
+    setEventInput: (arg0: string) => void,
+    setContainerHeight: (arg0: any, arg1: string) => void
 }
 
-const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} : PropsType) => {
+const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight }: PropsType) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -34,14 +34,14 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
         checkValidation();
     }, [selectEvent]);
 
-    const setContainerTopBorderRadius = (left : number, right : number) : void => {
+    const setContainerTopBorderRadius = (left: number, right: number): void => {
         if (containerRef.current) {
             containerRef.current.style.borderTopLeftRadius = `${left}px`;
             containerRef.current.style.borderTopRightRadius = `${right}px`;
         }
     }
 
-    const checkValidation = () : void => {
+    const checkValidation = (): void => {
         if (selectEvent && selectEvent.length > 0) {
             if (selectEvent === '기타') {
                 if (textAreaRef.current) {
@@ -60,7 +60,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
         }
     }
 
-    const save = () : void => {
+    const save = (): void => {
         if (selectEvent === '기타' && textAreaRef.current) {
             const text = textAreaRef.current.value;
             setEventInput(text);
@@ -74,7 +74,7 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
     return (
         <Sheet className='event-sheet'
             isOpen={isOpen}
-            onClose={function(){}}
+            onClose={function () { onClose(); }}
             disableDrag={true}
         >
             <Sheet.Container
@@ -89,21 +89,21 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                         onClose={onClose}
                     />
                     <div className='event-option-list'>
-                    {
-                        events.map((event) => (
-                            <div className='event-option' key={event} onClick={() => {setSelectEvent(event);}}>
-                                <div style={{width : '5vw'}}>
-                                    <img src={event === selectEvent ? IcCheckOn : IcCheckOff}
-                                        alt='select'
+                        {
+                            events.map((event) => (
+                                <div className='event-option' key={event} onClick={() => { setSelectEvent(event); }}>
+                                    <div style={{ width: '5vw' }}>
+                                        <img src={event === selectEvent ? IcCheckOn : IcCheckOff}
+                                            alt='select'
 
-                                    />
+                                        />
+                                    </div>
+                                    <span>
+                                        {event}
+                                    </span>
                                 </div>
-                                <span>
-                                    {event}
-                                </span>
-                            </div>
-                        ))
-                    }
+                            ))
+                        }
                     </div>
                     <InputTextBox
                         style={{
@@ -125,7 +125,9 @@ const Event = ({isOpen, onClose, inputArray, setEventInput, setContainerHeight} 
                     </div>
                 </Sheet.Content>
             </Sheet.Container>
-            <Sheet.Backdrop />
+            <Sheet.Backdrop
+                onTap={onClose}
+            />
         </Sheet>
     );
 };

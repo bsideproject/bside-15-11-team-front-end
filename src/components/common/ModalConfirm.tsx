@@ -1,4 +1,4 @@
-interface ModalProps{
+interface ModalProps {
     isOpen: boolean,
     modalChoice: string,
     mainText?: string,
@@ -18,9 +18,9 @@ const ModalConfirm = ({
     cancelAction,
     confirmText,
     cancelText
-}:ModalProps) => {
+}: ModalProps) => {
 
-    return(
+    return (
         <>
             {isOpen &&
                 <div className="ModalConfirm">
@@ -28,16 +28,16 @@ const ModalConfirm = ({
                         <p className="modal-text">{mainText}</p>
                         <p className="modal-sub-text">{subText}</p>
                         <div className="modal-btn-wrap">
-                            {modalChoice === "type1"?
+                            {modalChoice === "type1" ?
                                 <button className="confirm-btn mrg-0" type="button" onClick={confirmAction}>{confirmText}</button>
-                                :null
+                                : null
                             }
-                            {modalChoice === "type2"?
+                            {modalChoice === "type2" ?
                                 <>
                                     <button className="cancel-btn" type="button" onClick={cancelAction}>{cancelText}</button>
                                     <button className="confirm-btn" type="button" onClick={confirmAction}>{confirmText}</button>
                                 </>
-                                :null
+                                : null
                             }
                         </div>
                     </div>
