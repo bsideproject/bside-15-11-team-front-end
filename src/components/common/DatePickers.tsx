@@ -5,12 +5,12 @@ import Swiper from "swiper";
 import 'swiper/css';
 
 interface PropsType {
-    isOpen : boolean,
-    onClose : any,
-    title : string,
-    inputArray : string[],
-    setInputArray : any,
-    setContainerHeight : (arg0 : any, arg1 : string) => void,
+    isOpen: boolean,
+    onClose: any,
+    title: string,
+    inputArray: string[],
+    setInputArray: any,
+    setContainerHeight: (arg0: any, arg1: string) => void,
     id?: string,
     onChange?: any,
     checked?: boolean
@@ -25,7 +25,7 @@ const Calendar = ({
     setContainerHeight,
     id, onChange,
     checked
-} : PropsType) => {
+}: PropsType) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
     const [selectDate, setSelectDate] = useState({});
@@ -105,7 +105,7 @@ const Calendar = ({
         setContainerHeight(containerRef, '95vw');
     }, [isOpen]);
 
-    const setContainerTopBorderRadius = (left : number, right : number) : void => {
+    const setContainerTopBorderRadius = (left: number, right: number): void => {
         if (containerRef.current) {
             containerRef.current.style.borderTopLeftRadius = `${left}px`;
             containerRef.current.style.borderTopRightRadius = `${right}px`;
@@ -119,8 +119,8 @@ const Calendar = ({
         }
     }, [year, month]);
 
-    const saveDate = () : void => {
-        let selectedDate : string = "";
+    const saveDate = (): void => {
+        let selectedDate: string = "";
         if (year && month && day) {
             selectedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
         }
@@ -141,63 +141,65 @@ const Calendar = ({
     return (
         <Sheet className={isOpen ? 'calendar-sheet open' : 'calendar-sheet'}
             isOpen={isOpen}
-            onClose={function(){}}
+            onClose={function () { }}
             disableDrag={true}
         >
-        <Sheet.Container ref={containerRef}
-                         style={{
-                             backgroundColor: "#242424",
-                         }}
-        >
-            <Sheet.Content>
-                <ModalSheetTitleWrap
-                    title={title}
-                    onClose={onClose}
-                    id={id}
-                    onChange={onChange}
-                    checked={checked}
-                />
-                <div className="DatePicker">
-                    {/* Year */}
-                    <div className="swiper-container year-container">
-                        <div className="swiper-wrapper">
-                            {createYear().map((yearItem) => (
-                                <div className="swiper-slide" key={yearItem}>
-                                    {yearItem}
-                                </div>
-                            ))}
+            <Sheet.Container ref={containerRef}
+                style={{
+                    backgroundColor: "#242424",
+                }}
+            >
+                <Sheet.Content>
+                    <ModalSheetTitleWrap
+                        title={title}
+                        onClose={onClose}
+                        id={id}
+                        onChange={onChange}
+                        checked={checked}
+                    />
+                    <div className="DatePicker">
+                        {/* Year */}
+                        <div className="swiper-container year-container">
+                            <div className="swiper-wrapper">
+                                {createYear().map((yearItem) => (
+                                    <div className="swiper-slide" key={yearItem}>
+                                        {yearItem}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Month */}
-                    <div className="swiper-container month-container">
-                        <div className="swiper-wrapper">
-                            {createMonth().map((monthItem) => (
-                                <div className="swiper-slide" key={monthItem}>
-                                    {monthItem}
-                                </div>
-                            ))}
+                        {/* Month */}
+                        <div className="swiper-container month-container">
+                            <div className="swiper-wrapper">
+                                {createMonth().map((monthItem) => (
+                                    <div className="swiper-slide" key={monthItem}>
+                                        {monthItem}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Day */}
-                    <div className="swiper-container day-container">
-                        <div className="swiper-wrapper">
-                            {createDay().map((dayItem) => (
-                                <div className="swiper-slide" key={dayItem}>
-                                    {dayItem}
-                                </div>
-                            ))}
+                        {/* Day */}
+                        <div className="swiper-container day-container">
+                            <div className="swiper-wrapper">
+                                {createDay().map((dayItem) => (
+                                    <div className="swiper-slide" key={dayItem}>
+                                        {dayItem}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                </div>
-                <button type="button" className="common-btn-og" onClick={saveDate}>
-                    저장하기
-                </button>
-            </Sheet.Content>
-        </Sheet.Container>
-        <Sheet.Backdrop />
+                    </div>
+                    <button type="button" className="common-btn-og" onClick={saveDate}>
+                        저장하기
+                    </button>
+                </Sheet.Content>
+            </Sheet.Container>
+            <Sheet.Backdrop
+                onTap={onClose}
+            />
         </Sheet>
     );
 };

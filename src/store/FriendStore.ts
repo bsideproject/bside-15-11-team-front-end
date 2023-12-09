@@ -90,8 +90,6 @@ class FriendStore {
                 },
             })
 
-            console.log("main : " + JSON.stringify(res));
-
             if(res) {
                 setMainFriendList([...res]);
             }
@@ -123,8 +121,6 @@ class FriendStore {
                     Authorization : this.rootStore.userStore.getJwtKey
                 },
             });
-
-            console.log("res : " + JSON.stringify(res.minds));
 
             if(res) setExchangeData(res);
         }catch (err){

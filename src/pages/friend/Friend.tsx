@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
 import TitleWrap from "../../components/common/TitleWrap";
 import InputTextBox from "../../components/common/InputTextBox";
 import RadioWrap from "../../components/common/RadioWrap";
 import InputTextBoxWithArrow from "../../components/common/InputTextBoxWithArrow";
 import RootStore from "../../store/RootStore";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import axios from "axios";
@@ -15,13 +15,13 @@ import { RelationshipResponseProto } from '../../prototypes/relationship/Relatio
 const Friend = () => {
     let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
     let navigate = useNavigate();
-    const getSequence:string|null = new URLSearchParams(window.location.search).get("sequence");
-    const getEdit:string|null = new URLSearchParams(window.location.search).get("edit");
+    const getSequence: string | null = new URLSearchParams(window.location.search).get("sequence");
+    const getEdit: string | null = new URLSearchParams(window.location.search).get("edit");
     // 오늘 날짜
     let now = new Date();
-    let year= now.getFullYear();
-    let month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1) : '0'+(now.getMonth() + 1);
-    let date = (now.getDate() + 1) > 9 ? (now.getDate()) : '0'+(now.getDate());
+    let year = now.getFullYear();
+    let month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1) : '0' + (now.getMonth() + 1);
+    let date = (now.getDate() + 1) > 9 ? (now.getDate()) : '0' + (now.getDate());
     let nowDate = `${year}-${month}-${date}`;
 
     const relation = ["가족", "친구", "동료", "지인"];
@@ -33,7 +33,7 @@ const Friend = () => {
     const [birthUnKnown, setBirthUnknown] = useState<boolean>(true);
 
     const [openModal, setOpenModal] = useState<boolean[]>([false, false, false]);
-    const [inputArray, setInputArray] = useState<string[]>(['','','']);
+    const [inputArray, setInputArray] = useState<string[]>(['', '', '']);
 
     const [isValidation, setIsValidation] = useState<boolean[]>([true, true, true, true, true]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -46,7 +46,7 @@ const Friend = () => {
     const [registerResponse, setRegisterResponse] = useState<RelationshipResponseProto>();
 
     useEffect(() => {
-        if(getEdit && getEdit === "edit"){
+        if (getEdit && getEdit === "edit") {
             apiCallSet(getSequence);
         }
     }, []);
@@ -57,14 +57,14 @@ const Friend = () => {
         // 메모
         detailInfo && setFriendMemo(detailInfo?.memo);
         // 관계
-        if(detailInfo && !relation.includes(detailInfo?.relationship)){
+        if (detailInfo && !relation.includes(detailInfo?.relationship)) {
             setFriendRelation("directInput")
             setFriendDirectInput(detailInfo?.relationship);
-        }else{
+        } else {
             detailInfo && setFriendRelation(detailInfo?.relationship);
         }
         // 생일
-        if(detailInfo && Object.keys(detailInfo?.birth).length !== 0){
+        if (detailInfo && Object.keys(detailInfo?.birth).length !== 0) {
             setBirthUnknown(false);
             let copy = [...inputArray];
 
@@ -74,44 +74,44 @@ const Friend = () => {
 
             if (year && month && day) {
 
-                copy[1] = detailInfo && `${detailInfo?.birth?.date?.year}-${detailInfo?.birth?.date?.month < 10 ? "0"+detailInfo?.birth?.date?.month : detailInfo?.birth?.date?.month}-${detailInfo?.birth?.date?.day < 10 ? "0"+detailInfo?.birth?.date?.day : detailInfo?.birth?.date?.day}`;
-                
+                copy[1] = detailInfo && `${detailInfo?.birth?.date?.year}-${detailInfo?.birth?.date?.month < 10 ? "0" + detailInfo?.birth?.date?.month : detailInfo?.birth?.date?.month}-${detailInfo?.birth?.date?.day < 10 ? "0" + detailInfo?.birth?.date?.day : detailInfo?.birth?.date?.day}`;
+
                 detailInfo && setInputArray(copy);
             }
-        }else{
+        } else {
             setBirthUnknown(true);
             let copy = [...inputArray];
             copy[1] = detailInfo && ``;
             detailInfo && setInputArray(copy);
         }
-        if(detailInfo && detailInfo?.birth?.isLunar === "N"){
+        if (detailInfo && detailInfo?.birth?.isLunar === "N") {
             setIsLunar(false);
-        }else{
+        } else {
             detailInfo && setIsLunar(true);
         }
 
     }, [detailInfo]);
 
     // 등록된 정보 불러오기
-    const apiCallSet = async (sequence:any) => {
+    const apiCallSet = async (sequence: any) => {
         await RootStore.friendStore.getFriendDetail(sequence, setDetailInfo);
     }
 
-    const setContainerHeight = (ref : any, height : string) => {
+    const setContainerHeight = (ref: any, height: string) => {
         if (ref.current) {
             ref.current.style.height = `${height}`;
         }
     }
 
-    const handleInputClick = (index : number) => {
-        let list : boolean[] = [...openModal];
+    const handleInputClick = (index: number) => {
+        let list: boolean[] = [...openModal];
         list[index] = true;
         setOpenModal(list);
     }
 
     // 생일 modal 닫기
-    const handleClose = (index : number) => {
-        let list : boolean[] = [...openModal];
+    const handleClose = (index: number) => {
+        let list: boolean[] = [...openModal];
         list[index] = false;
         setOpenModal(list);
     }
@@ -132,14 +132,14 @@ const Friend = () => {
 
     // handle input text
     const handleRegister = (event: any) => {
-        if(event.target.name === "relation"){
+        if (event.target.name === "relation") {
             setFriendRelation(event.target.value);
-        }else if(event.target.id === "friendMemo"){
+        } else if (event.target.id === "friendMemo") {
             setFriendMemo(event.target.value);
-        }else if(event.target.id === "friendDirectInput"){
+        } else if (event.target.id === "friendDirectInput") {
             setFriendDirectInput(event.target.value);
         }
-        if(friendRelation !== "directInput" && friendRelation !== ""){
+        if (friendRelation !== "directInput" && friendRelation !== "") {
             setFriendDirectInput("");
         }
     }
@@ -150,7 +150,7 @@ const Friend = () => {
             friendName, friendRelation,
             friendDirectInput, friendMemo,
             inputArray[1], isLunar, birthUnKnown,
-            getEdit && getEdit,getSequence && getSequence,
+            getEdit && getEdit, getSequence && getSequence,
             setRegisterResponse
         );
     }
@@ -162,7 +162,7 @@ const Friend = () => {
 
         // name check
         for (const name of friendName) {
-            if(name === ""){
+            if (name === "") {
                 copy[0] = false;
                 copy[3] = true;
                 setIsValidation([...copy]);
@@ -172,35 +172,35 @@ const Friend = () => {
                 copy[3] = false;
                 setIsValidation([...copy]);
                 break;
-            } else{
+            } else {
                 copy[0] = true;
                 copy[3] = true;
                 setIsValidation([...copy]);
             }
         }
         // relation check
-        if(
+        if (
             (friendRelation === "" && friendDirectInput === "") ||
             (friendRelation === "directInput" && friendDirectInput === "")
-        ){
+        ) {
             copy[1] = false;
             setIsValidation([...copy]);
-        }else{
+        } else {
             copy[1] = true;
             setIsValidation([...copy]);
         }
-        if(friendRelation === "directInput" && regExp.test(friendDirectInput)){
+        if (friendRelation === "directInput" && regExp.test(friendDirectInput)) {
             copy[4] = false;
             setIsValidation([...copy]);
-        }else{
+        } else {
             copy[4] = true;
             setIsValidation([...copy]);
         }
         // birth check
-        if(inputArray[1] === "" && !birthUnKnown){
+        if (inputArray[1] === "" && !birthUnKnown) {
             copy[2] = false;
             setIsValidation([...copy]);
-        }else{
+        } else {
             copy[2] = true;
             setIsValidation([...copy]);
         }
@@ -220,16 +220,16 @@ const Friend = () => {
     // 삭제 확인 버튼
     const handleDeleteTrue = async () => {
         try {
-            const response = await axios.delete(`${baseUrl}/api/friends/${getSequence}`,{
-                headers : {
-                    Authorization : RootStore.userStore.getJwtKey
+            const response = await axios.delete(`${baseUrl}/api/relationships/${getSequence}`, {
+                headers: {
+                    Authorization: RootStore.userStore.getJwtKey
                 },
             });
-            if(response.status === 200){
+            if (response.status === 200) {
                 setIsOpen(false);
                 setIsOkOpen(true);
             }
-        }catch (err){
+        } catch (err) {
             console.log(err);
         }
     }
@@ -240,18 +240,19 @@ const Friend = () => {
         } else {
             if (goRegister) {
                 navigate('/page/relationship',
-                {state :
                     {
-                        friendData : registerResponse
-                    }
-                });
+                        state:
+                        {
+                            friendData: registerResponse
+                        }
+                    });
             } else {
                 navigate('/page/main');
             }
         }
     }
 
-    return(
+    return (
         <div className="Friend inner">
             <TitleWrap title={`관계 ${getEdit === "edit" ? "수정" : "등록"}하기`} />
             <form className="friend-register-wrap">
@@ -278,35 +279,35 @@ const Friend = () => {
                     friendRelation={friendRelation}
                     options={
                         [{
-                            name : 'relation',
-                            id : 'family',
-                            htmlFor : 'family',
-                            content : '가족',
-                            value : '가족',
-                        },{
-                            name : 'relation',
-                            id : 'friend',
-                            htmlFor : 'friend',
-                            content : '친구',
-                            value : '친구',
-                        },{
-                            name : 'relation',
-                            id : 'colleague',
-                            htmlFor : 'colleague',
-                            content : '동료',
-                            value : '동료',
+                            name: 'relation',
+                            id: 'family',
+                            htmlFor: 'family',
+                            content: '가족',
+                            value: '가족',
                         }, {
-                            name : 'relation',
-                            id : 'jiin',
-                            htmlFor : 'jiin',
-                            content : '지인',
-                            value : '지인',
+                            name: 'relation',
+                            id: 'friend',
+                            htmlFor: 'friend',
+                            content: '친구',
+                            value: '친구',
                         }, {
-                            name : 'relation',
-                            id : 'directInput',
-                            htmlFor : 'directInput',
-                            content : '직접 입력',
-                            value : "directInput",
+                            name: 'relation',
+                            id: 'colleague',
+                            htmlFor: 'colleague',
+                            content: '동료',
+                            value: '동료',
+                        }, {
+                            name: 'relation',
+                            id: 'jiin',
+                            htmlFor: 'jiin',
+                            content: '지인',
+                            value: '지인',
+                        }, {
+                            name: 'relation',
+                            id: 'directInput',
+                            htmlFor: 'directInput',
+                            content: '직접 입력',
+                            value: "directInput",
                         }]
                     }
                 />
@@ -334,8 +335,8 @@ const Friend = () => {
                     onClick={() => handleInputClick(1)}
                     value={
                         !isLunar ? `${inputArray[1]}` :
-                        detailInfo && Object.keys(detailInfo?.birth).length === 0 ?
-                            `${inputArray[1]}` : `${inputArray[1]} (음력)`
+                            detailInfo && Object.keys(detailInfo?.birth).length === 0 ?
+                                `${inputArray[1]}` : `${inputArray[1]} (음력)`
                     }
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
@@ -375,7 +376,7 @@ const Friend = () => {
                     </div> :
                     <div className="register-btn-wrap">
                         <button type="button" className="register-btn" onClick={handleSubmit}>저장하기</button>
-                        <button type="button" className="register-btn" onClick={() => {setGoRegister(true); handleSubmit()}
+                        <button type="button" className="register-btn" onClick={() => { setGoRegister(true); handleSubmit() }
                         }>바로 마음 기록하기</button>
                     </div>
                 }
