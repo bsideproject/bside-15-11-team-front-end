@@ -101,7 +101,7 @@ const SettingWithdrawal = () => {
     }
 
     const logOut = () => {
-        window.ReactNativeWebView.postMessage('withdrawal');
+        window.ReactNativeWebView.postMessage('logout');
     }
 
     return (
