@@ -7,6 +7,9 @@
   overflow-x: hidden;
   min-height: 500px;
   z-index: 1;
+  // 맨 오른쪽 하단에 위치한 카드는 메인 화면에서 레벨이 가려서
+  // 조금 더 밑으로 스크롤 할 수 있게 수정
+  height: 105vh;
   &::before{
     content: "";
     display: block;
@@ -137,7 +140,7 @@
         span{
           display: block;
         }
-        // 친구 이름
+        // 친구 이름a
         .friend-name{
           font-weight: 500;
           font-size: 4.5vw;
@@ -190,7 +193,7 @@
 // regist modal
 .MainRegister{
   width: 100vw; height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   position: fixed;
   left: 0; top: 0;
   z-index: 9999;
@@ -229,7 +232,7 @@
         @include positionCenter;
       }
       .sm-text{
-        font-weight: 400;
+        font-weight: 500;
         font-size: 16px;
         color: #fff;
         position: absolute;

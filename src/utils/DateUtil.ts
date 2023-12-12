@@ -37,6 +37,12 @@ class DateUtil {
         return date.getDate();
     }
 
+    getYearofToday = () : number => {
+        const todayString = this.getTodayString();
+
+        return parseInt(todayString.split('-')[0]);
+    }
+
 }
 
 const instance : DateUtil = new DateUtil();

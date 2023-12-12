@@ -3,6 +3,7 @@ import Sheet from 'react-modal-sheet';
 import ModalSheetTitleWrap from './ModalSheetTitleWrap';
 import Swiper from "swiper";
 import 'swiper/css';
+import DateUtil from '../../utils/DateUtil';
 
 interface PropsType {
     isOpen: boolean,
@@ -29,12 +30,12 @@ const Calendar = ({
 
     const containerRef = useRef<HTMLDivElement>(null);
     const [selectDate, setSelectDate] = useState({});
-    const [year, setYear] = useState<number>(2023);
-    const [month, setMonth] = useState<number>(1);
-    const [day, setDay] = useState<number>(1);
+    const [year, setYear] = useState<number>(0);
+    const [month, setMonth] = useState<number>(0);
+    const [day, setDay] = useState<number>(0);
 
-    const minYear = 1950;
-    const maxYear = 2023;
+    const minYear = 1900;
+    const maxYear = DateUtil.getYearofToday();
     const createYear = (): number[] => {
         const years: number[] = [];
 
@@ -42,7 +43,7 @@ const Calendar = ({
             years.push(year);
         }
 
-        return years.reverse();
+        return years;
     }
     const createMonth = (): number[] => {
         return Array.from({ length: 12 }, (_, index) => index + 1);
@@ -62,6 +63,7 @@ const Calendar = ({
             on: {
                 slideChange: () => {
                     const yearList = createYear();
+                    console.log(swiperYearInstance.activeIndex, swiperMonthInstance.activeIndex, swiperDayInstance.activeIndex);
                     setYear(yearList[swiperYearInstance?.activeIndex || 0]);
                 },
             },
@@ -75,6 +77,7 @@ const Calendar = ({
             on: {
                 slideChange: () => {
                     const monthList = createMonth();
+                    console.log(swiperYearInstance.activeIndex, swiperMonthInstance.activeIndex, swiperDayInstance.activeIndex);
                     setMonth(monthList[swiperMonthInstance?.activeIndex || 0]);
                 },
             },
@@ -88,6 +91,7 @@ const Calendar = ({
             on: {
                 slideChange: () => {
                     const dayList = createDay();
+                    console.log(swiperYearInstance.activeIndex, swiperMonthInstance.activeIndex, swiperDayInstance.activeIndex);
                     setDay(dayList[swiperDayInstance?.activeIndex || 0]);
                 },
             },
@@ -96,6 +100,8 @@ const Calendar = ({
         // 오늘 날짜로 세팅하는 부분
         swiperMonthInstance.activeIndex = parseInt(inputArray[1].split('-')[1]) - 1;
         swiperDayInstance.activeIndex = parseInt(inputArray[1].split('-')[2]) - 1;
+
+        console.log(inputArray[1]);
     };
 
     useEffect(() => {
@@ -163,7 +169,7 @@ const Calendar = ({
                             <div className="swiper-wrapper">
                                 {createYear().map((yearItem) => (
                                     <div className="swiper-slide" key={yearItem}>
-                                        {yearItem}
+                                        {yearItem}년
                                     </div>
                                 ))}
                             </div>
@@ -174,7 +180,7 @@ const Calendar = ({
                             <div className="swiper-wrapper">
                                 {createMonth().map((monthItem) => (
                                     <div className="swiper-slide" key={monthItem}>
-                                        {monthItem}
+                                        {monthItem}월
                                     </div>
                                 ))}
                             </div>
@@ -185,7 +191,7 @@ const Calendar = ({
                             <div className="swiper-wrapper">
                                 {createDay().map((dayItem) => (
                                     <div className="swiper-slide" key={dayItem}>
-                                        {dayItem}
+                                        {dayItem}일
                                     </div>
                                 ))}
                             </div>

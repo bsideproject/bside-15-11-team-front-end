@@ -11,6 +11,8 @@ import ModalConfirm from "../../components/common/ModalConfirm";
 import axios from "axios";
 import DatePickers from "../../components/common/DatePickers";
 import { RelationshipResponseProto } from '../../prototypes/relationship/RelationshipResponseProto';
+import DateUtil from '../../utils/DateUtil';
+import Calendar from '../../components/common/Calendar';
 
 const Friend = () => {
     let regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -64,25 +66,26 @@ const Friend = () => {
             detailInfo && setFriendRelation(detailInfo?.relationship);
         }
         // 생일
+        console.log("detail : " + JSON.stringify(detailInfo));
         if (detailInfo && Object.keys(detailInfo?.birth).length !== 0) {
             setBirthUnknown(false);
             let copy = [...inputArray];
 
             const year = detailInfo?.birth?.date?.year;
-            const month = detailInfo?.birth?.date?.month;
-            const day = detailInfo?.birth?.date?.day;
+            let month = detailInfo?.birth?.date?.month;
+            let day = detailInfo?.birth?.date?.day;
 
             if (year && month && day) {
 
-                copy[1] = detailInfo && `${detailInfo?.birth?.date?.year}-${detailInfo?.birth?.date?.month < 10 ? "0" + detailInfo?.birth?.date?.month : detailInfo?.birth?.date?.month}-${detailInfo?.birth?.date?.day < 10 ? "0" + detailInfo?.birth?.date?.day : detailInfo?.birth?.date?.day}`;
+                copy[1] = `${detailInfo?.birth?.date?.year}-${detailInfo?.birth?.date?.month < 10 ? "0" + detailInfo?.birth?.date?.month : detailInfo?.birth?.date?.month}-${detailInfo?.birth?.date?.day < 10 ? "0" + detailInfo?.birth?.date?.day : detailInfo?.birth?.date?.day}`;
 
-                detailInfo && setInputArray(copy);
+                setInputArray(copy);
             }
         } else {
             setBirthUnknown(true);
             let copy = [...inputArray];
-            copy[1] = detailInfo && ``;
-            detailInfo && setInputArray(copy);
+            copy[1] = DateUtil.getTodayString();
+            setInputArray(copy);
         }
         if (detailInfo && detailInfo?.birth?.isLunar === "N") {
             setIsLunar(false);
@@ -345,7 +348,7 @@ const Friend = () => {
                 {!isValidation[2] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />
                 }
-                <DatePickers
+                <Calendar
                     isOpen={openModal[1]}
                     onClose={() => handleClose(1)}
                     title="생일"

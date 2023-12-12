@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import Sheet from 'react-modal-sheet';
 import DateUtil from '../../utils/DateUtil';
 import { DateProto } from '../../prototypes/common/DateProto';
-import { useSwipeable } from 'react-swipeable';
 import ModalSheetTitleWrap from './ModalSheetTitleWrap';
 
 interface PropsType {
@@ -35,87 +34,55 @@ const Calendar = ({
     });
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const yearRef = useRef<HTMLDivElement>(null);
+    const monthRef = useRef<HTMLDivElement>(null);
+    const dayRef = useRef<HTMLDivElement>(null);
 
     const [years, setYears] = useState<number[]>([]);
     const [months, setMonths] = useState<number[]>([]);
     const [days, setDays] = useState<number[]>([]);
 
-    const yearHandlers = useSwipeable({
-        onSwipedUp: (eventData) => {
-            if (date.year && date.year < 2100) {
-                const year: number = date.year;
-                let obj = date;
-                obj.year = year + 1;
-                setDate({ ...obj });
-            }
-        },
-        onSwipedDown: (eventData) => {
-            if (date.year && date.year > 1990) {
-                const year: number = date.year;
-                let obj = date;
-                obj.year = year - 1;
-                setDate({ ...obj });
-            }
-        }
-    });
+    const [yearMove, setYearMove] = useState<number>(0);
+    const [monthMove, setMonthMove] = useState<number>(0);
+    const [dayMove, setDayMove] = useState<number>(0);
 
-    const monthHandlers = useSwipeable({
-        onSwipedUp: (eventData) => {
-            if (date.year && date.day && date.month && date.month < 12) {
-                const month: number = date.month;
+    const maxYear = DateUtil.getYearofToday();
+    const minYear = 1900;
 
-                let obj = date;
-                obj.month = month + 1;
-                const dayCount = DateUtil.getNumberOfDays(date.year, month);
-                if (date.day > dayCount) {
-                    obj.day = dayCount;
-                }
+    const maxMonth = 12;
+    const minMonth = 1;
 
-                setDate({ ...obj });
-            }
-        },
-        onSwipedDown: (eventData) => {
-            if (date.year && date.day && date.month && date.month > 1) {
-                const month: number = date.month;
-                let obj = date;
-                obj.month = month - 1;
-                const dayCount = DateUtil.getNumberOfDays(date.year, month - 2);
-                if (date.day > dayCount) {
-                    obj.day = dayCount;
-                }
-                setDate({ ...obj });
-            }
-        }
-    });
+    const minDay = 1;
+    const [maxDay, setMaxDay] = useState<number>(0);
 
-    const dayHandlers = useSwipeable({
-        onSwipedUp: (eventData) => {
-            if (date.year && date.month) {
-                const dayCount = DateUtil.getNumberOfDays(date.year, date.month - 1);
-                if (date.day && date.day < dayCount) {
-                    const day: number = date.day;
-                    let obj = date;
-                    obj.day = day + 1;
-                    setDate({ ...obj });
-                }
-            }
-        },
-        onSwipedDown: (eventData) => {
-            if (date.day && date.day > 1) {
-                const day: number = date.day;
-                let obj = date;
-                obj.day = day - 1;
-                setDate({ ...obj });
-            }
-        }
-    });
+    let yearTouchStartY = 0;
+    let yearTouchEndY = 0;
+
+    let monthTouchStartY = 0;
+    let monthTouchEndY = 0;
+
+    let dayTouchStartY = 0;
+    let dayTouchEndY = 0;
+
+    const clientWidth = window.innerWidth;
+
+    const vw = clientWidth * 0.01;
+
+    const delta: number = 4.5 * vw + 2 * 15 + 2 * vw;
 
     useEffect(() => {
-        const dateString: string = DateUtil.getTodayString();
 
-        const y = dateString.split('-')[0];
-        const m = dateString.split('-')[1];
-        const d = dateString.split('-')[2];
+        let dateString: string = inputArray[1] ? inputArray[1] : DateUtil.getTodayString();
+
+        let y = dateString.split('-')[0];
+        let m = dateString.split('-')[1];
+        let d = dateString.split('-')[2];
+
+        // swiper 초기화 로직
+        initSwiper();
+
+        // years, months, days 배열 세팅
+        initArrays(parseInt(y), parseInt(m));
 
         setDate({
             year: parseInt(y),
@@ -126,34 +93,61 @@ const Calendar = ({
         // 캘린더 양쪽 위 border-radius
         setContainerTopBorderRadius(24, 24);
         setContainerHeight(containerRef, '95vw');
+
+        setMaxDay(DateUtil.getNumberOfDays(parseInt(y), parseInt(m) - 1));
     }, [isOpen]);
 
+    // date 전체가 아니라 year, month 바뀔 때만 호출해야 함. 
+    // 그렇지 않으면 useEffect 무한 호출됨.
+    useEffect(() => {
+        updateMaxDay();
+    }, [yearMove, monthMove])
+
+    // 년도, 월 바뀔 때마다 maxDay랑 days 및 선택된 날짜 갱신해야 함
     useEffect(() => {
 
-        const y = date.year as number;
-        const m = date.month as number;
-        const d = date.day as number;
+        let dayCount = 0;
+        let selectedDay = 0;
+        if (date && date.year && date.month && date.day) {
+            const y = date.year;
+            const m = date.month;
+            selectedDay = date.day;
 
-        const dayCount = DateUtil.getNumberOfDays(y, m - 1);
-
-        setYears([...[y - 1, y, y + 1]]);
-
-        if (2 <= m && m <= 11) {
-            setMonths([...[m - 1, m, m + 1]]);
-        } else if (m === 1) {
-            setMonths([...[0, 1, 2]]);
-        } else if (m === 12) {
-            setMonths([...[11, 12]]);
+            dayCount = DateUtil.getNumberOfDays(y, m - 1);
         }
 
-        if (2 <= d && d <= dayCount - 1) {
-            setDays([...[d - 1, d, d + 1]]);
-        } else if (d === 1) {
-            setDays([...[0, 1, 2]]);
-        } else if (d >= dayCount) {
-            setDays([...[d - 1, d]]);
+        let dayArray = [0];
+
+        for (let i = 1; i <= dayCount; i++) {
+            dayArray.push(i);
         }
-    }, [date]);
+
+        dayArray.push(0);
+
+        setDays(dayArray);
+
+        if (dayRef.current) {
+            if (selectedDay > maxDay) {
+                dayRef.current.style.setProperty('transform', `translateY(${0 * delta}px)`);
+                dayRef.current.style.setProperty('transition', '0.3s');
+                setDayMove(0);
+                updateDay(maxDay);
+            } else {
+                if (date && date.day && dayRef.current) {
+                    let diffDay = 0;
+
+                    if (date && date.day) {
+                        diffDay = maxDay - selectedDay;
+                    }
+
+                    dayRef.current.style.setProperty('transform', `translateY(${(diffDay) * delta}px)`);
+                    dayRef.current.style.removeProperty('transition');
+                    setDayMove(diffDay);
+                }
+            }
+        }
+
+    }, [maxDay])
 
     const setContainerTopBorderRadius = (left: number, right: number): void => {
         if (containerRef.current) {
@@ -181,6 +175,208 @@ const Calendar = ({
         onClose();
     }
 
+    const updateYear = (year: number): void => {
+        let obj = { ...date };
+
+        obj.year = year;
+
+        setDate(obj);
+    }
+
+    // move에는 +1, -1 만 들어와야 함
+    const yearMoveHandler = (move: number) => {
+
+        if (date && date.year) {
+            console.log(date.year + move, maxYear, minYear);
+            if (date.year + move > maxYear || date.year + move < minYear) {
+                return;
+            }
+        }
+
+        if (date && date.year && yearRef.current) {
+
+            yearRef.current.style.setProperty('transform', `translateY(${(yearMove - move) * delta}px)`);
+            yearRef.current.style.setProperty('transition', `0.3s`);
+            setYearMove(yearMove - move);
+            updateYear(date.year + move);
+        }
+    }
+
+    // 연도 터치 시 발생 이벤트
+    const yearTouchStartHandler = (e: any) => {
+        yearTouchStartY = e.touches[0].clientY;
+    }
+
+    const yearTouchEndHandler = (e: any) => {
+        yearTouchEndY = e.changedTouches[0].clientY;
+        if (yearTouchEndY < yearTouchStartY) {
+            yearMoveHandler(1);
+        } else if (yearTouchEndY > yearTouchStartY) {
+            yearMoveHandler(-1);
+        }
+    }
+
+    // 월 터치 시 발생 이벤트
+
+    const updateMonth = (month: number): void => {
+        let obj = { ...date };
+
+        obj.month = month;
+        setDate(obj);
+    }
+
+    const monthMoveHandler = (move: number): void => {
+        if (date && date.month) {
+            if (date.month + move > maxMonth || date.month + move < minMonth) {
+                return;
+            }
+        }
+
+        if (date && date.month && monthRef.current) {
+            monthRef.current.style.setProperty('transform', `translateY(${(monthMove - move) * delta}px)`);
+            monthRef.current.style.setProperty('transition', '0.3s');
+            setMonthMove(monthMove - move);
+            updateMonth(date.month + move);
+        }
+    }
+
+    const monthTouchStartHandler = (e: any) => {
+        monthTouchStartY = e.touches[0].clientY;
+    }
+
+    const monthTouchEndHandler = (e: any) => {
+        monthTouchEndY = e.changedTouches[0].clientY;
+        if (monthTouchEndY < monthTouchStartY) {
+            monthMoveHandler(1);
+        } else if (monthTouchEndY > monthTouchStartY) {
+            monthMoveHandler(-1);
+        }
+    }
+
+    // 일 터치시 발생 이벤트
+
+    const updateDay = (day: number): void => {
+        let obj = { ...date };
+        obj.day = day;
+        setDate(obj);
+    }
+
+    const dayMoveHandler = (move: number): void => {
+        if (date && date.day) {
+            if (date.day + move > maxDay || date.day + move < minDay) {
+                return;
+            }
+        }
+        if (date && date.day && dayRef.current) {
+            dayRef.current.style.setProperty('transform', `translateY(${(dayMove - move) * delta}px)`);
+            dayRef.current.style.setProperty('transition', '0.3s');
+            setDayMove(dayMove - move);
+            updateDay(date.day + move);
+        }
+    }
+
+    const dayTouchStartHandler = (e: any) => {
+        dayTouchStartY = e.touches[0].clientY;
+    }
+
+    const dayTouchEndHandler = (e: any) => {
+        dayTouchEndY = e.changedTouches[0].clientY;
+        if (dayTouchEndY < dayTouchStartY) {
+            dayMoveHandler(1);
+        } else if (dayTouchEndY > dayTouchStartY) {
+            dayMoveHandler(-1);
+        }
+    }
+
+    const initSwiper = (): void => {
+
+        if (yearRef.current) {
+
+            let diffYear = 0;
+
+            if (date && date.year) {
+                diffYear = maxYear - date.year;
+            }
+
+            yearRef.current.style.setProperty('transform', `translateY(${(diffYear) * delta}px)`);
+            yearRef.current.style.setProperty('transition', `0.3s`);
+            setYearMove(diffYear);
+        }
+
+        if (monthRef.current) {
+            let diffMonth = 0;
+
+            if (date && date.month) {
+                diffMonth = maxMonth - date.month;
+            }
+
+            monthRef.current.style.setProperty('transform', `translateY(${(diffMonth) * delta}px)`);
+            monthRef.current.style.setProperty('transition', `0.3s`);
+            setMonthMove(diffMonth);
+        }
+
+        if (dayRef.current) {
+            let diffDay = 0;
+
+            if (date && date.day) {
+                diffDay = maxDay - date.day;
+            }
+
+            dayRef.current.style.setProperty('transform', `translateY(${(diffDay) * delta}px)`);
+            dayRef.current.style.setProperty('transition', `0.3s`);
+            setDayMove(diffDay);
+        }
+    }
+
+    const initArrays = (y: number, m: number): void => {
+        const dayCount = DateUtil.getNumberOfDays(y, m - 1);
+
+        // 연도 세팅
+        let yearArray = [0];
+
+        for (let i = minYear; i <= maxYear; i++) {
+            yearArray.push(i);
+        }
+
+        yearArray.push(0);
+
+        setYears(yearArray);
+
+        let monthArray = [0];
+
+        for (let i = minMonth; i <= maxMonth; i++) {
+            monthArray.push(i);
+        }
+
+        monthArray.push(0);
+
+        setMonths(monthArray);
+
+        let dayArray = [0];
+
+        for (let i = 1; i <= dayCount; i++) {
+            dayArray.push(i);
+        }
+
+        dayArray.push(0);
+
+        setDays(dayArray);
+    }
+
+    const updateMaxDay = () => {
+        let y = 0;
+        let m = 0;
+
+        if (date && date.year && date.month) {
+            y = date.year;
+            m = date.month;
+
+            const dayCount = DateUtil.getNumberOfDays(y, m - 1);
+
+            setMaxDay(dayCount);
+        }
+    }
+
     return (
         <Sheet className='calendar-sheet'
             isOpen={isOpen}
@@ -194,7 +390,7 @@ const Calendar = ({
             >
                 <Sheet.Content>
                     <ModalSheetTitleWrap
-                        title='날짜'
+                        title={title}
                         onClose={onClose}
                         id={id}
                         onChange={onChange}
@@ -202,34 +398,53 @@ const Calendar = ({
                     />
                     <div className='calendar'>
                         <div className="slider-container"
-                            {...yearHandlers}
+                            onTouchStart={yearTouchStartHandler}
+                            onTouchEnd={yearTouchEndHandler}
+                            ref={yearRef}
+                        // {...yearHandlers}
                         >
-                            {years.map((number) => (
+                            {years.map((number, index) => (
                                 <p
-                                    key={number}
-                                    className={`${number === date.year ? 'selected' : ''} ${number < 1 ? 'none' : 'block'}`}>
+                                    key={index}
+                                    className={`${number === 0 ? 'none' : number === date.year ? 'selected block' :
+                                        number + 1 === date.year ? 'prev block' :
+                                            number - 1 === date.year ? 'next block' :
+                                                'none'
+                                        }`}>
                                     {number}년
                                 </p>
                             ))}
                         </div>
-                        <div className="slider-container" style={{ width: '33%', textAlign: 'center', touchAction: 'pan-y', justifyContent: 'center', alignItems: 'center', verticalAlign: 'middle', display: 'flex', flexDirection: 'column', float: 'left' }}
-                            {...monthHandlers}
+                        <div className="slider-container"
+                            onTouchStart={monthTouchStartHandler}
+                            onTouchEnd={monthTouchEndHandler}
+                            ref={monthRef}
+                            style={{ width: '33%', textAlign: 'center', touchAction: 'pan-y', justifyContent: 'center', alignItems: 'center', verticalAlign: 'middle', display: 'flex', flexDirection: 'column', float: 'left' }}
+                        // {...monthHandlers}
                         >
-                            {months.map((number) => (
+                            {months.map((number, index) => (
                                 <p
-                                    key={number}
-                                    className={`${number === date.month ? 'selected' : ''} ${number < 1 ? 'none' : 'block'}`}>
+                                    key={index}
+                                    className={`${number === 0 ? 'none' : number === date.month ? 'selected block' :
+                                        number + 1 === date.month ? 'prev block' :
+                                            number - 1 === date.month ? 'next block' : 'none'}`}>
                                     {number}월
                                 </p>
                             ))}
                         </div>
-                        <div className="slider-container" style={{ width: '33%', textAlign: 'center', touchAction: 'pan-y', justifyContent: 'center', alignItems: 'center', verticalAlign: 'middle', display: 'flex', flexDirection: 'column', float: 'left' }}
-                            {...dayHandlers}
+                        <div className="slider-container"
+                            onTouchStart={dayTouchStartHandler}
+                            onTouchEnd={dayTouchEndHandler}
+                            ref={dayRef}
+                            style={{ width: '33%', textAlign: 'center', touchAction: 'pan-y', justifyContent: 'center', alignItems: 'center', verticalAlign: 'middle', display: 'flex', flexDirection: 'column', float: 'left' }}
+                        // {...dayHandlers}
                         >
-                            {days.map((number) => (
+                            {days.map((number, index) => (
                                 <p
-                                    key={number}
-                                    className={`${number === date.day ? 'selected' : ''} ${number < 1 ? 'none' : 'block'}`}>
+                                    key={index}
+                                    className={`${number === 0 ? 'none' : number === date.day ? 'selected block' :
+                                        number + 1 === date.day ? 'prev block' :
+                                            number - 1 === date.day ? 'next block' : 'none'}`}>
                                     {number}일
                                 </p>
                             ))}

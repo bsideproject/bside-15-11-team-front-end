@@ -15,7 +15,6 @@ import NullChecker from '../../utils/NullChecker';
 import { ItemProto } from '../../prototypes/common/ItemProto';
 import { ItemTypeProto } from '../../prototypes/common/type/ItemTypeProto';
 import { DateProto } from '../../prototypes/common/DateProto';
-import DatePickers from "../../components/common/DatePickers";
 import ImgExelBtn from "../../assets/images/icon/ic_exel_btn.svg";
 import ModalConfirm from "../../components/common/ModalConfirm";
 import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
@@ -25,6 +24,7 @@ import { MindTypeProto } from '../../prototypes/common/type/MindTypeProto';
 import IcPhotoUploadBtn1 from '../../assets/images/icon/ic_photo_upload_btn1.png';
 import IcPhotoUploadBtn2 from '../../assets/images/icon/ic_photo_upload_btn2.png';
 import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
+import Calendar from '../../components/common/Calendar';
 
 const Mind = () => {
 
@@ -394,19 +394,13 @@ const Mind = () => {
         memo: memoTxt
       };
 
-      console.log("mind proto : " + JSON.stringify(mindPutRequestProto));
-
       await RootStore.mindStore.putMind(mindPutRequestProto);
     } else {
       const mindPostRequestProto: MindPostRequestProto = {
         minds: saveList
       };
 
-      console.log("mind proto : " + JSON.stringify(mindPostRequestProto));
-
       const response = await RootStore.mindStore.postMind(mindPostRequestProto);
-
-      console.log("res : " + JSON.stringify(response));
     }
 
     setIsSaveOpen(true);
@@ -436,7 +430,6 @@ const Mind = () => {
 
         if (base64String) {
           setImageFile(base64String);
-          console.log(base64String.split(",")[1]);
         }
 
       };
@@ -687,7 +680,7 @@ const Mind = () => {
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}
       />
-      <DatePickers
+      <Calendar
         isOpen={openModal[1]}
         onClose={() => handleClose(1)}
         title={"날짜"}
