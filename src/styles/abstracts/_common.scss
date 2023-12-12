@@ -115,6 +115,10 @@
   display: flex;
   justify-content: space-between;
   margin: 30px 0;
+  display: flex;
+  align-items: flex-end;
+  height: 45vw;
+  overflow-y: hidden;
   .slider-container {
       width: 32%;
       text-align: center;
@@ -135,19 +139,21 @@
           padding-bottom: 15px;
           width: 100%;
 
-          &:nth-child(2) {
-            border-radius: 8px;
-            background-color: #383838;
-          }
+          // &:nth-child(2) {
+          //   border-radius: 8px;
+          //   background-color: #383838;
+          // }
       }
 
       .selected {
           font-weight: 500;
           color: #fff;
+          border-radius: 8px;
+          background-color: #383838;
       }
 
       .none {
-          color: white;
+          visibility: hidden;
       }
   }
 }
@@ -159,6 +165,7 @@
   background-color: #FA7F64;
   padding: 17px 0;
   border-radius: 12px;
+  z-index: 99999;
 }
 
 .error-message {
@@ -294,8 +301,3 @@
     }
   }
 }
-
-
-
-
-
