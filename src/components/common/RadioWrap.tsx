@@ -1,24 +1,26 @@
-import React, {Fragment, useEffect} from "react";
+import React, { Fragment, useEffect } from "react";
 import NullChecker from "../../utils/NullChecker";
+import InputTextBox from "./InputTextBox";
 
 interface Option {
-    name : string,
-    id : string,
-    htmlFor : string,
-    content : string,
-    value : string,
+    name: string,
+    id: string,
+    htmlFor: string,
+    content: string,
+    value: string,
     friendRelation?: any
 }
 
 interface PropsType {
-    inputTitle : string,
-    options : Option[],
-    onSelect? : any,
+    inputTitle: string,
+    options: Option[],
+    onSelect?: any,
     handleRegister: any,
-    friendRelation?: any
+    friendRelation?: any,
+    friendDirectInput?: string
 }
 
-const RadioWrap = (props : PropsType) => {
+const RadioWrap = (props: PropsType) => {
 
     return (
         <div className="RelationWrap">
@@ -45,6 +47,17 @@ const RadioWrap = (props : PropsType) => {
                     ))
                 }
             </div>
+            {
+                props.friendRelation === "directInput" ?
+                    <InputTextBox
+                        inputTitle=""
+                        placeholder="입력하세요 (최대 8자)"
+                        id="friendDirectInput"
+                        value={props.friendDirectInput}
+                        onChange={props.handleRegister}
+                        maxLength={8}
+                    /> : null
+            }
         </div>
     )
 }

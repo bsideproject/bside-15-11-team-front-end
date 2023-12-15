@@ -37,7 +37,7 @@
             margin-bottom : 6.5vw;
             
             &:first-child {
-                border-bottom: 1px solid var(--grayscale-gray-05, #383838);
+                border-bottom: 1px solid var(--grayscale-gray-05, $inactive-block-color);
             }
 
             input[type="checkbox"] {

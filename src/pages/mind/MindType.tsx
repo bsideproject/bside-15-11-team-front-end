@@ -1,10 +1,10 @@
 import React from 'react';
 
-const MindType = (props : any) => {
+const MindType = (props: any) => {
     return (
         <div className="MindWrap">
             <label className="input-title">
-                마음의 종류 (필수)
+                마음의 종류
             </label>
 
             <div className="mind-wrap">

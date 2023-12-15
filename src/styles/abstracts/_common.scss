@@ -50,9 +50,10 @@
 // input text box
 .InputTextBox{
   .input-title{
-    font-weight: 500;
+    font-weight: 700;
     font-size: 4vw;
     display: block;
+    padding: 3.33vw 0px;
   }
   .input-text-box{
     background: $back-ground-color2;
@@ -80,6 +81,9 @@
     &.birth.on::placeholder{
       color: #818181;
     }
+    &.inactive {
+      color : $inactive-block-color;
+    }
   }
 }
 
@@ -89,7 +93,7 @@
   .modal-InputTextBox {
     margin: 24px 0;
     border-radius: 8px;
-    background-color: #383838;
+    background-color: $inactive-block-color;
     position: relative;
     .search-icon{
       width: 7vw;
@@ -149,7 +153,7 @@
           font-weight: 500;
           color: #fff;
           border-radius: 8px;
-          background-color: #383838;
+          background-color: $inactive-block-color;
       }
 
       .none {
@@ -170,7 +174,7 @@
 
 .error-message {
   margin-bottom: 5vw;
-  margin-top: -3vw;
+  margin-top: 1vh;
 
   p {
     font-size: 3.5vw;
@@ -233,7 +237,7 @@
         background: #FA7F64;
       }
       .cancel-btn{
-        background-color: #383838;
+        background-color: $inactive-block-color;
       }
     }
   }
@@ -270,7 +274,7 @@
       border-radius: 8px;
     }
     .swiper-slide-active {
-      background-color: #383838;
+      background-color: $inactive-block-color;
       color: #fff;
     }
   }

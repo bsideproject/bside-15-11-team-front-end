@@ -11,6 +11,13 @@
     }
     .mind-register-wrap {
         margin-top : 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        .InputTextBoxWithArrow {
+            margin-bottom: 7vw;
+        }
 
         .EventTypeWrap {
             margin-bottom: 7vw;
@@ -40,7 +47,7 @@
             }
 
             input[type="radio"]:checked+label {
-                background: #383838;
+                background: $inactive-block-color;
                 color: #fff;
             }
 
@@ -51,8 +58,8 @@
             margin-bottom: 7vw;
 
             .input-title {
-                font-weight: 500;
-                font-size: 4.5vw;
+                font-weight: 700;
+                font-size: 4vw;
                 display: block;
                 margin-bottom: 7vw;
             }
@@ -102,6 +109,7 @@
             // margin-top : calc(100vh - 80vh);
             background-color: $back-ground-color3;
             border : 1px solid $back-ground-color3;
+            padding: 10vw 0;
 
             .register-btn {
                 display: block;
@@ -149,12 +157,14 @@
                   border-radius: 12px;
                   margin-right: 2vw;
                   display: inline-block;
-                    transition: .3s;
+                  transition: .3s;
                   &:last-child{margin: 0;}
                 }
-                input[type="radio"] + label:active{
-                    border: 1px solid $btn-active-color;
-                    color: $btn-active-color;
+                input[type="radio"]+label:active{
+                    border: 1px solid #C0C0C0;
+                    color: #C0C0C0;
+                    transition: .3s;
+                    animation: colorChange .3s forwards ease;
                 }
             }
         }
@@ -162,7 +172,7 @@
         .register-btn-wrap{
             @include center;
             justify-content: space-between;
-            margin-top: 20vw;
+            margin-top: 10vw;
             &.edit{
               .register-btn.remove{
                 width: 20%;
@@ -201,7 +211,7 @@
 
         #friend-list {
             overflow-y: scroll;
-            height : 110vw;
+            height : 70vh;
         }
 
         .select-friend {
@@ -303,7 +313,7 @@
         background-color: #FA7F64;
         transition: 0.3s;
         &:disabled{
-            color: #818181;
+            color: $inactive-gray-color;
             background-color: #AFAFAF;
         }
     }
@@ -312,8 +322,23 @@
     padding-bottom: 5vw;
 }
 .react-modal-sheet-backdrop{
-    background-color: rgba(0,0,0,0.6) !important;
+    background-color: rgba(0,0,0,0.7) !important;
 }
 .calendar-sheet.open{
     pointer-events: inherit !important;
+}
+
+@keyframes colorChange {
+    0% {
+        border: 1px solid #C0C0C0;
+        color: #C0C0C0;
+    }
+    50% {
+        border: 1px solid $btn-active-color;
+        color: $btn-active-color; 
+    }
+    100% {
+        border: 1px solid #C0C0C0;
+        color: #C0C0C0;
+    }
 }

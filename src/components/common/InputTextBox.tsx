@@ -3,7 +3,7 @@ import IcPlusBtnWh from "../../assets/images/icon/ic_plus_btn_white_c.svg";
 import IcMinusBtnWh from "../../assets/images/icon/ic_minus_btn_white_c.svg";
 import IcDelBtnX from "../../assets/images/icon/ic_del_x_btn.svg";
 
-interface PropsType{
+interface PropsType {
     inputTitle?: string,
     placeholder?: string,
     value?: any,
@@ -17,29 +17,29 @@ interface PropsType{
     onKeyUp?: any,
     style?: any,
     getEdit?: any,
-    disabled? : boolean
+    disabled?: boolean
 }
 
 const InputTextBox = ({
-                          inputTitle,
-                          placeholder,
-                          value,
-                          onChange,
-                          id,
-                          addFriend,
-                          removeFriend,
-                          friendName,
-                          maxLength,
-                          inputRef,
-                          onKeyUp,
-                          style,
-                          getEdit,
-                          disabled
-}:PropsType) => {
+    inputTitle,
+    placeholder,
+    value,
+    onChange,
+    id,
+    addFriend,
+    removeFriend,
+    friendName,
+    maxLength,
+    inputRef,
+    onKeyUp,
+    style,
+    getEdit,
+    disabled
+}: PropsType) => {
     return (
         <div className="InputTextBox">
-            <label className="input-title">{inputTitle}</label>
-            {id === "friendName"?
+            {inputTitle ? <label className="input-title">{inputTitle}</label> : null}
+            {id === "friendName" ?
                 friendName.map((name: any, key: any) => (
                     <div className="input-text-box-wrap" key={key}>
                         <input
@@ -51,7 +51,7 @@ const InputTextBox = ({
                             onChange={(event) => onChange(key, event)}
                             maxLength={maxLength}
                         />
-                        {key === 0 ? null : <span onClick={() => removeFriend(key)} className="text-box-del-btn"><img src={IcMinusBtnWh} alt="remove-btn"/></span>}
+                        {key === 0 ? null : <span onClick={() => removeFriend(key)} className="text-box-del-btn"><img src={IcMinusBtnWh} alt="remove-btn" /></span>}
                     </div>
                 )) :
                 <input

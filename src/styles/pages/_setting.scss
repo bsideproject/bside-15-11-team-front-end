@@ -109,7 +109,7 @@
   .optin-modal{
     //width: 85vw;
     border-radius: 12px;
-    background: #383838;
+    background: $inactive-block-color;
     padding: 12px 14px;
     font-size: 3vw;
     font-weight: 400;
@@ -145,7 +145,7 @@
     }
   }
   .etc-input {
-    background: #383838;
+    background: $inactive-block-color;
     border-radius: 8px;
     border: none;
     margin-top: 3vw;

@@ -13,16 +13,16 @@
 
   // level card
   .LevelCard{
-    &.l1{background: #383838 url("../../assets/images/level/bg_level_1.svg") no-repeat top; background-size: 100%;}
-    &.l2{background: #383838 url("../../assets/images/level/bg_level_2.svg") no-repeat top; background-size: 100%;}
-    &.l3{background: #383838 url("../../assets/images/level/bg_level_3.svg") no-repeat top; background-size: 100%;}
-    &.l4{background: #383838 url("../../assets/images/level/bg_level_4.svg") no-repeat top; background-size: 100%;}
-    &.l5{background: #383838 url("../../assets/images/level/bg_level_5.svg") no-repeat top; background-size: 100%;}
+    &.l1{background: $inactive-block-color url("../../assets/images/level/bg_level_1.svg") no-repeat top; background-size: 100%;}
+    &.l2{background: $inactive-block-color url("../../assets/images/level/bg_level_2.svg") no-repeat top; background-size: 100%;}
+    &.l3{background: $inactive-block-color url("../../assets/images/level/bg_level_3.svg") no-repeat top; background-size: 100%;}
+    &.l4{background: $inactive-block-color url("../../assets/images/level/bg_level_4.svg") no-repeat top; background-size: 100%;}
+    &.l5{background: $inactive-block-color url("../../assets/images/level/bg_level_5.svg") no-repeat top; background-size: 100%;}
     &.l6{
-      background: #383838 url("../../assets/images/level/bg_level_6.svg") no-repeat top; background-size: 100%;
+      background: $inactive-block-color url("../../assets/images/level/bg_level_6.svg") no-repeat top; background-size: 100%;
       padding: 36px 16px;
     }
-    background: #383838;
+    background: $inactive-block-color;
     background-size: 100%;
     border-radius: 12px;
     padding: 16px;
@@ -149,7 +149,7 @@
 // dev
 .sheet-container{
   background-color: #242424 !important;
-  border-top: 1px solid #383838 !important;
+  border-top: 1px solid $inactive-block-color !important;
 }
 // dev
 .sheet-header{
@@ -266,11 +266,11 @@
       border-radius: 8px;
       &.giv{
         background-color: #818181;
-        color: #383838;
+        color: $inactive-block-color;
       }
       &.tak{
         background-color: #ECECEC;
-        color: #383838;
+        color: $inactive-block-color;
       }
     }
   }

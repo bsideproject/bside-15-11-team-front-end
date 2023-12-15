@@ -66,7 +66,6 @@ const Friend = () => {
             detailInfo && setFriendRelation(detailInfo?.relationship);
         }
         // 생일
-        console.log("detail : " + JSON.stringify(detailInfo));
         if (detailInfo && Object.keys(detailInfo?.birth).length !== 0) {
             setBirthUnknown(false);
             let copy = [...inputArray];
@@ -280,6 +279,7 @@ const Friend = () => {
                     inputTitle='관계'
                     handleRegister={handleRegister}
                     friendRelation={friendRelation}
+                    friendDirectInput={friendDirectInput}
                     options={
                         [{
                             name: 'relation',
@@ -320,7 +320,7 @@ const Friend = () => {
                 {!isValidation[4] &&
                     <ErrorMessage message='사용할 수 없는 문자가 포함되어 있습니다.' />
                 }
-                {
+                {/* {
                     friendRelation === "directInput" ?
                         <InputTextBox
                             inputTitle=""
@@ -330,7 +330,7 @@ const Friend = () => {
                             onChange={handleRegister}
                             maxLength={8}
                         /> : null
-                }
+                } */}
                 <InputTextBoxWithArrow
                     inputTitle="생일"
                     placeholder={nowDate}
@@ -343,7 +343,7 @@ const Friend = () => {
                     }
                     onChange={setBirthUnknown}
                     checked={birthUnKnown}
-                    inactive={friendName.length > 1}
+                    inactive={birthUnKnown}
                 />
                 {!isValidation[2] &&
                     <ErrorMessage message='필수 입력 사항입니다.' />
@@ -359,7 +359,7 @@ const Friend = () => {
                     onChange={setIsLunar}
                     checked={isLunar}
                 />
-                <div className="InputTextBox">
+                <div className="InputTextBox memo">
                     <label className="input-title">메모 (선택)</label>
                     <textarea
                         wrap="hard"
