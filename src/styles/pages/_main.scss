@@ -57,7 +57,7 @@
     .exchanged-count{
       font-size: 3.7vw;
       border-radius: 8px;
-      background-color: #383838;
+      background-color: $inactive-block-color;
       padding: 8px;
       em{
         margin-left: 6px;
@@ -133,7 +133,7 @@
       // overflow-y: auto;
       .friend-cont{
         border-radius: 12px;
-        background-color: #383838;
+        background-color: $inactive-block-color;
         padding: 12px;
         margin-bottom: 4%;
         width: 48%;

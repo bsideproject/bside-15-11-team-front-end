@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react';
 import TitleWrap from '../../components/common/TitleWrap';
 import InputTextBoxWithArrow from '../../components/common/InputTextBoxWithArrow';
 import FriendList from './FriendList';
@@ -39,7 +39,7 @@ const Mind = () => {
   const [memo, setMemo] = useState<string>('');
   const [isReady, setIsReady] = useState(false);
 
-  const [selectedSeq, setSelectedSeq] = useState<string[]>([]);
+  const [selectedFriendSeqList, setSelectedFriendSeqList] = useState<string[]>([]);
 
   // 마음 수정하기에 필요한 값
   const [mindSeq, setMindSeq] = useState<string>('');
@@ -85,7 +85,7 @@ const Mind = () => {
 
         });
 
-        setSelectedSeq(friendSeqList);
+        setSelectedFriendSeqList(friendSeqList);
 
         text = text.trim();
         text = text.slice(0, -1);
@@ -114,7 +114,7 @@ const Mind = () => {
 
       setMindSeq(mindSeq);
       setEditMode(true);
-      setSelectedSeq([friendSeq]);
+      setSelectedFriendSeqList([friendSeq]);
 
       const fetchMindDetail = async () => {
         try {
@@ -181,10 +181,6 @@ const Mind = () => {
 
   const handleInputClick = (index: number) => {
 
-    if (index === 0 && (isEditMode || (location.state?.friendData))) {
-      return;
-    }
-
     let list: boolean[] = [...openModal];
     list[index] = true;
     setOpenModal(list);
@@ -203,9 +199,9 @@ const Mind = () => {
   }
 
   const pushFriendSeq = (id: string) => {
-    let temp = selectedSeq;
+    let temp = selectedFriendSeqList;
     temp.push(id);
-    setSelectedSeq([...temp]);
+    setSelectedFriendSeqList([...temp]);
   }
 
   const appendFriendList = (friendList: FriendCheck[]) => {
@@ -226,7 +222,7 @@ const Mind = () => {
     list[0] = text;
 
     setInputArray(list);
-    setSelectedSeq(friendSeqList);
+    setSelectedFriendSeqList(friendSeqList);
 
     if (!NullChecker.isEmpty(text)) {
       let array = validCheckArray;
@@ -252,6 +248,9 @@ const Mind = () => {
     if (moneyInputRef.current) {
 
       let inputText = moneyInputRef.current.value;
+      inputText = inputText.replace(/[^0-9$]/g, '');
+
+      inputText = !NullChecker.isEmpty(inputText) ? inputText : "0";
 
       inputNumber = parseInt(inputText.replaceAll(',', '').replace('원', ''));
 
@@ -323,7 +322,7 @@ const Mind = () => {
     }
 
     let saveList: MindRequestProto[] = [];
-    const friendSequence = selectedSeq;
+    const friendSequence = selectedFriendSeqList;
     const type: MindTypeProto = eventType === 'give' ? MindTypeProto.GIVEN : MindTypeProto.TAKEN;
     const event = inputArray[2];
     let itemType: ItemTypeProto = ItemTypeProto.CASH;
@@ -643,7 +642,7 @@ const Mind = () => {
             message='필수 입력 사항입니다.'
           />
         }
-        <div className="InputTextBox">
+        <div className="InputTextBox memo">
           <label className="input-title">메모 (선택)</label>
           <textarea
             className="input-text-box memo"
@@ -663,19 +662,20 @@ const Mind = () => {
               </button>
               <button type="button"
                 className="register-btn edit"
-                onClick={() => save()}>등록하기</button>
+                onClick={() => save()}>저장하기</button>
             </div>
           ) : (
             <div className="register-btn-wrap">
               <button type="button"
                 className="register-btn"
-                onClick={() => save()}>등록하기</button>
+                onClick={() => save()}>저장하기</button>
             </div>
           )
         }
       </form>
       <FriendList
         isOpen={openModal[0]}
+        selectedFriendSeqList={selectedFriendSeqList}
         onClose={() => handleClose(0)}
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}

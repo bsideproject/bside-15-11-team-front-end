@@ -9,13 +9,14 @@ import IcBackBtn from "../../assets/images/icon/ic_back_btn.svg";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
 
 interface PropsType {
-  isOpen : boolean;
-  onClose : (arg0 : number) => void;
-  setContainerHeight : (arg0 : any, arg1 : string) => void;
-  appendFriendList : (arg0 : FriendCheck[]) => void;
+  isOpen: boolean;
+  selectedFriendSeqList: string[];
+  onClose: (arg0: number) => void;
+  setContainerHeight: (arg0: any, arg1: string) => void;
+  appendFriendList: (arg0: FriendCheck[]) => void;
 }
 
-const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : PropsType) => {
+const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, selectedFriendSeqList }: PropsType) => {
   // sheet-modal height이 기존 react-sheet-modal에서 최대로
   // 안 올라가는 문제가 있어서 sheet container dom을 직접 가지고
   // height을 조정
@@ -31,20 +32,20 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
   useEffect(() => {
     setContainerHeight(containerRef, '100vh');
 
-    let friendCheckList : FriendCheck[] = [];
+    let friendCheckList: FriendCheck[] = [];
 
-    let friendList : RelationshipResponseProto[] = RootStore.friendStore.getFriendList;
+    let friendList: RelationshipResponseProto[] = RootStore.friendStore.getFriendList;
 
     friendList.forEach(friend => {
       if (friend.sequence && friend.nickname && friend.relationship) {
         friendCheckList.push({
-          friend : {
-            id : friend.sequence,
-            name : friend.nickname,
-            relation : friend.relationship
+          friend: {
+            id: friend.sequence,
+            name: friend.nickname,
+            relation: friend.relationship
           },
-          check : false,
-          display : true
+          check: selectedFriendSeqList.includes(friend.sequence),
+          display: true
         });
       }
     });
@@ -62,12 +63,12 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
     setFriendList(friendCheckList);
 
     setTotalCount(friendCheckList.length);
-  }, [isOpen]);
+  }, [RootStore.friendStore.getFriendList]);
 
   const handleInput = () => {
-    const text : string = inputRef.current?.value as string;
+    const text: string = inputRef.current?.value as string;
 
-    let list : FriendCheck[] = [];
+    let list: FriendCheck[] = [];
 
     let existDisplayResult = false;
 
@@ -88,7 +89,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
     setFriendList(list);
   }
 
-  const updateCheckCount = (check : boolean) => {
+  const updateCheckCount = (check: boolean) => {
     if (check) {
       setCheckCount(checkCount + 1);
     } else {
@@ -107,7 +108,7 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
     }
   }
 
-  const hideCloseBtn = () : boolean => {
+  const hideCloseBtn = (): boolean => {
     if (inputRef.current) {
       const length = inputRef.current.value.length;
       if (length > 0) {
@@ -120,9 +121,9 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
   return (
     <Sheet className='FriendList Inner'
       isOpen={isOpen}
-      onClose={function(){}}
+      onClose={function () { }}
       disableDrag={true}
-      >
+    >
       <Sheet.Container
         ref={containerRef}
         style={{
@@ -135,20 +136,20 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
             <h2 className='title'>관계</h2>
           </div>
           <div className="modal-InputTextBox">
-                <span className="search-icon">
-                    <img src={IcSearch} alt="search-icon" />
-                </span>
+            <span className="search-icon">
+              <img src={IcSearch} alt="search-icon" />
+            </span>
             <input
-                type="text"
-                className="input-text-box"
-                onKeyUp={() => handleInput()}
-                placeholder="찾으시는 이름이 있으신가요?"
-                ref={inputRef}
+              type="text"
+              className="input-text-box"
+              onKeyUp={() => handleInput()}
+              placeholder="찾으시는 이름이 있으신가요?"
+              ref={inputRef}
             />
             <div className="close-button">
               <img src={IcCloseBtn} alt="close"
-                   onClick={deleteKeyword}
-                   hidden={hideCloseBtn()}
+                onClick={deleteKeyword}
+                hidden={hideCloseBtn()}
               />
             </div>
           </div>
@@ -159,13 +160,13 @@ const FriendList = ({isOpen, onClose, setContainerHeight, appendFriendList} : Pr
                 key={obj.friend.id}
                 updateCheckCount={updateCheckCount}
               />
-            )) : 
+            )) :
               <p className="no-result">검색 결과가 없어요</p>
             }
           </div>
           <div className="save-button-wrap">
             <button disabled={checkCount === 0} className='save-button' onClick={
-              () => {saveFriends();onClose(0);}}>
+              () => { saveFriends(); onClose(0); }}>
               저장
             </button>
           </div>

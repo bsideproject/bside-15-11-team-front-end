@@ -187,7 +187,6 @@ const Calendar = ({
     const yearMoveHandler = (move: number) => {
 
         if (date && date.year) {
-            console.log(date.year + move, maxYear, minYear);
             if (date.year + move > maxYear || date.year + move < minYear) {
                 return;
             }
