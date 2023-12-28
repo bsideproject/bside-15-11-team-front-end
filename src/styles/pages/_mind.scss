@@ -263,6 +263,10 @@
         overflow-y: scroll;
     }
 
+    .react-modal-sheet-container {
+        padding-bottom: 0;
+    }
+
     .event-option-list {
         width: 100%;
         padding : 24px 0 0 0;
@@ -341,7 +345,7 @@
     }
 
     .save-button-wrap {
-        padding: 32px 0;
+        padding: 32px 0 0 0;
         position: relative;
         display: flex;
         .save-button {
