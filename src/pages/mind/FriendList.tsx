@@ -36,17 +36,26 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
 
     let friendList: RelationshipResponseProto[] = RootStore.friendStore.getFriendList;
 
+    let tempCheckCount : number = 0;
+
     friendList.forEach(friend => {
       if (friend.sequence && friend.nickname && friend.relationship) {
+
+        const sequenceContains : boolean = selectedFriendSeqList.includes(friend.sequence);
+
         friendCheckList.push({
           friend: {
             id: friend.sequence,
             name: friend.nickname,
             relation: friend.relationship
           },
-          check: selectedFriendSeqList.includes(friend.sequence),
+          check: sequenceContains,
           display: true
         });
+
+        if (sequenceContains) {
+          tempCheckCount++;
+        }
       }
     });
 
@@ -58,12 +67,13 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
       } else {
         return 0;
       }
-    })
+    });
 
     setFriendList(friendCheckList);
 
     setTotalCount(friendCheckList.length);
-  }, [RootStore.friendStore.getFriendList]);
+    setCheckCount(tempCheckCount);
+  }, [isOpen]);
 
   const handleInput = () => {
     const text: string = inputRef.current?.value as string;
