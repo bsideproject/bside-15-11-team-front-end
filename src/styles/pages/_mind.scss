@@ -258,6 +258,11 @@
 }
 
 .event-sheet {
+
+    .react-modal-sheet-content {
+        overflow-y: scroll;
+    }
+
     .event-option-list {
         width: 100%;
         padding : 24px 0 0 0;
