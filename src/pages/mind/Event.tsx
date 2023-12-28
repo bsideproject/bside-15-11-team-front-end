@@ -23,11 +23,20 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
 
     const [selectEvent, setSelectEvent] = useState<string>('');
 
+    const [otherEvent, setOtherEvent] = useState<string>('');
+
     useEffect(() => {
 
         // 캘린더 양쪽 위 border-radius
         setContainerTopBorderRadius(24, 24);
-        setContainerHeight(containerRef, '80%');
+        setContainerHeight(containerRef, '70%');
+
+        if (isOpen) {
+            if (textAreaRef.current) {
+                textAreaRef.current.value = otherEvent;
+            }
+        }
+
     }, [isOpen]);
 
     useEffect(() => {
@@ -39,6 +48,21 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
             containerRef.current.style.borderTopLeftRadius = `${left}px`;
             containerRef.current.style.borderTopRightRadius = `${right}px`;
         }
+    }
+
+    const onKeyUpHandler = () : void => {
+        if (textAreaRef.current) {
+            let inputString = '';
+            // input 태그의 maxLength 로 완전히 글자 수 제한이 안됨
+            if (textAreaRef.current.value && textAreaRef.current.value.length > 6) {
+                inputString = textAreaRef.current.value.substring(0, 6);
+            } else {
+                inputString = textAreaRef.current.value;
+            }
+            setOtherEvent(inputString);
+        }
+
+        checkValidation();
     }
 
     const checkValidation = (): void => {
@@ -92,7 +116,7 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
                         {
                             events.map((event) => (
                                 <div className='event-option' key={event} onClick={() => { setSelectEvent(event); }}>
-                                    <div style={{ width: '5vw' }}>
+                                    <div style={{ width: '6.67vw' }}>
                                         <img src={event === selectEvent ? IcCheckOn : IcCheckOff}
                                             alt='select'
 
@@ -106,13 +130,10 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
                         }
                     </div>
                     <InputTextBox
-                        style={{
-                            backgroundColor: "#383838"
-                        }}
                         inputTitle=""
                         placeholder="입력하세요 (최대 6자)"
                         inputRef={textAreaRef}
-                        onKeyUp={() => checkValidation()}
+                        onKeyUp={() => onKeyUpHandler()}
                         maxLength={6}
                         disabled={selectEvent !== '기타'}
                     />
