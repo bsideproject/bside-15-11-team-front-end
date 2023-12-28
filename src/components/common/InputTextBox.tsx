@@ -2,6 +2,7 @@ import React from "react"
 import IcPlusBtnWh from "../../assets/images/icon/ic_plus_btn_white_c.svg";
 import IcMinusBtnWh from "../../assets/images/icon/ic_minus_btn_white_c.svg";
 import IcDelBtnX from "../../assets/images/icon/ic_del_x_btn.svg";
+import NullChecker from "../../utils/NullChecker";
 
 interface PropsType {
     inputTitle?: string,
@@ -38,7 +39,7 @@ const InputTextBox = ({
 }: PropsType) => {
     return (
         <div className="InputTextBox">
-            {inputTitle ? <label className="input-title">{inputTitle}</label> : null}
+            {!NullChecker.isEmpty(inputTitle) ? <label className="input-title">{inputTitle}</label> : null}
             {id === "friendName" ?
                 friendName.map((name: any, key: any) => (
                     <div className="input-text-box-wrap" key={key}>
