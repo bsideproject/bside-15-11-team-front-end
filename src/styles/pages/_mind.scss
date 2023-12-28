@@ -319,6 +319,7 @@
             outline: none;
             height: 7.3vh;
             margin-top: 0px;
+            z-index: 99999;
             &.memo{
                 height: 110px;
                 overflow-y: scroll;
