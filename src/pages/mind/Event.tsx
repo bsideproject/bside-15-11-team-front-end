@@ -25,6 +25,8 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
 
     const [otherEvent, setOtherEvent] = useState<string>('');
 
+    const [focusOnInput, setFocusOnInput] = useState<boolean>(false);
+
     useEffect(() => {
 
         // 캘린더 양쪽 위 border-radius
@@ -38,6 +40,10 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
         }
 
     }, [isOpen]);
+
+    useEffect(() => {
+        setContainerHeight(containerRef, focusOnInput ? '100%' : '70%');
+    }, [focusOnInput]);
 
     useEffect(() => {
         checkValidation();
@@ -134,6 +140,8 @@ const Event = ({ isOpen, onClose, inputArray, setEventInput, setContainerHeight 
                         placeholder="입력하세요 (최대 6자)"
                         inputRef={textAreaRef}
                         onKeyUp={() => onKeyUpHandler()}
+                        onFocus={() => setFocusOnInput(true)}
+                        onBlur={() => setFocusOnInput(false)}
                         maxLength={6}
                         disabled={selectEvent !== '기타'}
                     />
