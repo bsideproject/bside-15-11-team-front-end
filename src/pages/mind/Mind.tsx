@@ -233,6 +233,7 @@ const Mind = () => {
   }
 
   const addMoney = (add: number) => {
+
     let sum = add + money;
 
     setMoney(sum);
@@ -253,7 +254,6 @@ const Mind = () => {
       inputText = !NullChecker.isEmpty(inputText) ? inputText : "0";
 
       inputNumber = parseInt(inputText.replaceAll(',', '').replace('원', ''));
-
       setMoney(inputNumber);
     }
   }
@@ -511,7 +511,7 @@ const Mind = () => {
         setIsOkOpen(true);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -526,14 +526,28 @@ const Mind = () => {
   const onBlurMoneyInput = () => {
     if (moneyInputRef.current) {
       let moneyText = moneyInputRef.current.value;
+      moneyText = moneyText.replace(/[^0-9$]/g, '');
 
-      moneyText = moneyText.replaceAll(',', '').replace('원', '');
-
-      moneyText = displayMoneyForm(parseInt(moneyText));
-
+      moneyText = !NullChecker.isEmpty(moneyText) ? moneyText : "0";
+      setMoney(parseInt(moneyText));
+      moneyText = parseInt(moneyText) > 0 ? displayMoneyForm(parseInt(moneyText)) : '';
       moneyInputRef.current.value = moneyText;
-
     }
+  }
+
+  const formatFriendNames = () => {
+    if (!inputArray[0]) {
+      return "";
+    }
+    const names: string[] = inputArray[0].split(',');
+
+    if (names.length >= 4) {
+      const displayedNames = names.slice(0, 3).join(', ');
+      return `${displayedNames} 외 ${names.length}명`;
+    } else {
+      return inputArray[0];
+    }
+
   }
 
   return (
@@ -550,7 +564,7 @@ const Mind = () => {
           placeholder='기록할 친구들을 선택하세요.'
           id='friends'
           onClick={() => handleInputClick(0)}
-          value={inputArray[0]}
+          value={formatFriendNames()}
         />
         {!validCheckArray[0] &&
           <ErrorMessage
@@ -593,7 +607,7 @@ const Mind = () => {
                 id='cash-input'
                 placeholder='금액을 입력하세요'
                 ref={moneyInputRef}
-                defaultValue={money + '원'}
+                defaultValue={money > 0 ? money + '원' : ''}
                 onBlur={() => onBlurMoneyInput()}
                 onKeyUp={() => { onChangeMindContent("cash"); onChangeMoneyInput(); }}
               />
