@@ -16,6 +16,8 @@ interface PropsType {
     maxLength?: number,
     inputRef?: any,
     onKeyUp?: any,
+    onFocus?: any,
+    onBlur?: any,
     style?: any,
     getEdit?: any,
     disabled?: boolean
@@ -33,6 +35,8 @@ const InputTextBox = ({
     maxLength,
     inputRef,
     onKeyUp,
+    onFocus,
+    onBlur,
     style,
     getEdit,
     disabled
@@ -65,6 +69,8 @@ const InputTextBox = ({
                     maxLength={maxLength}
                     ref={inputRef}
                     onKeyUp={onKeyUp}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                     style={style}
                     disabled={disabled}
                 />
