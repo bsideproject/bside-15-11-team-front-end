@@ -7,9 +7,6 @@
   overflow-x: hidden;
   min-height: 500px;
   z-index: 1;
-  // 맨 오른쪽 하단에 위치한 카드는 메인 화면에서 레벨이 가려서
-  // 조금 더 밑으로 스크롤 할 수 있게 수정
-  height: 105vh;
   &::before{
     content: "";
     display: block;
@@ -113,7 +110,9 @@
 
   // freind list
   .MainFriendList{
-    // empty text
+    
+    margin-bottom: 50px;
+
     .empty-message{
       margin-top: 130px;
       text-align: center;
