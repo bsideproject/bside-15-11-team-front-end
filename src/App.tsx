@@ -38,7 +38,7 @@ function App() {
             window.removeEventListener('message', handleMessage);
         }
 
-    }, [isMessageReceived]);
+    }, []);
 
     return (
     <Provider RootStore={RootStore}>
