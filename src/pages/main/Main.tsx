@@ -142,7 +142,7 @@ const Main = () => {
                             placeholder="찾으시는 이름이 있으신가요?"
                         />
                     </div>
-                    <FilterBtn handleFilter={handleFilter} />
+                    {/* <FilterBtn handleFilter={handleFilter} /> */}
                 </div>
                 <MainFriendList
                     isEmptyList={isEmptyList}

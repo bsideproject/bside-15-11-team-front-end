@@ -121,9 +121,21 @@
       font-size: 3.7vw;
     }
 
+    //subtitle
+    .friend-list-title{
+      display: flex;
+      width: 100vw;
+      padding: 12px 0px;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+    }
+
     // list
     .friend-list-wrap{
-      margin-top: 25px;
       display: flex;
       align-content: flex-start;
       justify-content: space-between;
@@ -134,15 +146,25 @@
         border-radius: 12px;
         background-color: $inactive-block-color;
         padding: 12px;
-        margin-bottom: 4%;
-        width: 48%;
+        display: flex;
+        width : 88.9vw;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
         span{
           display: block;
         }
         // 친구 이름a
         .friend-name{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1 0 0;
+          align-self: stretch;
+          font-size: 14px;
+          font-style: normal;
           font-weight: 500;
-          font-size: 4.5vw;
+          line-height: 20px;
         }
         // 관계
         .friend-relation {
@@ -153,10 +175,18 @@
         }
         // 레벨
         .friend-level{
-          margin: 0 0 0 auto;
-          padding: 15px 10px;
-          width: 13vw; height: 13vw;
-          position: relative;
+          display: flex;
+          width: 32px;
+          padding: 5px 11px;
+          justify-content: center;
+          align-items: center;
+          flex-shrink: 0;
+          border-radius: 100px;
+          background: var(--Grayscale-Gray-06, #2C2C2C);
+          font-size: 16px;
+          line-height: 22px;
+          font-style: normal;
+          font-weight: 700;
           img{
             position: absolute;
             left: 0; top: 0;
