@@ -129,7 +129,7 @@ const Main = () => {
                     <MainExchangedCount
                         count={count ? count : ""}
                     />
-                    <div className="MainSearch">
+                    {/* <div className="MainSearch">
                         <span className="search-icon">
                             <img src={IcSearch} alt="search-icon" />
                         </span>
@@ -141,7 +141,7 @@ const Main = () => {
                             onChange={handleSearchText}
                             placeholder="찾으시는 이름이 있으신가요?"
                         />
-                    </div>
+                    </div> */}
                     {/* <FilterBtn handleFilter={handleFilter} /> */}
                 </div>
                 <MainFriendList

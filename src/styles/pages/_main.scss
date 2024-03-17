@@ -95,16 +95,19 @@
     @include center;
     justify-content: center;
     padding: 5px 0;
-    width: 25vw;
-    margin-left: auto;
+    width: 40vw;
+    // margin-right: 40px;
     .filter-icon{
       width: 5.5vw;
-      display: block;
-      margin-right: 4px;
+      // display: block;
+      // margin-right: 4px;
     }
     .filter-text{
-      font-weight: 500;
-      font-size: 3.8vw;
+      margin-right: 20px;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
     }
   }
 
@@ -124,6 +127,7 @@
     //subtitle
     .friend-list-title{
       display: flex;
+      justify-content: space-between;
       width: 100vw;
       padding: 12px 0px;
       align-items: center;
@@ -187,6 +191,26 @@
           line-height: 22px;
           font-style: normal;
           font-weight: 700;
+          
+          &.level-1 {
+            @include levelColor(1);
+          }
+          &.level-2 {
+            @include levelColor(2);
+          }
+          &.level-3 {
+            @include levelColor(3);
+          }
+          &.level-4 {
+            @include levelColor(4);
+          }
+          &.level-5 {
+            @include levelColor(5);
+          }
+          &.level-6 {
+            @include levelColor(6);
+          }
+
           img{
             position: absolute;
             left: 0; top: 0;
