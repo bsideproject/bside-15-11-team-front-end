@@ -31,12 +31,12 @@ const InputTextBoxWithArrow = ({
     <div className='InputTextBoxWithArrow' >
       <div className="InputTextBox" onClick={id === "birth" && (checked || inactive) ? null : onClick}>
         <label className="input-title">{inputTitle}</label>
-        <span
-          className={(checked ? "input-text-box" : `input-text-box ${id}`)
-            + (` ${NullChecker.isEmpty(value) ? "placeholder" : ""}`)
-            + (`${inactive ? "inactive" : ""}`)}
+        <div
+          className={(checked ? "input-text-box" : `input-text-box ${id}`)}
           id={id}
-        >{NullChecker.isEmpty(value) ? placeholder : value}</span>
+        ><div className={'inner-div '
+          + (` ${NullChecker.isEmpty(value) ? "placeholder" : ""}`)
+          + (`${inactive ? "inactive" : ""}`)}>{NullChecker.isEmpty(value) ? placeholder : value}</div></div>
       </div>
       {id === "birth" ?
         <div className="friend-name-add" >

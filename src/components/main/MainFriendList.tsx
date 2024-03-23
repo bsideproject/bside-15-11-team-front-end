@@ -10,10 +10,12 @@ import { YnTypeProto } from "../../prototypes/common/type/YnTypeProto";
 
 interface PropsType {
     isEmptyList: boolean,
-    searchList?: RelationshipResponseProto[]
+    searchList?: RelationshipResponseProto[],
+    searchText?: string,
+    handleFilter?: any,
 }
 
-const MainFriendList = ({ isEmptyList, searchList }: PropsType) => {
+const MainFriendList = ({ isEmptyList, searchList, searchText, handleFilter }: PropsType) => {
 
     let navigate = useNavigate();
 
@@ -21,26 +23,42 @@ const MainFriendList = ({ isEmptyList, searchList }: PropsType) => {
 
     useEffect(() => {
         if (searchList && searchList.length > 0) {
-            let tempList : RelationshipResponseProto[] = 
+            let tempList: RelationshipResponseProto[] =
                 searchList.filter(friend => friend.favoriteYn === 'Y');
 
             setFavoriteList(tempList);
         }
-    } , [])
+    }, [])
 
     const handleFriendClick = (sequence: any) => {
         navigate(`/page/detail?sequence=${sequence}`);
     }
 
-    const handleFavoriteClick = (friend : RelationshipResponseProto) => {
-        
+    const handleFavoriteClick = (friend: RelationshipResponseProto) => {
+
         if (friend) {
-            if (friend.favoriteYn === YnTypeProto.N || NullChecker.isEmpty(friend.favoriteYn)){
+            let tempList: RelationshipResponseProto[] = [...favoriteList];
+            if (friend.favoriteYn === YnTypeProto.N || NullChecker.isEmpty(friend.favoriteYn)) {
                 friend.favoriteYn = YnTypeProto.Y;
-            } else{
+                tempList.push(friend);
+                setFavoriteList(tempList);
+            } else {
                 friend.favoriteYn = YnTypeProto.N;
+
+                if (friend.sequence) {
+                    removeFromFavoriteList(friend.sequence);
+                }
             }
-            console.log("data : " + JSON.stringify(friend));
+        }
+    }
+
+    const removeFromFavoriteList = (friendId: string) => {
+        let tempList: RelationshipResponseProto[] = [...favoriteList];
+        const index = tempList.findIndex(friend => friend.sequence === friendId);
+
+        if (index !== -1) {
+            tempList.splice(index, 1);
+            setFavoriteList(tempList);
         }
     }
 
@@ -69,14 +87,32 @@ const MainFriendList = ({ isEmptyList, searchList }: PropsType) => {
                 <p className="empty-message">아직 등록한 친구가 없어요.</p> :
                 (searchList?.length !== 0 ?
                     <>
-                        {favoriteList.length > 0 ? 
-                            <div className="friend-list-title">
-                                즐겨찾는 친구
-                            </div> : null
+                        {favoriteList.length > 0 && NullChecker.isEmpty(searchText) ?
+                            <>
+                                <div className="friend-list-title">
+                                    즐겨찾는 친구
+                                </div>
+                                <ul className="friend-list-wrap">
+                                    {favoriteList?.map((data: RelationshipResponseProto, key) => (
+                                        <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
+                                            <span className={`friend-level level-${levelImgSwitch(data.levelInformation?.total)}`}>{data.levelInformation?.total ? data.levelInformation?.total : 0}</span>
+                                            <span className="friend-name">{data.nickname}</span>
+                                            <span className="friend-favorite"
+                                                onClick={(e) => { e.stopPropagation(); handleFavoriteClick(data) }}>
+                                                <img src={data.favoriteYn === YnTypeProto.Y ? favorite_check : favorite_uncheck}
+                                                    alt="즐겨찾기"
+                                                />
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </> : null
                         }
                         <div className="friend-list-title">
                             친구 목록
-                            <FilterBtn />
+                            <FilterBtn
+                                handleFilter={handleFilter}
+                            />
                         </div>
                         <ul className="friend-list-wrap">
                             {searchList?.map((data: RelationshipResponseProto, key) => (
@@ -84,7 +120,7 @@ const MainFriendList = ({ isEmptyList, searchList }: PropsType) => {
                                     <span className={`friend-level level-${levelImgSwitch(data.levelInformation?.total)}`}>{data.levelInformation?.total ? data.levelInformation?.total : 0}</span>
                                     <span className="friend-name">{data.nickname}</span>
                                     <span className="friend-favorite"
-                                        onClick={(e) => {e.stopPropagation();handleFavoriteClick(data)}}>
+                                        onClick={(e) => { e.stopPropagation(); handleFavoriteClick(data) }}>
                                         <img src={data.favoriteYn === YnTypeProto.Y ? favorite_check : favorite_uncheck}
                                             alt="즐겨찾기"
                                         />

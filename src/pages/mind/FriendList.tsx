@@ -7,6 +7,7 @@ import RootStore from "../../store/RootStore";
 import { RelationshipResponseProto } from './../../prototypes/relationship/RelationshipResponseProto';
 import IcBackBtn from "../../assets/images/icon/ic_back_btn.svg";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
+import SelectedFriendCard from "./SelectedFriendCard";
 
 interface PropsType {
   isOpen: boolean;
@@ -24,6 +25,7 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [friendList, setFriendList] = useState<FriendCheck[]>([]);
+  const [selectedFriendList, setSelectedFriendList] = useState<FriendCheck[]>([]);
   const [checkCount, setCheckCount] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
@@ -36,12 +38,12 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
 
     let friendList: RelationshipResponseProto[] = RootStore.friendStore.getFriendList;
 
-    let tempCheckCount : number = 0;
+    let tempCheckCount: number = 0;
 
     friendList.forEach(friend => {
       if (friend.sequence && friend.nickname && friend.relationship) {
 
-        const sequenceContains : boolean = selectedFriendSeqList.includes(friend.sequence);
+        const sequenceContains: boolean = selectedFriendSeqList.includes(friend.sequence);
 
         friendCheckList.push({
           friend: {
@@ -75,6 +77,10 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
     setCheckCount(tempCheckCount);
   }, [isOpen]);
 
+  useEffect(() => {
+    console.log(JSON.stringify(selectedFriendList));
+  }, [selectedFriendList])
+
   const handleInput = () => {
     const text: string = inputRef.current?.value as string;
 
@@ -99,11 +105,28 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
     setFriendList(list);
   }
 
-  const updateCheckCount = (check: boolean) => {
-    if (check) {
-      setCheckCount(checkCount + 1);
-    } else {
-      setCheckCount(checkCount - 1);
+  const updateCheck = (friendCheck: FriendCheck) => {
+    if (friendCheck) {
+
+      const check: boolean = !friendCheck.check;
+
+      friendCheck.check = check;
+
+      let tempList: FriendCheck[] = [...selectedFriendList];
+
+      if (check) {
+        tempList.push(friendCheck);
+        setSelectedFriendList(tempList);
+        setCheckCount(checkCount + 1);
+      } else {
+        const index = tempList.findIndex(element => element.friend.id === friendCheck.friend.id);
+
+        if (index !== -1) {
+          tempList.splice(index, 1);
+          setSelectedFriendList(tempList);
+          setCheckCount(checkCount - 1);
+        }
+      }
     }
   }
 
@@ -163,12 +186,25 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
               />
             </div>
           </div>
+          {
+            checkCount > 0 ?
+              <div id="selected-friend-list">
+                {
+                  selectedFriendList.map((obj) => (
+                    <SelectedFriendCard
+                      friendCheck={obj}
+                      updateCheck={updateCheck}
+                    />
+                  ))
+                }
+              </div> : null
+          }
           <div id='friend-list'>
             {!isEmptyResult ? friendList.map((obj) => (
               <FriendInfo
                 friendCheck={obj}
                 key={obj.friend.id}
-                updateCheckCount={updateCheckCount}
+                updateCheck={updateCheck}
               />
             )) :
               <p className="no-result">검색 결과가 없어요</p>

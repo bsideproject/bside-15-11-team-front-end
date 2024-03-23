@@ -50,16 +50,18 @@
 // input text box
 .InputTextBox{
   .input-title{
-    font-weight: 700;
-    font-size: 4vw;
     display: block;
-    padding: 3.33vw 0px;
+    padding: 12px 0px;
+    
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    word-wrap: break-word;
   }
   .input-text-box{
     background: $back-ground-color2;
     border-radius: 8px;
     border: none;
-    margin-top: 3vw;
     display: block;
     width: 100%;
     font-size: 4.5vw;

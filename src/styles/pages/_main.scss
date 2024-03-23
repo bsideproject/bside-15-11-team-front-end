@@ -24,10 +24,12 @@
     top: 0; left: 0;
     background-color: #1E1E1E;
     z-index: 9;
-    .setting-btn{
+    display: flex;
+    justify-content: flex-end;
+    .header-btn{
       width: 7vw;
       display: block;
-      margin: 0 0 0 auto;
+      margin-left:16px;
     }
   }
 

@@ -3,20 +3,19 @@ import IcCheckOff from '../../assets/images/icon/ic_check_off.svg'
 import { FriendCheck } from '../../models/FriendCheck';
 
 interface PropTypes {
-    friendCheck : FriendCheck
-    updateCheckCount : (arg0 : boolean) => void
+    friendCheck: FriendCheck
+    updateCheck: (arg0: FriendCheck) => void
 }
 
-const FriendInfo = ({friendCheck, updateCheckCount} : PropTypes) => {
+const FriendInfo = ({ friendCheck, updateCheck }: PropTypes) => {
 
     const check = () => {
-        friendCheck.check = !friendCheck.check;
-        updateCheckCount(friendCheck.check);
+        updateCheck(friendCheck);
     }
 
     return friendCheck.display ? (
         <div className='select-friend' onClick={() => check()}>
-            <div style={{width : '6vw', float : 'left'}}>
+            <div style={{ width: '24px', float: 'right', marginTop: '15px' }}>
                 <img src={friendCheck.check ? IcCheckOn : IcCheckOff} alt='check' />
             </div>
             <div className='friend-info'>

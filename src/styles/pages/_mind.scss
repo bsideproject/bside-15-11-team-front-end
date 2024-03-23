@@ -9,162 +9,182 @@
         right: 20px; top: 20px;
         padding: 0;
     }
+
+    .EventTypeWrap {
+        display : flex;
+        padding: 8px;
+        align-items: flex-start;
+        gap : 8px;
+        border-radius: 12px;
+        background-color: $back-ground-color2;
+        margin: 12px 56px 16px 56px;
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            padding: 10px 0;
+            display: inline-block;
+            width: 50%;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 3.7vw;
+            color: #818181;
+            transition: .3s;
+            &:last-child {
+                margin: 0;
+            }
+        }
+
+        input[type="radio"]:checked+label {
+            background: $inactive-block-color;
+            color: #fff;
+        }
+
+    }
+
     .mind-register-wrap {
-        margin-top : 30px;
+        margin-top : 16px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 100vh;
-        .InputTextBoxWithArrow {
-            margin-bottom: 7vw;
-        }
+        
+        gap : 32px;
 
-        .EventTypeWrap {
-            margin-bottom: 7vw;
-            align-items: center;
-            background-color: $back-ground-color;
-            width: 70%;
-            margin-left: 15%;
-            border-radius: 8px;
-            padding: 8px;
-
-            input[type="radio"] {
-                display: none;
-            }
-
-            label {
-                padding: 10px 0;
-                display: inline-block;
-                width: 50%;
-                border-radius: 8px;
-                text-align: center;
-                font-size: 3.7vw;
-                color: #818181;
-                transition: .3s;
-                &:last-child {
-                    margin: 0;
-                }
-            }
-
-            input[type="radio"]:checked+label {
-                background: $inactive-block-color;
-                color: #fff;
-            }
-
-        }
-
-        .MindWrap {
-
-            margin-bottom: 7vw;
-
-            .input-title {
-                font-weight: 700;
-                font-size: 4vw;
-                display: block;
-                margin-bottom: 7vw;
-            }
-
-            .mind-wrap {
-                margin-top: 3vw;
-                display: flex;
-                justify-content: space-between;
-
-                input[type="radio"] {
-                    display: none;
-                }
-
-                label {
-                    font-weight: 500;
-                    font-size: 3.7vw;
-                    color: #C0C0C0;
-                    padding: 3.5vw;
-                    border: 1px solid #C0C0C0;
-                    border-radius: 12px;
-                    width: 48%;
-                    text-align: center;
-                    transition: .3s;
-                }
-
-                input[type="radio"]:checked+label {
-                    border: 1px solid #FA7F64;
-                    color: #FA7F64;
-                }
-            }
-        }
-
-        .upload-image {
-            height : 70vw;
-            width: 80vw;
-            margin-left: 5vw;
-        }
-
-        .register-btn-wrap {
-            @include center;
-            justify-content: space-between;
-            position: sticky;
-            bottom: 0;left: 0;
-            width: 90vw;
-            z-index: 99999;
-            height : 100px;
-            // margin-top : calc(100vh - 80vh);
-            background-color: $back-ground-color3;
-            border : 1px solid $back-ground-color3;
-            padding: 10vw 0;
-
-            .register-btn {
-                display: block;
-                width: 48%;
-                font-weight: 500;
-                font-size: 3.9vw;
-                color: #fff;
-                background: $btn-active-color;
-                border-radius: 8px;
-                padding: 4.3vw 0;
-            }
-        }
-
-        .gift-InputTextBox {
-            margin-bottom: 7vw;
+        .InputTextBox {
 
             .input-text-box {
-                background: $back-ground-color2;
-                border-radius: 8px;
-                border: none;
-                margin-top: 3vw;
-                display: block;
-                width: 100%;
-                font-size: 4.5vw;
-                padding: 15px;
+                display: flex;
+                padding: 15px 16px;
+                align-items: center;
+                gap: 16px;
 
-                &::placeholder {
-                    color: #818181;
+                border-radius: 12px;
+                background: var(--Grayscale-Gray-06, #2C2C2C);
+                height : 100%;
+
+                .inner-div {
+                    flex: 1 0 0;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 22px;
+
+                    &.placeholder {
+                        color: #818181;
+                    }
                 }
 
             }
         }
 
-        .MoneyOptionWrap {
-            margin-bottom: 7vw;
-            .money-option-wrap {
-                margin-top: 3vw;
-                input[type="radio"]{display: none;}
-                label{
-                  font-weight: 500;
-                  font-size: 3.7vw;
-                  color: #C0C0C0;
-                  padding: 3.5vw;
-                  border: 1px solid #C0C0C0;
-                  border-radius: 12px;
-                  margin-right: 2vw;
-                  display: inline-block;
-                  transition: .3s;
-                  &:last-child{margin: 0;}
+        .mind-content {
+            .MindWrap {
+
+                margin-bottom: 16px;
+    
+                .input-title {
+                    display: block;
+                    padding: 12px 0px;
+                    
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 20px;
+                    word-wrap: break-word;
                 }
-                input[type="radio"]+label:active{
-                    border: 1px solid #C0C0C0;
-                    color: #C0C0C0;
-                    transition: .3s;
-                    animation: colorChange .3s forwards ease;
+    
+                .mind-wrap {
+                    display: flex;
+                    align-items: flex-start;
+                    gap : 8px;
+    
+                    input[type="radio"] {
+                        display: none;
+                    }
+    
+                    label {
+                        font-weight: 500;
+                        font-size: 14px;
+                        font-style: normal;
+                        line-height: 20px;
+                        color: #C0C0C0;
+                        padding: 3.5vw;
+                        border: 1px solid #C0C0C0;
+                        border-radius: 12px;
+                        
+                        text-align: center;
+                        transition: .3s;
+                    }
+    
+                    input[type="radio"]:checked+label {
+                        border: 1px solid #FA7F64;
+                        color: #FA7F64;
+                    }
+                }
+            }
+
+            .gift-InputTextBox {
+
+                .input-text-box {
+                    background: $back-ground-color2;
+                    border-radius: 8px;
+                    border: none;
+                    display: block;
+                    width: 100%;
+                    padding: 15px;
+    
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 22px;
+                    word-wrap: break-word;
+    
+                    &::placeholder {
+                        color: #818181;
+                    }
+    
+                }
+            }
+    
+            .photo-upload {
+                padding-top: 16px;
+            }
+    
+            .MoneyOptionWrap {
+                margin-bottom: 7vw;
+                .money-option-wrap {
+                    margin-top: 3vw;
+                    input[type="radio"]{display: none;}
+                    label{
+                      font-weight: 500;
+                      font-size: 3.7vw;
+                      color: #C0C0C0;
+                      padding: 3.5vw;
+                      border: 1px solid #C0C0C0;
+                      border-radius: 12px;
+                      margin-right: 2vw;
+                      display: inline-block;
+                      transition: .3s;
+                      &:last-child{margin: 0;}
+                    }
+                    input[type="radio"]+label:active{
+                        border: 1px solid #C0C0C0;
+                        color: #C0C0C0;
+                        transition: .3s;
+                        animation: colorChange .3s forwards ease;
+                    }
+                }
+            }
+
+            .upload-image-div {
+                width: 100%;
+                // padding-top: 16px;
+
+                &.uploaded {
+                    padding-top: 16px;
+                }
+    
+                .upload-image {
+                    border-radius: 8px;
                 }
             }
         }
@@ -198,9 +218,23 @@
         }
 
         #save-photo-button {
-            border : none;
-            background-color: $back-ground-color;
-            margin-bottom: 5vw;
+            display: flex;
+            padding: 10px 12px;
+            align-items: center;
+            gap: 4px;
+
+            border-radius: 12px;
+            border: 1px solid $place-holder-color;
+
+            background: transparent;
+
+            p {
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 20px;
+                color: $place-holder-color;
+            }
         }
     }
 }
@@ -208,6 +242,51 @@
 .FriendList {
 
     .friend-list-content {
+
+        #selected-friend-list {
+            display: flex;
+            width: 100%;
+            padding: 16px 0px 16px 0px;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: -24px;
+            
+            flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Enable touch scrolling on webkit browsers */
+            /* Hide scrollbar */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+            /* Additional mobile styles */
+            max-width: 100%; /* Ensure the list doesn't exceed the width of its container */
+            -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS devices */
+            // overflow-scrolling: touch; /* Enable smooth scrolling on Android devices */
+
+            .selected-friend-card {
+                display: flex;
+                height: 32px;
+                padding: 6px 8px;
+                align-items: center;
+                gap: 4px;
+                border-radius: 8px;
+                background-color: #818181;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 20px;
+
+                flex-grow: 0; /* Prevent SelectedFriendCard from growing */
+                flex-shrink: 0; /* Prevent SelectedFriendCard from shrinking */
+
+                .name {
+                    color: white;
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 20px;
+                    word-wrap: break-word
+                }
+            }
+        }
 
         #friend-list {
             overflow-y: scroll;
@@ -221,9 +300,9 @@
             border-bottom: 1px solid rgba(129, 129, 129, 0.2);
 
             .friend-info {
-                margin-left: 5vw;
+                // margin-left: 5vw;
                 p {
-                    padding-left: 5vw;
+                    // padding-left: 5vw;
                     font-weight: 400;
                     font-size: 4vw;
                     color: $inactive-gray-color;

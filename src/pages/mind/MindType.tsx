@@ -9,6 +9,24 @@ const MindType = (props: any) => {
 
             <div className="mind-wrap">
                 <input type="radio" name='mind'
+                    id='gift'
+                    checked={props.defaultSelect === 'gift'}
+                    onClick={() => props.onSelect('gift')}
+                    readOnly
+                />
+                <label htmlFor='gift'>
+                    선물
+                </label>
+                <input type="radio" name='mind'
+                    id='food'
+                    checked={props.defaultSelect === 'food'}
+                    onClick={() => props.onSelect('food')}
+                    readOnly
+                />
+                <label htmlFor='food'>
+                    식사/음료
+                </label>
+                <input type="radio" name='mind'
                     id='cash'
                     checked={props.defaultSelect === 'cash'}
                     onClick={() => props.onSelect('cash')}
@@ -18,13 +36,13 @@ const MindType = (props: any) => {
                     현금
                 </label>
                 <input type="radio" name='mind'
-                    id='gift'
-                    checked={props.defaultSelect === 'gift'}
-                    onClick={() => props.onSelect('gift')}
+                    id='manual-input'
+                    checked={props.defaultSelect === 'manual-input'}
+                    onClick={() => props.onSelect('manual-input')}
                     readOnly
                 />
-                <label htmlFor='gift'>
-                    선물
+                <label htmlFor='manual-input'>
+                    직접 입력
                 </label>
             </div>
         </div>
