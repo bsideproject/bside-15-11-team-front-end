@@ -24,6 +24,7 @@ import { MindTypeProto } from '../../prototypes/common/type/MindTypeProto';
 import IcCamera from "../../assets/images/icon/ic_camera.png";
 import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 import Calendar from '../../components/common/Calendar';
+import ScrollableCalendar from '../../components/common/ScrollableCalendar';
 
 const Mind = () => {
 
@@ -670,7 +671,7 @@ const Mind = () => {
         <InputTextBoxWithArrow
           inputTitle={eventType === 'give' ? '준 날짜' : '받은 날짜'}
           id='friends'
-          onClick={() => handleInputClick(0)}
+          onClick={() => handleInputClick(1)}
           value={inputArray[1]}
         />
 
@@ -712,7 +713,15 @@ const Mind = () => {
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}
       />
-      <Calendar
+      {/* <Calendar
+        isOpen={openModal[1]}
+        onClose={() => handleClose(1)}
+        title={"날짜"}
+        inputArray={inputArray}
+        setInputArray={setInputArray}
+        setContainerHeight={setContainerHeight}
+      /> */}
+      <ScrollableCalendar
         isOpen={openModal[1]}
         onClose={() => handleClose(1)}
         title={"날짜"}

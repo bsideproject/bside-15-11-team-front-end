@@ -165,6 +165,125 @@
   }
 }
 
+.calendar-modal {
+
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 9999;
+  background-color: rgba(0,0,0,.6);
+
+  .calendar-container {
+
+    border-radius: 12px;
+    background: #242424;
+    padding: 6vw 5vw;
+    width: 90%;
+    height : 600px;
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: hidden;
+
+    .weekdays {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 10px;
+    
+      div {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        color: var(--Grayscale-Gray-04, #818181);
+      }
+    }
+    
+    .scroll-calendar {
+      overflow-y: scroll;
+      height: 80%;
+      .scroll-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* 아이템을 수직으로 맨 아래로 정렬합니다. */
+        overflow-y: scroll;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #f0f0f0;
+      }
+      .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        padding: 10px;
+      }
+    
+      .month {
+        p {
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 20px;
+        }
+      }
+      
+      .day {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+    
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 20px;
+
+        &.selected {
+          background-color: var(--Primary-Primary, #FA7F64);
+          border-radius: 9999px;
+        }
+      }
+      
+      .empty {
+        visibility: hidden;
+      }
+    }
+
+    .modal-btn-wrap{
+      margin-top: 4.5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      button{
+        width: 100%;
+        display: block;
+        color: #FFF;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: -0.6px;
+        border-radius: 12px;
+        padding: 12px 0;
+        margin: 0 4px;
+        &.mrg-0{
+          margin: 0;
+        }
+      }
+      .confirm-btn{
+        background: #FA7F64;
+      }
+      .cancel-btn{
+        background-color: $inactive-block-color;
+      }
+    }
+  }
+}
+
 .common-btn-og{
   display: block;
   width: 100%;
