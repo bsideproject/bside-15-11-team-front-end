@@ -88,11 +88,11 @@ const MainFriendList = ({ isEmptyList, searchList, searchText, handleFilter }: P
                 (searchList?.length !== 0 ?
                     <>
                         {favoriteList.length > 0 && NullChecker.isEmpty(searchText) ?
-                            <>
+                            <div className="friend-list-wrap">
                                 <div className="friend-list-title">
                                     즐겨찾는 친구
                                 </div>
-                                <ul className="friend-list-wrap">
+                                <ul className="friend-list">
                                     {favoriteList?.map((data: RelationshipResponseProto, key) => (
                                         <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
                                             <span className={`friend-level level-${levelImgSwitch(data.levelInformation?.total)}`}>{data.levelInformation?.total ? data.levelInformation?.total : 0}</span>
@@ -106,30 +106,32 @@ const MainFriendList = ({ isEmptyList, searchList, searchText, handleFilter }: P
                                         </li>
                                     ))}
                                 </ul>
-                            </> : null
+                            </div> : null
                         }
-                        <div className="friend-list-title">
-                            친구 목록
-                            <FilterBtn
-                                handleFilter={handleFilter}
-                            />
+                        <div className="friend-list-wrap">
+                            <div className="friend-list-title">
+                                친구 목록
+                                <FilterBtn
+                                    handleFilter={handleFilter}
+                                />
+                            </div>
+                            <ul className="friend-list">
+                                {searchList?.map((data: RelationshipResponseProto, key) => (
+                                    <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
+                                        <span className={`friend-level level-${levelImgSwitch(data.levelInformation?.total)}`}>{data.levelInformation?.total ? data.levelInformation?.total : 0}</span>
+                                        <span className="friend-name">{data.nickname}</span>
+                                        <span className="friend-favorite"
+                                            onClick={(e) => { e.stopPropagation(); handleFavoriteClick(data) }}>
+                                            <img src={data.favoriteYn === YnTypeProto.Y ? favorite_check : favorite_uncheck}
+                                                alt="즐겨찾기"
+                                            />
+                                        </span>
+
+
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <ul className="friend-list-wrap">
-                            {searchList?.map((data: RelationshipResponseProto, key) => (
-                                <li className="friend-cont" key={data.sequence} onClick={() => handleFriendClick(data.sequence)}>
-                                    <span className={`friend-level level-${levelImgSwitch(data.levelInformation?.total)}`}>{data.levelInformation?.total ? data.levelInformation?.total : 0}</span>
-                                    <span className="friend-name">{data.nickname}</span>
-                                    <span className="friend-favorite"
-                                        onClick={(e) => { e.stopPropagation(); handleFavoriteClick(data) }}>
-                                        <img src={data.favoriteYn === YnTypeProto.Y ? favorite_check : favorite_uncheck}
-                                            alt="즐겨찾기"
-                                        />
-                                    </span>
-
-
-                                </li>
-                            ))}
-                        </ul>
                     </> : <p className="empty-message">찾으시는 친구가 없어요.<br />마음을 기록하려면 먼처 친구를 등록하세요.</p>
                 )
             }

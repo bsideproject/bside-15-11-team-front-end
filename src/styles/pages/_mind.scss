@@ -318,12 +318,37 @@
             }
         }
 
-        .no-result {
-            text-align: center;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 20;
-            word-wrap: break-word;
+        .empty-result-notice {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            padding: 56px 20px;
+            width: 100%;
+            margin-top: 104px;
+
+            .empty-result-text {
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 20px;
+                text-align: center;
+
+            }
+
+            .button-wrap {
+                button {
+                    display: flex;
+                    padding: 8px 16px;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 8px;
+
+                    border-radius: 40px;
+                    background: var(--Primary-Primary, #FA7F64);
+                }
+            }
         }
 
         .close-button {
@@ -441,6 +466,88 @@
 }
 .calendar-sheet.open{
     pointer-events: inherit !important;
+}
+
+.register-friend-modal {
+    @include modalBackDrop;
+
+    .register-friend-container {
+        display: flex;
+        width: 296px;
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+
+        border-radius: 12px;
+        background: var(--Grayscale-Gray-06, #2C2C2C);
+
+        height : 404px;
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+        overflow-y: hidden;
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            align-self: stretch;
+
+            .title {
+                align-self: stretch;
+                text-align: center;
+
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 700;
+                line-height: 22px;
+            }
+
+            .input-wrap {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+                .input-title {
+                    align-self: stretch;
+
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 20px;
+
+                    color: var(--Grayscale-Gray-02, #C0C0C0);
+                }
+
+                .input-text-box-wrap {
+                    .input-text-box {
+                        display: flex;
+                        width: 100%;
+                        height: 46px;
+                        padding: 16px;
+                        align-items: center;
+                        gap: 10px;
+
+                        border-radius: 12px;
+                        background: var(--Grayscale-Gray-05, #383838);
+
+                        border: none;
+
+                        color: var(--Grayscale-Gray-04, #818181);
+                        
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: 22px;
+                    }
+
+
+                }
+            }
+        }
+    }
 }
 
 @keyframes colorChange {

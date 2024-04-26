@@ -53,6 +53,7 @@ const Mind = () => {
   const [photoUpload, setPhotoUpload] = useState<boolean>(false);
   const [imageFileName, setImageFileName] = useState<string>('');
   const [imageFile, setImageFile] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -313,13 +314,15 @@ const Mind = () => {
 
   const save = async () => {
 
+    console.log("save1");
+
     /*
       API 로 작성된 데이터 전송.
     */
 
-    if (!checkValidation()) {
-      return;
-    }
+    // if (!checkValidation()) {
+    //   return;
+    // }
 
     let saveList: MindRequestProto[] = [];
     const friendSequence = selectedFriendSeqList;
@@ -354,6 +357,8 @@ const Mind = () => {
         imageExtension = splited[splited.length - 1];
       }
     }
+
+    console.log("save2");
 
     const itemProto: ItemProto = {
       imageLink: "",
@@ -399,7 +404,11 @@ const Mind = () => {
         minds: saveList
       };
 
+      console.log("req : " + JSON.stringify(mindPostRequestProto));
+
       const response = await RootStore.mindStore.postMind(mindPostRequestProto);
+
+      console.log("response : " + JSON.stringify(response));
     }
 
     setIsSaveOpen(true);
@@ -435,6 +444,7 @@ const Mind = () => {
 
       if (file) {
         reader.readAsDataURL(file);
+        setImageFile(file.arrayBuffer.toString());
         if (imageRef.current) {
           imageRef.current.hidden = false;
           setPhotoUpload(true);

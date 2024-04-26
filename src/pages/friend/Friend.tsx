@@ -370,7 +370,7 @@ const Friend = () => {
                         onChange={handleRegister}
                     />
                 </div>
-                {getEdit === "edit" ?
+                {/* {getEdit === "edit" ?
                     <div className="register-btn-wrap edit">
                         <button type="button" className="register-btn remove" onClick={() => setIsOpen(true)}>
                             <img src={ImgDelBtn} alt="delete-btn" />
@@ -382,8 +382,13 @@ const Friend = () => {
                         <button type="button" className="register-btn" onClick={() => { setGoRegister(true); handleSubmit() }
                         }>바로 마음 기록하기</button>
                     </div>
-                }
-
+                } */}
+                <div className="register-btn-wrap edit">
+                    <button type="button" className="register-btn remove" onClick={() => setIsOpen(true)}>
+                        <img src={ImgDelBtn} alt="delete-btn" />
+                    </button>
+                    <button type="button" className="register-btn edit" onClick={handleSubmit}>저장하기</button>
+                </div>
             </form>
 
             <ModalConfirm

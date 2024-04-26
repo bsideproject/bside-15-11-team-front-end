@@ -8,6 +8,8 @@ import { RelationshipResponseProto } from './../../prototypes/relationship/Relat
 import IcBackBtn from "../../assets/images/icon/ic_back_btn.svg";
 import IcSearch from "../../assets/images/icon/ic_search.svg";
 import SelectedFriendCard from "./SelectedFriendCard";
+import EmptyResultNotice from "./EmptyResultNotice";
+import RegisterFriendModal from "./RegisterFriendModal";
 
 interface PropsType {
   isOpen: boolean;
@@ -30,6 +32,10 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
   const [totalCount, setTotalCount] = useState<number>(0);
 
   const [isEmptyResult, setEmptyResult] = useState<boolean>(false);
+
+  const [haveFriends, setHaveFriends] = useState<boolean>(false);
+
+  const [isOpenRegisterModal, setIsOpenRegisterModal] = useState<boolean>(false);
 
   useEffect(() => {
     setContainerHeight(containerRef, '100vh');
@@ -75,11 +81,14 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
 
     setTotalCount(friendCheckList.length);
     setCheckCount(tempCheckCount);
-  }, [isOpen]);
 
-  useEffect(() => {
-    console.log(JSON.stringify(selectedFriendList));
-  }, [selectedFriendList])
+    const text: string = inputRef.current?.value as string;
+
+    if ((!text || text.length === 0) && friendList.length !== 0) {
+      setHaveFriends(true);
+    }
+
+  }, [isOpen]);
 
   const handleInput = () => {
     const text: string = inputRef.current?.value as string;
@@ -151,6 +160,11 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
 
     return true;
   }
+
+  const openModal = () => {
+    setIsOpenRegisterModal(true);
+  }
+
   return (
     <Sheet className='FriendList Inner'
       isOpen={isOpen}
@@ -200,14 +214,26 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
               </div> : null
           }
           <div id='friend-list'>
-            {!isEmptyResult ? friendList.map((obj) => (
-              <FriendInfo
-                friendCheck={obj}
-                key={obj.friend.id}
-                updateCheck={updateCheck}
-              />
-            )) :
-              <p className="no-result">검색 결과가 없어요</p>
+            {
+              !haveFriends ?
+                <EmptyResultNotice
+                  noticeText1="아직 등록된 친구가 없어요."
+                  noticeText2="친구를 등록하시겠어요?"
+                  openModal={openModal}
+                /> : (
+                  !isEmptyResult ? friendList.map((obj) => (
+                    <FriendInfo
+                      friendCheck={obj}
+                      key={obj.friend.id}
+                      updateCheck={updateCheck}
+                    />
+                  )) :
+                    <EmptyResultNotice
+                      noticeText1="등록되지 않은 이름이에요."
+                      noticeText2="친구로 등록하시겠어요?"
+                      openModal={openModal}
+                    />
+                )
             }
           </div>
           <div className="save-button-wrap">
@@ -216,6 +242,11 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
               저장
             </button>
           </div>
+          <RegisterFriendModal
+            isOpen={isOpenRegisterModal}
+            setOpen={setIsOpenRegisterModal}
+            name={inputRef.current?.value as string}
+          />
         </Sheet.Content>
       </Sheet.Container>
       <Sheet.Backdrop />

@@ -167,29 +167,27 @@
 
 .calendar-modal {
 
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  left: 0; top: 0;
-  z-index: 9999;
-  background-color: rgba(0,0,0,.6);
+  @include modalBackDrop;
 
   .calendar-container {
 
     border-radius: 12px;
     background: #242424;
-    padding: 6vw 5vw;
-    width: 90%;
-    height : 600px;
+    padding: 20px;
+    width: 296px;
+    height : 470px;
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
     overflow-y: hidden;
 
     .weekdays {
-      display: flex;
+      // display: flex;
       justify-content: space-between;
-      padding: 5px 10px;
+      // padding: 5px 10px;
+
+      display: flex;
+      align-items: flex-start;
     
       div {
         font-size: 14px;
@@ -197,17 +195,31 @@
         font-weight: 500;
         line-height: 20px;
         color: var(--Grayscale-Gray-04, #818181);
+
+        display: flex;
+        padding: 11px 0px 22px 0px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 1 0 0;
       }
     }
     
     .scroll-calendar {
       overflow-y: scroll;
-      height: 80%;
+      height: 75%;
       .scroll-div {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end; /* 아이템을 수직으로 맨 아래로 정렬합니다. */
+        justify-content: flex-end;
         overflow-y: scroll;
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
       .header {
         display: flex;
@@ -218,16 +230,20 @@
       .days {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-        padding: 10px;
+        // gap: 5px;
       }
     
       .month {
+
+        margin-top : 32px;
+
         p {
           font-size: 14px;
           font-style: normal;
           font-weight: 700;
           line-height: 20px;
+
+          margin-bottom: 16px;
         }
       }
       
@@ -235,7 +251,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 30px;
+
+        padding: 11px 0px;
     
         font-size: 14px;
         font-style: normal;
@@ -243,42 +260,23 @@
         line-height: 20px;
 
         &.selected {
-          background-color: var(--Primary-Primary, #FA7F64);
-          border-radius: 9999px;
+          background-image: url('../../assets/images/icon/ic_selected_date.png');
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: 0px 3px;
+        }
+
+        &.weekend {
+          color: #D53E3E;
+
+          &.selected { 
+            color : #FFFFFF;
+          }
         }
       }
       
       .empty {
         visibility: hidden;
-      }
-    }
-
-    .modal-btn-wrap{
-      margin-top: 4.5vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      button{
-        width: 100%;
-        display: block;
-        color: #FFF;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 22px;
-        letter-spacing: -0.6px;
-        border-radius: 12px;
-        padding: 12px 0;
-        margin: 0 4px;
-        &.mrg-0{
-          margin: 0;
-        }
-      }
-      .confirm-btn{
-        background: #FA7F64;
-      }
-      .cancel-btn{
-        background-color: $inactive-block-color;
       }
     }
   }
@@ -427,5 +425,35 @@
       left: 50%; top: 50%;
       transform: translate(-50%, -50%);
     }
+  }
+}
+
+.modal-btn-wrap2{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  button{
+    width: 100%;
+    display: block;
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: -0.6px;
+    border-radius: 12px;
+    padding: 15px 0;
+    margin: 0 4px;
+  }
+  .confirm-btn{
+    background: var(--Grayscale-Gray-03, #AFAFAF);
+
+    &.active {
+      background: var(--Primary-Primary, #FA7F64);
+    }
+  }
+  .cancel-btn{
+    background-color: $inactive-block-color;
   }
 }
