@@ -24,26 +24,56 @@
     top: 0; left: 0;
     background-color: #1E1E1E;
     z-index: 9;
-    .setting-btn{
-      width: 7vw;
-      display: block;
-      margin: 0 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    .header-left {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      .main-search-input {
+        background: #383838;
+        border-radius: 8px;
+        border: none;
+        display: block;
+        width: 95%;
+        height: 25px;
+      
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        word-wrap: break-word;
+      
+        &::placeholder {
+          color: #818181;
+        }
+      }
+    }
+    .header-right {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      .header-btn{
+        width: 24px;
+        height: 24px;
+      }
     }
   }
 
-  // .main-filter-div{
-  //   position: sticky;
-  //   top: 0;
-  // }
+  .main-filter-div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 24px;
+  }
 
   // main text
   .MainText{
     margin-top: 12vw;
     .main-text{
-      margin: 24px 0 16px;
-      font-weight: bold;
-      font-size: 6vw;
-      line-height: 8vw;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 26px;
       text-align: left;
     }
   }
@@ -93,25 +123,32 @@
   // filter btn
   .FilterBtn{
     @include center;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 5px 0;
-    width: 25vw;
-    margin-left: auto;
+    width: 40vw;
+    // margin-right: 40px;
     .filter-icon{
       width: 5.5vw;
-      display: block;
-      margin-right: 4px;
+      // display: block;
+      // margin-right: 4px;
     }
     .filter-text{
+      color: var(--Grayscale-Gray-04, #818181);
+
+      font-size: 12px;
+      font-style: normal;
       font-weight: 500;
-      font-size: 3.8vw;
+      line-height: 16px;
     }
   }
 
   // freind list
   .MainFriendList{
     
-    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 
     .empty-message{
       margin-top: 130px;
@@ -121,28 +158,55 @@
       font-size: 3.7vw;
     }
 
+    //subtitle
+    .friend-list-title{
+
+      display: flex;
+      width: 100vw;
+      padding: 12px 0px;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 16px;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+    }
+
     // list
     .friend-list-wrap{
-      margin-top: 25px;
       display: flex;
       align-content: flex-start;
       justify-content: space-between;
+      justify-content: center;
       flex-wrap: wrap;
+      width: 100%;
       // height: calc(100vh - 78vw); /* Adjust the height accordingly */
       // overflow-y: auto;
       .friend-cont{
         border-radius: 12px;
         background-color: $inactive-block-color;
         padding: 12px;
-        margin-bottom: 4%;
-        width: 48%;
+        display: flex;
+        width : 88.9vw;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 12px;
         span{
           display: block;
         }
         // 친구 이름a
         .friend-name{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1 0 0;
+          align-self: stretch;
+          font-size: 14px;
+          font-style: normal;
           font-weight: 500;
-          font-size: 4.5vw;
+          line-height: 20px;
         }
         // 관계
         .friend-relation {
@@ -153,10 +217,38 @@
         }
         // 레벨
         .friend-level{
-          margin: 0 0 0 auto;
-          padding: 15px 10px;
-          width: 13vw; height: 13vw;
-          position: relative;
+          display: flex;
+          width: 32px;
+          padding: 5px 11px;
+          justify-content: center;
+          align-items: center;
+          flex-shrink: 0;
+          border-radius: 100px;
+          background: var(--Grayscale-Gray-06, #2C2C2C);
+          font-size: 16px;
+          line-height: 22px;
+          font-style: normal;
+          font-weight: 700;
+          
+          &.level-1 {
+            @include levelColor(1);
+          }
+          &.level-2 {
+            @include levelColor(2);
+          }
+          &.level-3 {
+            @include levelColor(3);
+          }
+          &.level-4 {
+            @include levelColor(4);
+          }
+          &.level-5 {
+            @include levelColor(5);
+          }
+          &.level-6 {
+            @include levelColor(6);
+          }
+
           img{
             position: absolute;
             left: 0; top: 0;
@@ -178,7 +270,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: $btn-active-color;
     position: fixed;
     right: 20px; bottom: 6%;
     cursor: pointer;

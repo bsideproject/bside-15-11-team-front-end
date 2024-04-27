@@ -21,10 +21,10 @@ import ImgDelBtn from "../../assets/images/icon/ic_delete.svg";
 import axios from 'axios';
 import { MindPostRequestProto, MindPutRequestProto, MindRequestProto } from '../../prototypes/mind/MindRequestProto';
 import { MindTypeProto } from '../../prototypes/common/type/MindTypeProto';
-import IcPhotoUploadBtn1 from '../../assets/images/icon/ic_photo_upload_btn1.png';
-import IcPhotoUploadBtn2 from '../../assets/images/icon/ic_photo_upload_btn2.png';
+import IcCamera from "../../assets/images/icon/ic_camera.png";
 import IcDefaultImage from '../../assets/images/icon/ic_default_image.png';
 import Calendar from '../../components/common/Calendar';
+import ScrollableCalendar from '../../components/common/ScrollableCalendar';
 
 const Mind = () => {
 
@@ -33,7 +33,7 @@ const Mind = () => {
   const [validCheckArray, setValidCheckArray] = useState<boolean[]>([true, true, true, true]);
 
   const [eventType, setEventType] = useState<string>('give');
-  const [mindType, setMindType] = useState<string>('cash');
+  const [mindType, setMindType] = useState<string>('gift');
   const [money, setMoney] = useState<number>(0);
   const [gift, setGift] = useState<string>('');
   const [memo, setMemo] = useState<string>('');
@@ -53,6 +53,7 @@ const Mind = () => {
   const [photoUpload, setPhotoUpload] = useState<boolean>(false);
   const [imageFileName, setImageFileName] = useState<string>('');
   const [imageFile, setImageFile] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const moneyInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -313,13 +314,15 @@ const Mind = () => {
 
   const save = async () => {
 
+    console.log("save1");
+
     /*
       API 로 작성된 데이터 전송.
     */
 
-    if (!checkValidation()) {
-      return;
-    }
+    // if (!checkValidation()) {
+    //   return;
+    // }
 
     let saveList: MindRequestProto[] = [];
     const friendSequence = selectedFriendSeqList;
@@ -354,6 +357,8 @@ const Mind = () => {
         imageExtension = splited[splited.length - 1];
       }
     }
+
+    console.log("save2");
 
     const itemProto: ItemProto = {
       imageLink: "",
@@ -399,7 +404,11 @@ const Mind = () => {
         minds: saveList
       };
 
+      console.log("req : " + JSON.stringify(mindPostRequestProto));
+
       const response = await RootStore.mindStore.postMind(mindPostRequestProto);
+
+      console.log("response : " + JSON.stringify(response));
     }
 
     setIsSaveOpen(true);
@@ -428,7 +437,7 @@ const Mind = () => {
         base64String = reader.result?.toString() as string;
 
         if (base64String) {
-          setImageFile(base64String);
+          setImageFile(base64String.split(",")[1].trim());
         }
 
       };
@@ -554,14 +563,14 @@ const Mind = () => {
     <div className="Mind inner">
       <button type="button" className="exel-btn" onClick={handleExelBtn}><img src={ImgExelBtn} alt="exel-btn" /></button>
       <TitleWrap title="마음 기록하기" />
+      <EventType
+        selected={eventType}
+        setEventType={setEventType}
+      />
       <form className='mind-register-wrap'>
-        <EventType
-          selected={eventType}
-          setEventType={setEventType}
-        />
         <InputTextBoxWithArrow
           inputTitle='이름'
-          placeholder='기록할 친구들을 선택하세요.'
+          placeholder='이름을 선택하세요.'
           id='friends'
           onClick={() => handleInputClick(0)}
           value={formatFriendNames()}
@@ -571,7 +580,7 @@ const Mind = () => {
             message='필수 입력 사항입니다.'
           />
         }
-        <InputTextBoxWithArrow
+        {/* <InputTextBoxWithArrow
           inputTitle='날짜'
           id='date'
           onClick={() => handleInputClick(1)}
@@ -593,69 +602,88 @@ const Mind = () => {
           <ErrorMessage
             message='필수 입력 사항입니다.'
           />
-        }
-        <MindType
-          defaultSelect={mindType}
-          onSelect={setMindType}
-        />
-        {mindType === 'cash' &&
-          <Fragment>
-            <div className="InputTextBox">
-              <input
-                type="text"
-                className="input-text-box"
-                id='cash-input'
-                placeholder='금액을 입력하세요'
-                ref={moneyInputRef}
-                defaultValue={money > 0 ? money + '원' : ''}
-                onBlur={() => onBlurMoneyInput()}
-                onKeyUp={() => { onChangeMindContent("cash"); onChangeMoneyInput(); }}
+        } */}
+        <div className='mind-content'>
+          <MindType
+            defaultSelect={mindType}
+            onSelect={setMindType}
+          />
+          {mindType === 'cash' &&
+            <Fragment>
+              <div className="InputTextBox">
+                <input
+                  type="text"
+                  className="input-text-box"
+                  id='cash-input'
+                  placeholder='금액을 입력하세요'
+                  ref={moneyInputRef}
+                  defaultValue={money > 0 ? money + '원' : ''}
+                  onBlur={() => onBlurMoneyInput()}
+                  onKeyUp={() => { onChangeMindContent("cash"); onChangeMoneyInput(); }}
+                />
+              </div>
+              <MoneyOption
+                options={['1', '5', '10']}
+                onSelect={addMoney}
               />
-            </div>
-            <MoneyOption
-              options={['1', '5', '10']}
-              onSelect={addMoney}
-            />
-          </Fragment>
-        }
-        {
-          mindType === 'gift' &&
-          <Fragment>
-            <div className="gift-InputTextBox">
-              <input
-                type="text"
-                className="input-text-box"
-                id='gift-input'
-                placeholder='선물을 입력하세요'
-                defaultValue={gift}
-                ref={giftRef}
-                onKeyUp={() => onChangeMindContent("gift")}
-              />
-            </div>
-            {/* <div style={{ marginBottom: '5vw' }}>
-              <button id="save-photo-button"
-                onClick={(e) => { e.preventDefault(); handleFileInput(); }}>
-                <img src={photoUpload ? IcPhotoUploadBtn1 : IcPhotoUploadBtn2} alt='photo upload' />
-              </button>
-              <input
-                type="file"
-                accept='image/*'
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                onChange={handleUploadPhoto}
-              />
-              <img ref={imageRef} src={IcDefaultImage} alt='default image'
-                className='upload-image'
-                hidden
-              />
-            </div> */}
-          </Fragment>
-        }
+            </Fragment>
+          }
+          {
+            mindType === 'gift' &&
+            <Fragment>
+              <div className="gift-InputTextBox">
+                <input
+                  type="text"
+                  className="input-text-box"
+                  id='gift-input'
+                  placeholder='어떤 마음을 주셨나요? (선택 입력)'
+                  defaultValue={gift}
+                  ref={giftRef}
+                  onKeyUp={() => onChangeMindContent("gift")}
+                />
+              </div>
+              <div className='photo-upload'>
+                <button id="save-photo-button"
+                  onClick={(e) => { e.preventDefault(); handleFileInput(); }}>
+                  <p>
+                    <img
+                      src={IcCamera} alt="upload"
+                    />
+                  </p>
+                  <p>
+                    사진 첨부하기 {photoUpload ? '(1/1)' : '(0/1)'}
+                  </p>
+                </button>
+                <input
+                  type="file"
+                  accept='image/*'
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleUploadPhoto}
+                />
+                <div className={`upload-image-div ${photoUpload ? 'uploaded' : ''}`}>
+                  <img ref={imageRef} src={IcDefaultImage} alt='default image'
+                    className='upload-image'
+                    hidden
+                  />
+                </div>
+              </div>
+            </Fragment>
+          }
+        </div>
         {!validCheckArray[3] &&
           <ErrorMessage
             message='필수 입력 사항입니다.'
           />
         }
+
+        <InputTextBoxWithArrow
+          inputTitle={eventType === 'give' ? '준 날짜' : '받은 날짜'}
+          id='friends'
+          onClick={() => handleInputClick(1)}
+          value={inputArray[1]}
+        />
+
         <div className="InputTextBox memo">
           <label className="input-title">메모 (선택)</label>
           <textarea
@@ -694,7 +722,15 @@ const Mind = () => {
         setContainerHeight={setContainerHeight}
         appendFriendList={appendFriendList}
       />
-      <Calendar
+      {/* <Calendar
+        isOpen={openModal[1]}
+        onClose={() => handleClose(1)}
+        title={"날짜"}
+        inputArray={inputArray}
+        setInputArray={setInputArray}
+        setContainerHeight={setContainerHeight}
+      /> */}
+      <ScrollableCalendar
         isOpen={openModal[1]}
         onClose={() => handleClose(1)}
         title={"날짜"}

@@ -28,10 +28,10 @@ const MainRegister = ({ registerBtn, handleRegisterBtn, isEmptyList }: PropsType
                     {isEmptyList ? <img src={IcMindRegisterOff} alt="mind-icon" /> : <img src={IcMindRegisterOn} alt="mind-icon" />}
                     <span className="sm-text">마음 기록하기</span>
                 </button>
-                <button type="button" className="resgister-btn" onClick={() => navigate("/page/friend")}>
+                {/* <button type="button" className="resgister-btn" onClick={() => navigate("/page/friend")}>
                     <img src={IcFriendRegister} alt="friend-icon" />
                     <span className="sm-text">관계 등록하기</span>
-                </button>
+                </button> */}
                 <button type="button" className="cls-btn" onClick={handleRegisterBtn}>
                     <span className="add-btn-plus"><img src={IcClsBtn} alt="ic_plus_btn" /></span>
                 </button>

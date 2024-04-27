@@ -3,6 +3,8 @@ import {get, patch, post, put} from "../apis/RestApis";
 import { RelationshipResponseProto } from "../prototypes/relationship/RelationshipResponseProto";
 import RootStore from "./RootStore";
 import { MindGetResponseProto } from "../prototypes/mind/MindResponseProto";
+import { RelationshipPutRequestProto } from "../prototypes/relationship/RelationshipRequestProto";
+import NullChecker from '../utils/NullChecker';
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -35,8 +37,6 @@ class FriendStore {
     // 친구 등록 api
     async setRegisterFriend(
         friendName: string[],
-        friendRelation: string,
-        friendDirectInput: string,
         friendMemo: string,
         birth: string,
         isLunar: boolean,
@@ -47,7 +47,7 @@ class FriendStore {
     ){
         const request  = {
             [getEdit === "edit" ? "nickname" : "nicknames"]: getEdit === "edit" ? friendName[0] : friendName,
-            relationship: friendRelation === "directInput" ? friendDirectInput : friendRelation,
+            relationship: null,
             birth: birthUnKnown ? null : {
                 isLunar: isLunar ? "Y" : "N",
                 date: {
@@ -81,6 +81,25 @@ class FriendStore {
         }
     }
 
+    async putFriend(friendSeq : string | undefined | null, request : RelationshipPutRequestProto) {
+
+        if (!request || NullChecker.isEmpty(friendSeq)) {
+            return;
+        }
+
+        try {
+            const res = await put(`${this.baseUrl}/api/relationships/${friendSeq}`, request, {
+                headers : {
+                    Authorization : this.rootStore.userStore.getJwtKey
+                }
+            });
+
+            console.log("res : " + JSON.stringify(res));
+        } catch(error) {
+            console.error("error : " + JSON.stringify(error));
+        }
+    }
+
     // 친구 목록 불러오기 - main
     async getFriendListMain(setMainFriendList:any, filterParams:string){
         try{
@@ -91,6 +110,7 @@ class FriendStore {
             })
 
             if(res) {
+                console.log("res : " + JSON.stringify(res));
                 setMainFriendList([...res]);
             }
 
@@ -126,6 +146,24 @@ class FriendStore {
         }catch (err){
             console.log(err);
         }
+    }
+
+    convertRes2PutReq = (friend : RelationshipResponseProto) : RelationshipPutRequestProto => {
+        let req : RelationshipPutRequestProto = {
+
+        };
+
+        if (friend) {
+            req = {
+                nickname : friend.nickname,
+                relationship : friend.relationship,
+                birth : friend.birth,
+                memo : friend.memo,
+                favoriteYn : friend.favoriteYn
+            }
+        }
+
+        return req;
     }
 }
 
