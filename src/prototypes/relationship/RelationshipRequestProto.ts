@@ -1,5 +1,6 @@
 import { BirthProto } from "../common/BirthProto";
 import { SortOrderTypeProto } from "../common/type/SortOrderTypeProto";
+import { YnTypeProto } from "../common/type/YnTypeProto";
 
 export interface RelationshipGetRequestProto {
   keyword?: string;
@@ -18,6 +19,7 @@ export interface RelationshipPutRequestProto {
   relationship? : string;
   birth? : BirthProto;
   memo? : string;
+  favoriteYn? : YnTypeProto
 }
 
 export enum SortTypeProto {

@@ -437,14 +437,13 @@ const Mind = () => {
         base64String = reader.result?.toString() as string;
 
         if (base64String) {
-          setImageFile(base64String);
+          setImageFile(base64String.split(",")[1].trim());
         }
 
       };
 
       if (file) {
         reader.readAsDataURL(file);
-        setImageFile(file.arrayBuffer.toString());
         if (imageRef.current) {
           imageRef.current.hidden = false;
           setPhotoUpload(true);

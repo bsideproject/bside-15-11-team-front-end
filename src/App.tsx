@@ -17,34 +17,34 @@ function App() {
 
     const [isMessageReceived, setMessageReceived] = useState<boolean>(false);
 
-    const jwtKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.ewogICJzZXF1ZW5jZSI6ICIxM2FhZmU3NS1hNzg1LTQwODItYWNhZC0xMTUyZDQwMzM0MzEiCn0.DOGXuAMyLiMCZbmp3om3yQ2MY3xFsNL3TQxeTcOPYxC9RG61OWmZ9rZvcptBsImwAEv2fUl-Mvku3hUzOgLdpg';
-
-    useEffect(() => {
-        RootStore.userStore.setJwtKey(jwtKey);
-    }, [])
+    // const jwtKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.ewogICJzZXF1ZW5jZSI6ICIxM2FhZmU3NS1hNzg1LTQwODItYWNhZC0xMTUyZDQwMzM0MzEiCn0.DOGXuAMyLiMCZbmp3om3yQ2MY3xFsNL3TQxeTcOPYxC9RG61OWmZ9rZvcptBsImwAEv2fUl-Mvku3hUzOgLdpg';
 
     // useEffect(() => {
+    //     RootStore.userStore.setJwtKey(jwtKey);
+    // }, [])
 
-    //     const handleMessage = (event: any) => {
-    //         if (!isMessageReceived) {
+    useEffect(() => {
 
-    //             setMessageReceived(true);
-    //             window.removeEventListener('message', handleMessage);
+        const handleMessage = (event: any) => {
+            if (!isMessageReceived) {
 
-    //             const data = event.data;
+                setMessageReceived(true);
+                window.removeEventListener('message', handleMessage);
 
-    //             RootStore.userStore.setJwtKey(data);
-    //             sessionStorage.setItem('jwt', data);
-    //         }
-    //     };
+                const data = event.data;
 
-    //     window.addEventListener('message', handleMessage);
+                RootStore.userStore.setJwtKey(data);
+                sessionStorage.setItem('jwt', data);
+            }
+        };
 
-    //     return () => {
-    //         window.removeEventListener('message', handleMessage);
-    //     }
+        window.addEventListener('message', handleMessage);
 
-    // }, [isMessageReceived]);
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        }
+
+    }, [isMessageReceived]);
 
     return (
         <Provider RootStore={RootStore}>

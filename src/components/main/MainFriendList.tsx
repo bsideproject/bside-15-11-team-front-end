@@ -7,6 +7,8 @@ import favorite_check from "../../assets/images/icon/check_favorite.png";
 import favorite_uncheck from "../../assets/images/icon/uncheck_favorite.png";
 import FilterBtn from "./MainFilterBtn";
 import { YnTypeProto } from "../../prototypes/common/type/YnTypeProto";
+import RootStore from "../../store/RootStore";
+import { RelationshipPutRequestProto } from "../../prototypes/relationship/RelationshipRequestProto";
 
 interface PropsType {
     isEmptyList: boolean,
@@ -28,13 +30,13 @@ const MainFriendList = ({ isEmptyList, searchList, searchText, handleFilter }: P
 
             setFavoriteList(tempList);
         }
-    }, [])
+    }, [searchList]);
 
     const handleFriendClick = (sequence: any) => {
         navigate(`/page/detail?sequence=${sequence}`);
     }
 
-    const handleFavoriteClick = (friend: RelationshipResponseProto) => {
+    const handleFavoriteClick = async (friend: RelationshipResponseProto) => {
 
         if (friend) {
             let tempList: RelationshipResponseProto[] = [...favoriteList];
@@ -49,6 +51,8 @@ const MainFriendList = ({ isEmptyList, searchList, searchText, handleFilter }: P
                     removeFromFavoriteList(friend.sequence);
                 }
             }
+
+            await send(friend);
         }
     }
 
@@ -60,6 +64,18 @@ const MainFriendList = ({ isEmptyList, searchList, searchText, handleFilter }: P
             tempList.splice(index, 1);
             setFavoriteList(tempList);
         }
+    }
+
+    const send = async (friend: RelationshipResponseProto) => {
+        if (!friend) {
+            return;
+        }
+
+        const req: RelationshipPutRequestProto = RootStore.friendStore.convertRes2PutReq(friend);
+
+        console.log(JSON.stringify(req));
+
+        await RootStore.friendStore.putFriend(friend.sequence, req);
     }
 
     const levelImgSwitch = (num: any) => {

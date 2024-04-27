@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import IcSettingBtn from "../../assets/images/icon/ic_setting_btn.svg";
-import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_orange.svg";
+import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_white.svg";
 import IcSearch from "../../assets/images/icon/Search.png";
 import { inject, observer } from 'mobx-react';
 import MainText from "../../components/main/MainText";
@@ -23,6 +23,7 @@ const Main = () => {
     const [searchText, setSearchText] = useState<string>("");
     const [filterParams, setFilterParams] = useState<string>("nickname");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isOpenSearchBar, setIsOpenSearchBar] = useState<boolean>(false);
 
     useEffect(() => {
         navigate("/page/main");
@@ -116,8 +117,20 @@ const Main = () => {
             {isLoading && <Spinner />}
             <div className="Main inner">
                 <div className="main-header">
-                    <span className="header-btn"><img src={IcSearch} alt="search-btn" /></span>
-                    <span className="header-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
+                    <div className='header-left'>
+                        {
+                            isOpenSearchBar ?
+                                <input
+                                    type="text"
+                                    className='main-search-input'
+                                    onKeyUp={handleSearchText}
+                                /> : null
+                        }
+                    </div>
+                    <div className='header-right'>
+                        <span className="header-btn" onClick={() => setIsOpenSearchBar(!isOpenSearchBar)}><img src={IcSearch} alt="search-btn" /></span>
+                        <span className="header-btn" onClick={() => navigate(`/page/setting?nick=${RootStore.userStore.getUserName}`)}><img src={IcSettingBtn} alt="setting-btn" /></span>
+                    </div>
                 </div>
                 <div className="main-filter-div">
                     <MainText

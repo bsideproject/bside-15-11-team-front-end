@@ -149,8 +149,7 @@ const Friend = () => {
     // 등록 완료 후 action
     const handleConfirm = async () => {
         await RootStore.friendStore.setRegisterFriend(
-            friendName, friendRelation,
-            friendDirectInput, friendMemo,
+            friendName, friendMemo,
             inputArray[1], isLunar, birthUnKnown,
             getEdit && getEdit, getSequence && getSequence,
             setRegisterResponse
