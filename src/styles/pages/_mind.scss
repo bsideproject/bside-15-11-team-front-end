@@ -241,6 +241,28 @@
 
 .FriendList {
 
+    .title{
+        font-size: 5.5vw;
+        margin-left: 6px;
+
+        display: flex;
+
+        .left {
+            width : 220px;
+        }
+
+        .right {
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 16px;
+
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+    }
+
     .friend-list-content {
 
         #selected-friend-list {
@@ -295,18 +317,24 @@
 
         .select-friend {
 
-            margin-bottom: 4vw;
-            padding-bottom: 4vw;
+            display: flex;
+            padding: 15px 0px;
+            justify-content: flex-end;
+            align-items: center;
+
             border-bottom: 1px solid rgba(129, 129, 129, 0.2);
+
 
             .friend-info {
                 // margin-left: 5vw;
+
+                flex: 1 0 0;
+
                 p {
                     // padding-left: 5vw;
                     font-weight: 400;
                     font-size: 4vw;
                     color: $inactive-gray-color;
-                    margin-bottom: 2vw;
 
                     &:first-child {
                         font-size: 5vw;
@@ -535,7 +563,7 @@
 
                         border: none;
 
-                        color: var(--Grayscale-Gray-04, #818181);
+                        
                         
                         font-size: 16px;
                         font-style: normal;

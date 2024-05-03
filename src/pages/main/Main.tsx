@@ -103,13 +103,15 @@ const Main = () => {
         return item.nickname.toLowerCase().includes(searchText);
     });
 
-    // 추가 버튼
+
     const handleRegisterBtn = () => {
-        if (registerBtn) {
-            setRegisterBtn(false);
-        } else {
-            setRegisterBtn(true);
-        }
+        // if (registerBtn) {
+        //     setRegisterBtn(false);
+        // } else {
+        //     setRegisterBtn(true);
+        // }
+
+        navigate('/page/relationship');
     }
 
     return (

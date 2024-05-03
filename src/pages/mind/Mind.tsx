@@ -155,9 +155,17 @@ const Mind = () => {
                 }
               }
 
-              if (response.memo) {
-                setMemo(response.memo);
+              if (response.item.imageLink && !NullChecker.isEmpty(response.item.imageLink)) {
+                if (imageRef.current) {
+                  imageRef.current.hidden = false;
+                  imageRef.current.src = response.item.imageLink;
+                  setPhotoUpload(true);
+                }
               }
+            }
+
+            if (response.memo) {
+              setMemo(response.memo);
             }
           }
 
@@ -314,15 +322,13 @@ const Mind = () => {
 
   const save = async () => {
 
-    console.log("save1");
-
     /*
       API 로 작성된 데이터 전송.
     */
 
-    // if (!checkValidation()) {
-    //   return;
-    // }
+    if (!checkValidation()) {
+      return;
+    }
 
     let saveList: MindRequestProto[] = [];
     const friendSequence = selectedFriendSeqList;
@@ -358,8 +364,6 @@ const Mind = () => {
       }
     }
 
-    console.log("save2");
-
     const itemProto: ItemProto = {
       imageLink: "",
       name: item,
@@ -385,8 +389,6 @@ const Mind = () => {
       });
     }
 
-
-
     if (isEditMode) {
       const mindPutRequestProto: MindPutRequestProto = {
         sequence: mindSeq,
@@ -404,11 +406,7 @@ const Mind = () => {
         minds: saveList
       };
 
-      console.log("req : " + JSON.stringify(mindPostRequestProto));
-
       const response = await RootStore.mindStore.postMind(mindPostRequestProto);
-
-      console.log("response : " + JSON.stringify(response));
     }
 
     setIsSaveOpen(true);
@@ -626,22 +624,32 @@ const Mind = () => {
                 options={['1', '5', '10']}
                 onSelect={addMoney}
               />
+              {!validCheckArray[3] &&
+                <ErrorMessage
+                  message='필수 입력 사항입니다.'
+                />
+              }
             </Fragment>
           }
           {
-            mindType === 'gift' &&
+            mindType !== 'cash' &&
             <Fragment>
               <div className="gift-InputTextBox">
                 <input
                   type="text"
                   className="input-text-box"
                   id='gift-input'
-                  placeholder='어떤 마음을 주셨나요? (선택 입력)'
+                  placeholder={`어떤 마음을 ${eventType === 'give' ? '주셨나요?' : '받으셨나요?'} (선택 입력)`}
                   defaultValue={gift}
                   ref={giftRef}
                   onKeyUp={() => onChangeMindContent("gift")}
                 />
               </div>
+              {!validCheckArray[3] &&
+                <ErrorMessage
+                  message='필수 입력 사항입니다.'
+                />
+              }
               <div className='photo-upload'>
                 <button id="save-photo-button"
                   onClick={(e) => { e.preventDefault(); handleFileInput(); }}>
@@ -671,11 +679,6 @@ const Mind = () => {
             </Fragment>
           }
         </div>
-        {!validCheckArray[3] &&
-          <ErrorMessage
-            message='필수 입력 사항입니다.'
-          />
-        }
 
         <InputTextBoxWithArrow
           inputTitle={eventType === 'give' ? '준 날짜' : '받은 날짜'}

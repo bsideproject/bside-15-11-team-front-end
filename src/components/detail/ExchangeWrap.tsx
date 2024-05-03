@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import RootStore from "../../store/RootStore";
 import { useNavigate } from "react-router-dom";
 import { MindGetResponseProto, MindResponseProto } from "../../prototypes/mind/MindResponseProto";
+import NullChecker from '../../utils/NullChecker';
 
 interface params {
     detailInfo?: any,
@@ -20,9 +21,9 @@ const ExchangeWrap = ({ detailInfo, sequence }: params) => {
         handleApiCall("DESC");
     }, []);
 
-    // useEffect(() => {
-    //     console.log("exchangeData : " + JSON.stringify(exchangeData));
-    // }, [exchangeData])
+    useEffect(() => {
+        console.log("exchangeData : " + JSON.stringify(exchangeData));
+    }, [exchangeData])
 
     const handleFilter = async () => {
 
@@ -63,6 +64,10 @@ const ExchangeWrap = ({ detailInfo, sequence }: params) => {
                                 {item?.item?.type === "CASH" && "원"}
                             </span>
                             <span className="exchanged-date">{item?.date?.year}년 {item?.date?.month}월 {item?.date?.day}일</span>
+                            {
+                                !NullChecker.isEmpty(item?.item?.imageLink) &&
+                                <div className="exchange-image"><img src={item?.item?.imageLink} alt='gift-img' /></div>
+                            }
                             {item?.type === "GIVEN" &&
                                 <span className="exchanged-givtak giv">준 마음</span>
                             }

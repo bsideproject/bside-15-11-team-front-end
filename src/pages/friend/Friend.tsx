@@ -151,8 +151,7 @@ const Friend = () => {
         await RootStore.friendStore.setRegisterFriend(
             friendName, friendMemo,
             inputArray[1], isLunar, birthUnKnown,
-            getEdit && getEdit, getSequence && getSequence,
-            setRegisterResponse
+            getEdit && getEdit, getSequence && getSequence
         );
     }
 
