@@ -107,7 +107,7 @@ const LevelCard = (detailInfo: any) => {
                         <div className="other-info-cont">{detailInfo && detailInfo?.detailInfo?.birth?.date?.year}{detailInfo?.detailInfo?.birth?.date?.year && "년"}&nbsp;
                             {detailInfo && detailInfo?.detailInfo?.birth?.date?.month}{detailInfo?.detailInfo?.birth?.date?.month && "월"}&nbsp;
                             {detailInfo && detailInfo?.detailInfo?.birth?.date?.day}{detailInfo?.detailInfo?.birth?.date?.day && "일"}&nbsp;
-                            {detailInfo && detailInfo?.detailInfo?.birth?.isLunar === "N" ? "(양력)" : detailInfo?.detailInfo?.birth?.isLunar === "Y" ? "(음력)" : null}</div> : null
+                        </div> : null
                     }
                 </div>
                 <div className="other-info">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import TitleWrap from "../../components/common/TitleWrap";
 import ImgModifyIcon from "../../assets/images/icon/ic_modify_btn.png";
 import LevelCard from "../../components/detail/LevelCard";
@@ -8,6 +8,7 @@ import Sheet, { type SheetProps } from "react-dynamic-bottom-sheet";
 import { useNavigate } from "react-router-dom";
 import MainRegister from "../../components/main/MainRegister";
 import IcPlusBtn from "../../assets/images/icon/ic_plus_btn_white.svg";
+import RegisterFriendModal from "../mind/RegisterFriendModal";
 
 const Detail = () => {
 
@@ -15,6 +16,8 @@ const Detail = () => {
     const getSequence = new URLSearchParams(window.location.search).get("sequence");
     const [detailInfo, setDetailInfo] = useState<any>();
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
+
+    const [isOpen, setOpen] = useState<boolean>(false);
 
     const sheetProps: SheetProps = {
         isVisible: true,
@@ -41,21 +44,30 @@ const Detail = () => {
     }
 
     return (
-        <div className="Detail inner">
-            <TitleWrap detail={true} title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
-            <span className="modify-icon" onClick={() => navigate(`/page/friend?sequence=${getSequence}&edit=edit`)}><img src={ImgModifyIcon} alt="modify-icon" /></span>
-            <LevelCard detailInfo={detailInfo && detailInfo} />
+        <Fragment>
+            <div className="Detail inner">
+                <TitleWrap detail={true} title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
+                <span className="modify-icon" onClick={() => setOpen(true)}><img src={ImgModifyIcon} alt="modify-icon" /></span>
+                <LevelCard detailInfo={detailInfo && detailInfo} />
 
-            <ExchangeWrap
-                detailInfo={detailInfo}
-                sequence={getSequence}
+                <ExchangeWrap
+                    detailInfo={detailInfo}
+                    sequence={getSequence}
+                />
+
+                <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', { state: { friendData: detailInfo } })}>
+                    <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn" /></span>
+                </button>
+
+            </div>
+            <RegisterFriendModal 
+                isOpen={isOpen}
+                setOpen={setOpen}
+                name={detailInfo?.nickname}
+                birthday={detailInfo?.birthday}
+                memo={detailInfo?.memo}
             />
-
-            <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', { state: { friendData: detailInfo } })}>
-                <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn" /></span>
-            </button>
-
-        </div>
+        </Fragment>
     )
 }
 

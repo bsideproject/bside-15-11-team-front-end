@@ -275,9 +275,6 @@ const Friend = () => {
                 }
                 <RadioWrap
                     inputTitle='관계'
-                    handleRegister={handleRegister}
-                    friendRelation={friendRelation}
-                    friendDirectInput={friendDirectInput}
                     options={
                         [{
                             name: 'relation',

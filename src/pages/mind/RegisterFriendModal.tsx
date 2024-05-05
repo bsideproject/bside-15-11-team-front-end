@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import DateUtil from '../../utils/DateUtil';
 import ModalConfirm from '../../components/common/ModalConfirm';
 import RootStore from '../../store/RootStore';
@@ -8,12 +8,16 @@ interface PropsType {
     isOpen: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>,
     name?: string,
+    birthday? : string,
+    memo? : string,
 }
 
 const RegisterFriendModal = ({
     isOpen,
     setOpen,
-    name
+    name,
+    birthday,
+    memo,
 }: PropsType) => {
 
     const [isSaveOpen, setSaveOpen] = useState<boolean>(false);
@@ -27,6 +31,14 @@ const RegisterFriendModal = ({
     const nameRef = useRef<HTMLInputElement>(null);
     const birthdayRef = useRef<HTMLInputElement>(null);
     const memoRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setFormData({
+            inputName: NullChecker.fixNullString(name),
+            birthday: NullChecker.fixNullString(birthday),
+            memo: NullChecker.fixNullString(memo),
+        })
+    }, [isOpen]);
 
     const close = () => {
         setOpen(false);
@@ -82,6 +94,7 @@ const RegisterFriendModal = ({
                                         placeholder='이름을 입력하세요.'
                                         ref={nameRef}
                                         onChange={(e) => handleInputChange(e, 'inputName')}
+                                        defaultValue={name}
                                     />
                                 </div>
                             </div>
@@ -93,6 +106,7 @@ const RegisterFriendModal = ({
                                         placeholder={DateUtil.getTodayString()}
                                         ref={birthdayRef}
                                         onChange={(e) => handleInputChange(e, 'birthday')}
+                                        defaultValue={birthday}
                                     />
                                 </div>
                             </div>
@@ -104,6 +118,7 @@ const RegisterFriendModal = ({
                                         placeholder='메모를 입력하세요.'
                                         ref={memoRef}
                                         onChange={(e) => handleInputChange(e, 'memo')}
+                                        defaultValue={memo}
                                     />
                                 </div>
                             </div>

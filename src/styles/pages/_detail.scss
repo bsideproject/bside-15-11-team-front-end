@@ -177,13 +177,14 @@
 // exchange wrap
 .ExchangeWrap{
   width: 100%;
-  padding: 10px 20px 0 ;
   font-size: 14px;
   margin-top: 20px;
   .exchange-title{
     display: flex;
+    padding: 12px 0px;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     h3{
       color: #fff;
       font-size: inherit;
@@ -197,6 +198,23 @@
         color: #818181;
         font-size: 3vw;
       }
+    }
+  }
+  .radio-wrap {
+    label{
+      font-weight: 500;
+      font-size: 3.7vw;
+      color: #C0C0C0;
+      padding: 8px;
+      border: 1px solid #C0C0C0;
+      border-radius: 100px;
+      display: inline-block;
+      transition: .3s;
+      &:last-child{margin: 0;}
+    }
+    input[type="radio"]:checked + label{
+      border: 1px solid #FA7F64;
+      color: #FA7F64;
     }
   }
 }

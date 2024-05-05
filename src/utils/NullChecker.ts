@@ -14,8 +14,8 @@ class NullChecker {
     return true;
   }
 
-  fixNullString = (value : string) : string => {
-    return this.isEmpty(value) ? '' : value;
+  fixNullString = (value : string | undefined | null) : string => {
+    return !value || this.isEmpty(value) ? '' : value;
   }
 }
 

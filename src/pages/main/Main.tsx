@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import IcSettingBtn from "../../assets/images/icon/ic_setting_btn.svg";
 import IcPlusBtnOg from "../../assets/images/icon/ic_plus_btn_white.svg";
-import IcSearch from "../../assets/images/icon/Search.png";
+import IcSearch from "../../assets/images/icon/Search.svg";
 import { inject, observer } from 'mobx-react';
 import MainText from "../../components/main/MainText";
 import MainExchangedCount from "../../components/main/MainExchangedCount";
