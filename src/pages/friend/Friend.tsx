@@ -151,8 +151,7 @@ const Friend = () => {
         await RootStore.friendStore.setRegisterFriend(
             friendName, friendMemo,
             inputArray[1], isLunar, birthUnKnown,
-            getEdit && getEdit, getSequence && getSequence,
-            setRegisterResponse
+            getEdit && getEdit, getSequence && getSequence
         );
     }
 
@@ -276,9 +275,6 @@ const Friend = () => {
                 }
                 <RadioWrap
                     inputTitle='관계'
-                    handleRegister={handleRegister}
-                    friendRelation={friendRelation}
-                    friendDirectInput={friendDirectInput}
                     options={
                         [{
                             name: 'relation',

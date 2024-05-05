@@ -457,3 +457,36 @@
     background-color: $inactive-block-color;
   }
 }
+
+.radio-title-wrap {
+  .input-title{
+    font-weight: 500;
+    font-size: 4vw;
+    display: block;
+    padding: 3.33vw 0;
+  }
+
+  .radio-wrap{
+    display: flex;
+    padding: 8px 0px;
+    align-items: flex-start;
+    gap: 8px;
+    input[type="radio"]{display: none;}
+    label{
+      font-weight: 500;
+      font-size: 3.7vw;
+      color: #C0C0C0;
+      padding: 2.5vw 3vw;
+      border: 1px solid #C0C0C0;
+      border-radius: 8px;
+      margin-right: 1.5vw;
+      display: inline-block;
+      transition: .3s;
+      &:last-child{margin: 0;}
+    }
+    input[type="radio"]:checked + label{
+      border: 1px solid #FA7F64;
+      color: #FA7F64;
+    }
+  }
+}

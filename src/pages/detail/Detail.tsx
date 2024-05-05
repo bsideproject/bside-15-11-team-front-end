@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import TitleWrap from "../../components/common/TitleWrap";
 import ImgModifyIcon from "../../assets/images/icon/ic_modify_btn.png";
 import LevelCard from "../../components/detail/LevelCard";
-import ImgBirth from "../../assets/images/icon/ic_birth.png";
-import ImgMemo from "../../assets/images/icon/ic_memo.png";
 import RootStore from "../../store/RootStore";
 import ExchangeWrap from "../../components/detail/ExchangeWrap";
 import Sheet, { type SheetProps } from "react-dynamic-bottom-sheet";
 import { useNavigate } from "react-router-dom";
 import MainRegister from "../../components/main/MainRegister";
 import IcPlusBtn from "../../assets/images/icon/ic_plus_btn_white.svg";
+import RegisterFriendModal from "../mind/RegisterFriendModal";
 
 const Detail = () => {
 
@@ -17,6 +16,8 @@ const Detail = () => {
     const getSequence = new URLSearchParams(window.location.search).get("sequence");
     const [detailInfo, setDetailInfo] = useState<any>();
     const [registerBtn, setRegisterBtn] = useState<boolean>(false);
+
+    const [isOpen, setOpen] = useState<boolean>(false);
 
     const sheetProps: SheetProps = {
         isVisible: true,
@@ -43,36 +44,30 @@ const Detail = () => {
     }
 
     return (
-        <div className="Detail inner">
-            <TitleWrap detail={true} title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
-            <span className="modify-icon" onClick={() => navigate(`/page/friend?sequence=${getSequence}&edit=edit`)}><img src={ImgModifyIcon} alt="modify-icon" /></span>
-            <LevelCard detailInfo={detailInfo && detailInfo} />
-            <div className="other-info-wrap">
-                <div className="other-info">
-                    <div className="other-info-tit"><img src={ImgBirth} alt="birth-icon" />&nbsp;생일</div>
-                    {detailInfo ?
-                        <div className="other-info-cont">{detailInfo && detailInfo.birth?.date?.year}{detailInfo.birth?.date?.year && "년"}&nbsp;
-                            {detailInfo && detailInfo.birth?.date?.month}{detailInfo.birth?.date?.month && "월"}&nbsp;
-                            {detailInfo && detailInfo.birth?.date?.day}{detailInfo.birth?.date?.day && "일"}&nbsp;
-                            {detailInfo && detailInfo.birth?.isLunar === "N" ? "(양력)" : detailInfo.birth?.isLunar === "Y" ? "(음력)" : null}</div> : null
-                    }
-                </div>
-                <div className="other-info">
-                    <div className="other-info-tit"><img src={ImgMemo} alt="birth-icon" />&nbsp;메모</div>
-                    {detailInfo && <div className="other-info-cont">{detailInfo && detailInfo.memo}</div>}
-                </div>
-            </div>
-            <Sheet {...sheetProps}>
+        <Fragment>
+            <div className="Detail inner">
+                <TitleWrap detail={true} title={detailInfo && detailInfo.nickname} relation={detailInfo && detailInfo.relationship} />
+                <span className="modify-icon" onClick={() => setOpen(true)}><img src={ImgModifyIcon} alt="modify-icon" /></span>
+                <LevelCard detailInfo={detailInfo && detailInfo} />
+
                 <ExchangeWrap
                     detailInfo={detailInfo}
                     sequence={getSequence}
                 />
-            </Sheet>
-            <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', { state: { friendData: detailInfo } })}>
-                <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn" /></span>
-            </button>
 
-        </div>
+                <button type="button" className="add-btn" onClick={() => navigate('/page/relationship', { state: { friendData: detailInfo } })}>
+                    <span className="add-btn-plus"><img src={IcPlusBtn} alt="ic_plus_btn" /></span>
+                </button>
+
+            </div>
+            <RegisterFriendModal 
+                isOpen={isOpen}
+                setOpen={setOpen}
+                name={detailInfo?.nickname}
+                birthday={detailInfo?.birthday}
+                memo={detailInfo?.memo}
+            />
+        </Fragment>
     )
 }
 

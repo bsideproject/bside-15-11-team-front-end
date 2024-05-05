@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, MouseEventHandler, useEffect, useState } from "react";
 import NullChecker from "../../utils/NullChecker";
-import InputTextBox from "./InputTextBox";
 
 interface Option {
     name: string,
@@ -8,28 +7,36 @@ interface Option {
     htmlFor: string,
     content: string,
     value: string,
-    friendRelation?: any
 }
 
 interface PropsType {
-    inputTitle: string,
+    inputTitle?: string,
     options: Option[],
     onSelect?: any,
-    handleRegister: any,
-    friendRelation?: any,
-    friendDirectInput?: string
+    default?: string,
 }
 
 const RadioWrap = (props: PropsType) => {
 
+    const [selected, setSelected] = useState<string>();
+
+    useEffect(() => {
+        setSelected(props.default);
+    }, []);
+
+    const onSelect = (id : string) => {
+        setSelected(id);
+        props.onSelect(id);
+    }
+
     return (
-        <div className="RelationWrap">
+        <div className="radio-title-wrap">
             {
                 !NullChecker.isEmpty(props.inputTitle) &&
                 <label className="input-title">{props.inputTitle}</label>
             }
 
-            <div className="relation-wrap">
+            <div className="radio-wrap">
                 {
                     props.options.map((option, key) => (
                         <Fragment key={key}>
@@ -37,27 +44,15 @@ const RadioWrap = (props: PropsType) => {
                                 type="radio"
                                 name={option.name}
                                 id={option.id}
-                                onClick={props.onSelect}
-                                onChange={props.handleRegister}
+                                onChange={() => onSelect(option.id)}
                                 value={option.value}
-                                checked={option.value === props.friendRelation}
+                                checked={option.id === selected}
                             />
                             <label htmlFor={option.htmlFor}>{option.content}</label>
                         </Fragment>
                     ))
                 }
             </div>
-            {
-                props.friendRelation === "directInput" ?
-                    <InputTextBox
-                        inputTitle=""
-                        placeholder="입력하세요 (최대 8자)"
-                        id="friendDirectInput"
-                        value={props.friendDirectInput}
-                        onChange={props.handleRegister}
-                        maxLength={8}
-                    /> : null
-            }
         </div>
     )
 }

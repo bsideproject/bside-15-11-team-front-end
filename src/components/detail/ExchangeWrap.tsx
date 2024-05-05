@@ -3,10 +3,18 @@ import { useEffect, useState } from "react";
 import RootStore from "../../store/RootStore";
 import { useNavigate } from "react-router-dom";
 import { MindGetResponseProto, MindResponseProto } from "../../prototypes/mind/MindResponseProto";
+import NullChecker from '../../utils/NullChecker';
+import RadioWrap from "../common/RadioWrap";
 
 interface params {
     detailInfo?: any,
     sequence?: any
+}
+
+enum FilterType {
+    ALL = "ALL",
+    GIVEN = "GIVEN",
+    TAKEN = "TAKEN",
 }
 
 const ExchangeWrap = ({ detailInfo, sequence }: params) => {
@@ -14,15 +22,17 @@ const ExchangeWrap = ({ detailInfo, sequence }: params) => {
     const [sort, setSort] = useState("ASC");
     const [exchangeData, setExchangeData] = useState<MindGetResponseProto>();
 
+    const [filterType, setFilterType] = useState<FilterType>(FilterType.ALL);
+
     const navigate = useNavigate();
 
     useEffect(() => {
         handleApiCall("DESC");
     }, []);
 
-    // useEffect(() => {
-    //     console.log("exchangeData : " + JSON.stringify(exchangeData));
-    // }, [exchangeData])
+    useEffect(() => {
+        console.log("filterType.toString() : " + filterType.toString());
+    }, [filterType]);
 
     const handleFilter = async () => {
 
@@ -48,9 +58,36 @@ const ExchangeWrap = ({ detailInfo, sequence }: params) => {
                     <span>{sort === "DESC" ? "과거순" : "최신순"}</span>
                 </div>
             </div>
+            <RadioWrap 
+                options={[
+                    {
+                        name: 'filter',
+                        id : 'ALL',
+                        htmlFor : 'ALL',
+                        content : '전체',
+                        value : '전체',
+                    }, {
+                        name: 'filter',
+                        id : 'GIVEN',
+                        htmlFor : 'GIVEN',
+                        content : '준 마음',
+                        value : '준 마음',
+                    }, {
+                        name: 'filter',
+                        id : 'TAKEN',
+                        htmlFor : 'TAKEN',
+                        content : '받은 마음',
+                        value : '받은 마음',
+                    }
+                ]}
+                onSelect={setFilterType}
+                default="ALL"
+            />
             {exchangeData ?
                 <ul className="exchange-wrap">
                     {exchangeData.minds && exchangeData.minds.map((item: MindResponseProto, key: any) => (
+                        (filterType === FilterType.ALL 
+                        || item?.type?.toString() === filterType.toString()) ?
                         <li className="exchange-cont" key={key} onClick={() => navigate(`/page/relationship/${sequence}/${detailInfo?.nickname}/${item?.sequence}`)}>
                             <i className={item?.type === "TAKEN" ? "exchanged-circle tak" : item?.type === "GIVEN" ? "exchanged-circle giv" : "exchanged-circle giv"}></i>
                             <h4 className={item?.type === "TAKEN" ? "taken" : ""}>
@@ -63,13 +100,17 @@ const ExchangeWrap = ({ detailInfo, sequence }: params) => {
                                 {item?.item?.type === "CASH" && "원"}
                             </span>
                             <span className="exchanged-date">{item?.date?.year}년 {item?.date?.month}월 {item?.date?.day}일</span>
+                            {
+                                !NullChecker.isEmpty(item?.item?.imageLink) &&
+                                <div className="exchange-image"><img src={item?.item?.imageLink} alt='gift-img' /></div>
+                            }
                             {item?.type === "GIVEN" &&
                                 <span className="exchanged-givtak giv">준 마음</span>
                             }
                             {item?.type === "TAKEN" &&
                                 <span className="exchanged-givtak tak">받은 마음</span>
                             }
-                        </li>
+                        </li> : null
                     ))}
                 </ul>
                 :

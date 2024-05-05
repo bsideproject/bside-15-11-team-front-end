@@ -5,6 +5,7 @@ import RootStore from "./RootStore";
 import { MindGetResponseProto } from "../prototypes/mind/MindResponseProto";
 import { RelationshipPutRequestProto } from "../prototypes/relationship/RelationshipRequestProto";
 import NullChecker from '../utils/NullChecker';
+import { Dispatch, SetStateAction } from "react";
 
 class FriendStore {
     rootStore : typeof RootStore;
@@ -27,10 +28,13 @@ class FriendStore {
             }
         });
 
+        console.log("response : " + JSON.stringify(response));
+
         this.friendList = response;
     };
 
     get getFriendList() : RelationshipResponseProto[] {
+        console.log("getFriendList : " + JSON.stringify(this.friendList));
         return this.friendList;
     }
 
@@ -42,8 +46,7 @@ class FriendStore {
         isLunar: boolean,
         birthUnKnown: boolean,
         getEdit?: string|null,
-        getSequence?: string|null,
-        setRegisterResponse? : any
+        getSequence?: string|null
     ){
         const request  = {
             [getEdit === "edit" ? "nickname" : "nicknames"]: getEdit === "edit" ? friendName[0] : friendName,
@@ -66,15 +69,14 @@ class FriendStore {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
                 });
-
-                setRegisterResponse(res);
             }else{
                 const res = await post(`${this.baseUrl}/api/relationships`, request,{
                     headers : {
                         Authorization : this.rootStore.userStore.getJwtKey
                     },
                 });
-                setRegisterResponse(res);
+
+                console.log("res : " + JSON.stringify(res));
             }
         }catch (err){
             console.log("error : " + JSON.stringify(err));
@@ -94,7 +96,6 @@ class FriendStore {
                 }
             });
 
-            console.log("res : " + JSON.stringify(res));
         } catch(error) {
             console.error("error : " + JSON.stringify(error));
         }
@@ -120,7 +121,7 @@ class FriendStore {
     }
 
     // 친구 상세 조회
-    async getFriendDetail(sequence:any, setDetailInfo: any){
+    async getFriendDetail(sequence:any, setDetailInfo: Dispatch<SetStateAction<RelationshipResponseProto>>){
         try{
             const res : RelationshipResponseProto = await get(`${this.baseUrl}/api/relationships/${sequence}`,{
                 headers : {

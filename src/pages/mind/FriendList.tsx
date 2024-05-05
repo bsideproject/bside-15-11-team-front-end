@@ -10,6 +10,7 @@ import IcSearch from "../../assets/images/icon/ic_search.svg";
 import SelectedFriendCard from "./SelectedFriendCard";
 import EmptyResultNotice from "./EmptyResultNotice";
 import RegisterFriendModal from "./RegisterFriendModal";
+import IcPlusBtnWhite from "../../assets/images/icon/ic_plus_btn_white.svg";
 
 interface PropsType {
   isOpen: boolean;
@@ -39,15 +40,25 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
 
   useEffect(() => {
     setContainerHeight(containerRef, '100vh');
+    initData();
+  }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpenRegisterModal) {
+      initData();
+    }
+  }, [isOpenRegisterModal])
+
+  const initData = () => {
     let friendCheckList: FriendCheck[] = [];
+    let selectedFriendCheckList: FriendCheck[] = [];
 
     let friendList: RelationshipResponseProto[] = RootStore.friendStore.getFriendList;
 
     let tempCheckCount: number = 0;
 
     friendList.forEach(friend => {
-      if (friend.sequence && friend.nickname && friend.relationship) {
+      if (friend.sequence && friend.nickname) {
 
         const sequenceContains: boolean = selectedFriendSeqList.includes(friend.sequence);
 
@@ -55,7 +66,7 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
           friend: {
             id: friend.sequence,
             name: friend.nickname,
-            relation: friend.relationship
+            relation: ''
           },
           check: sequenceContains,
           display: true
@@ -63,6 +74,15 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
 
         if (sequenceContains) {
           tempCheckCount++;
+          selectedFriendCheckList.push({
+            friend: {
+              id: friend.sequence,
+              name: friend.nickname,
+              relation: ''
+            },
+            check: sequenceContains,
+            display: true
+          })
         }
       }
     });
@@ -78,6 +98,7 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
     });
 
     setFriendList(friendCheckList);
+    setSelectedFriendList(selectedFriendCheckList);
 
     setTotalCount(friendCheckList.length);
     setCheckCount(tempCheckCount);
@@ -87,8 +108,7 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
     if ((!text || text.length === 0) && friendList.length !== 0) {
       setHaveFriends(true);
     }
-
-  }, [isOpen]);
+  }
 
   const handleInput = () => {
     const text: string = inputRef.current?.value as string;
@@ -117,18 +137,26 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
   const updateCheck = (friendCheck: FriendCheck) => {
     if (friendCheck) {
 
+      const id = friendCheck.friend.id;
+
       const check: boolean = !friendCheck.check;
 
-      friendCheck.check = check;
+      let friendCheckList: FriendCheck[] = [...friendList];
 
       let tempList: FriendCheck[] = [...selectedFriendList];
+
+      const friendIdx = friendCheckList.findIndex(element => element.friend.id === id);
+
+      friendCheckList[friendIdx].check = check;
+
+      setFriendList(friendCheckList);
 
       if (check) {
         tempList.push(friendCheck);
         setSelectedFriendList(tempList);
         setCheckCount(checkCount + 1);
       } else {
-        const index = tempList.findIndex(element => element.friend.id === friendCheck.friend.id);
+        const index = tempList.findIndex(element => element.friend.id === id);
 
         if (index !== -1) {
           tempList.splice(index, 1);
@@ -180,7 +208,17 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
         <Sheet.Content className="friend-list-content">
           <div className='title-wrap'>
             <span className="back-btn" onClick={() => onClose(0)}><img src={IcBackBtn} alt="back-btn" /></span>
-            <h2 className='title'>관계</h2>
+            <h2 className='title'>
+              <div className="left">
+                친구 목록
+              </div>
+              <div className="right" onClick={openModal}>
+                <div style={{ width: "16px", height: "16px" }}>
+                  <img src={IcPlusBtnWhite} alt="plus" />
+                </div>
+                등록하기
+              </div>
+            </h2>
           </div>
           <div className="modal-InputTextBox">
             <span className="search-icon">
@@ -208,6 +246,7 @@ const FriendList = ({ isOpen, onClose, setContainerHeight, appendFriendList, sel
                     <SelectedFriendCard
                       friendCheck={obj}
                       updateCheck={updateCheck}
+                      key={obj.friend.id}
                     />
                   ))
                 }

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { RelationshipResponseProto } from "../../prototypes/relationship/RelationshipResponseProto";
 import NullChecker from '../../utils/NullChecker';
 
-import favorite_check from "../../assets/images/icon/check_favorite.png";
-import favorite_uncheck from "../../assets/images/icon/uncheck_favorite.png";
+import favorite_check from "../../assets/images/icon/check_favorite.svg";
+import favorite_uncheck from "../../assets/images/icon/uncheck_favorite.svg";
 import FilterBtn from "./MainFilterBtn";
 import { YnTypeProto } from "../../prototypes/common/type/YnTypeProto";
 import RootStore from "../../store/RootStore";

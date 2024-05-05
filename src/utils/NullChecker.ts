@@ -13,6 +13,10 @@ class NullChecker {
 
     return true;
   }
+
+  fixNullString = (value : string | undefined | null) : string => {
+    return !value || this.isEmpty(value) ? '' : value;
+  }
 }
 
 const instance : NullChecker = new NullChecker();

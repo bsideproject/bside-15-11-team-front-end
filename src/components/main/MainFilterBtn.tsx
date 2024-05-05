@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 // import IcFilterBtn from "../../assets/images/icon/ic_filter_btn.svg";
-import Exchange from "../../assets/images/icon/exchange.png";
+import Exchange from "../../assets/images/icon/exchange.svg";
 
 const FilterBtn = (props:any) => {
 
