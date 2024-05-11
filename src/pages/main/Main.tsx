@@ -38,6 +38,9 @@ const Main = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1500);
+
+        // Main 화면에 진입시 back 기능 차단
+        window.ReactNativeWebView.postMessage('enter_main');
     }, []);
 
     // 친구 목록 불러오기 api
